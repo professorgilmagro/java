@@ -48,6 +48,13 @@ public interface IOModelInterface {
     public long getID();
     
     /**
+     * Retorna o diretório onde os arquivos de dados são guardados
+     * 
+     * @return String
+     */
+    public String getStorageDir();
+    
+    /**
      * Retorna um modelo de dados para renderização da tabela em objetos swing 
      * 
      * @return TableModel

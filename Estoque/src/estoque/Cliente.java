@@ -12,6 +12,8 @@ import java.util.List;
 import javax.swing.table.TableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -187,7 +189,7 @@ public class Cliente extends AbstractModel{
     
     @Override
     public String getFileName() {
-        return "clientes.dat";
+        return String.format("%sclientes.dat" , this.getStorageDir()) ;
     }
     
     @Override
@@ -221,6 +223,7 @@ public class Cliente extends AbstractModel{
         
         return model;
     }
+   
     /**
      * Preenche o objeto a partir do webservice
      * 
@@ -233,4 +236,21 @@ public class Cliente extends AbstractModel{
         this.setCidade(cws.getCidade());
         this.setEstado(cws.getEstado());
     }
+    
+    /**
+     * Retorna o CPF formatado
+     * 
+     * @return String
+     */
+    public String getFormatCPF() {  
+        String cpf = String.format("%011d", this.getCPF());
+        Pattern pattern = Pattern.compile("(\\d{3})(\\d{3})(\\d{3})(\\d{2})");  
+        Matcher matcher = pattern.matcher(cpf);  
+        if (matcher.matches()){   
+            cpf = matcher.replaceAll("$1.$2.$3-$4");
+            System.out.println("porque não funciona");
+        }
+        
+        return cpf;       
+    }  
 }

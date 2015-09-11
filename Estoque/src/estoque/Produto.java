@@ -98,7 +98,7 @@ public class Produto extends AbstractModel{
 
     @Override
     public String getFileName() {
-        return "produtos.dat";
+        return String.format("%sprodutos.dat" , this.getStorageDir()) ;
     }
 
     @Override

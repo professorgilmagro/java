@@ -13,6 +13,8 @@ import java.util.*;
  */
 abstract class AbstractModel implements Serializable, IOModelInterface {
     
+    final protected String STORAGE_DIR = "src/estoque/storage/" ;
+    
     /**
      * Retorna todos os objetos de um determinado model a partir do arquivo
      * 
@@ -22,6 +24,7 @@ abstract class AbstractModel implements Serializable, IOModelInterface {
      */
     @Override
     public List getAll() throws FileNotFoundException, IOException {
+        System.out.println(this.getFileName());
         List items = new ArrayList() ;
         File file = new File(this.getFileName());
        
@@ -78,12 +81,25 @@ abstract class AbstractModel implements Serializable, IOModelInterface {
     }
     
     /**
+     * Retorna o caminho do diretório os arquivos de dados são guardados
+     * 
+     * @return String
+     */
+    @Override
+    public String getStorageDir() {
+        return this.STORAGE_DIR ;
+    }
+    
+    /**
      * Retorna o nome do arquivo onde os dados serão recuperados e gravados
      * 
      * @return String
      */
     public String getFileName() {
-        return String.format("%s.dat", this.getClass().getName());
+        return String.format(
+                "%s%s.dat", this.getStorageDir(), 
+                this.getClass().getName().replace("estoque.", "").toLowerCase()
+        );
     }
     
     /**
