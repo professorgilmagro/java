@@ -162,7 +162,6 @@
     <Component class="javax.swing.JButton" name="btnLoadFile">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value=""/>
-        <Property name="actionCommand" type="java.lang.String" value=""/>
         <Property name="label" type="java.lang.String" value="Carregar arquivo..."/>
       </Properties>
       <AccessibilityProperties>

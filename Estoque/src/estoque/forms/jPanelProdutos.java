@@ -38,40 +38,12 @@ public class jPanelProdutos extends javax.swing.JPanel {
     }
     
     public void loadItems(){
-        DefaultTableModel model = new DefaultTableModel();
-        JTable table = new JTable(model);
-        table.setAutoCreateRowSorter(true);
-        table.enableInputMethods(false);
-                
-        model.addColumn("Código");
-        model.addColumn("Nome");
-        model.addColumn("Descrição");
-        model.addColumn("Categoria");
-        model.addColumn("Peso");
-        model.addColumn("Valor");
-        
-        DecimalFormat df = new DecimalFormat("0.00");
         Produto prod = new Produto();
-        List produtos;
-        try {
-            produtos = prod.getAll();
-            for (Object produto : produtos) {
-                prod = (Produto) produto;
-                Object[] data = {
-                    prod.getCodigo(),
-                    prod.getNome(),
-                    prod.getDescricao(),
-                    prod.getCategoria(),
-                    prod.getPeso(),
-                    df.format(prod.getValor())
-                };
-                model.addRow(data);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
+        TableModel model = prod.getTableModel() ;
         this.tableProdutos.setModel(model);
+        this.tableProdutos.setAutoCreateRowSorter(true);
+        this.tableProdutos.enableInputMethods(false);
         this.jTextFile.setText( String.format( "Dados extraidos do arquivo: %s" , prod.getFileName()) );
     }
     

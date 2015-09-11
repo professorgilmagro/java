@@ -4,10 +4,14 @@
  */
 package estoque;
 
-import java.io.FileNotFoundException;
+import estoque.forms.MainScreen;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
+import javax.swing.table.TableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * Controle de produto
@@ -101,6 +105,38 @@ public class Produto extends AbstractModel{
     public long getID() {
         return this.getCodigo();
     }
-
-   
+    
+    @Override
+    public TableModel getTableModel(){
+        DefaultTableModel model = new DefaultTableModel();
+                     
+        model.addColumn("Código");
+        model.addColumn("Nome");
+        model.addColumn("Descrição");
+        model.addColumn("Categoria");
+        model.addColumn("Peso");
+        model.addColumn("Valor");
+        
+        DecimalFormat df = new DecimalFormat("0.00");
+        try {
+            List produtos = this.getAll();
+            for (Object item : produtos) {
+                Produto prod = (Produto) item;
+                Object[] data = {
+                    prod.getCodigo(),
+                    prod.getNome(),
+                    prod.getDescricao(),
+                    prod.getCategoria(),
+                    prod.getPeso(),
+                    df.format(prod.getValor())
+                };
+                
+                model.addRow(data);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return model;
+    }
 }

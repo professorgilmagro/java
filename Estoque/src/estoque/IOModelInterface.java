@@ -9,6 +9,7 @@ package estoque;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import javax.swing.table.*;
 
 /**
  *
@@ -45,4 +46,11 @@ public interface IOModelInterface {
      * @return boolean
      */
     public long getID();
+    
+    /**
+     * Retorna um modelo de dados para renderização da tabela em objetos swing 
+     * 
+     * @return TableModel
+     */
+    public TableModel getTableModel();
 }
