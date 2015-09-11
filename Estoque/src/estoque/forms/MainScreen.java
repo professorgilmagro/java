@@ -3,7 +3,6 @@
  */
 package estoque.forms;
 
-import estoque.util;
 import javax.swing.*;
 
 /**
@@ -105,6 +104,11 @@ public class MainScreen extends javax.swing.JFrame {
         jMenuClientes.setText("Clientes");
 
         jMenuClienteCadastro.setText("Cadastrar");
+        jMenuClienteCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jMenuClienteCadastroMouseReleased(evt);
+            }
+        });
         jMenuClientes.add(jMenuClienteCadastro);
 
         jMenuBarMain.add(jMenuClientes);
@@ -139,10 +143,21 @@ public class MainScreen extends javax.swing.JFrame {
      * @param evt 
      */
     private void jMenuProdutoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdutoCadastroActionPerformed
-        this.panel = new jPanelProdutos();
-        this.frame = this.getDefaultFrame(this.panel);
-        this.frame.setVisible(true);
+        JPanel panel = new jPanelProdutos();
+        JFrame frame = this.getDefaultFrame(panel);
+        frame.setVisible(true);
     }//GEN-LAST:event_jMenuProdutoCadastroActionPerformed
+    
+     /**
+     * Exibe a tela de cadastro de Clientes
+     * 
+     * @param evt 
+     */
+    private void jMenuClienteCadastroMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuClienteCadastroMouseReleased
+       JPanel panel = new jPanelClientes();
+       JFrame frame = this.getDefaultFrame(panel);
+       frame.setVisible(true);
+    }//GEN-LAST:event_jMenuClienteCadastroMouseReleased
 
     /**
      * Start do Sistema
