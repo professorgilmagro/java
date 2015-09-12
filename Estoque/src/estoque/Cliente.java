@@ -6,6 +6,7 @@ package estoque;
 
 import java.util.Date;
 import estoque.forms.MainScreen;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -189,6 +190,7 @@ public class Cliente extends AbstractModel{
     
     @Override
     public String getFileName() {
+        File file = new java.io.File("");
         return String.format("%sclientes.dat" , this.getStorageDir()) ;
     }
     

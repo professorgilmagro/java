@@ -93,6 +93,11 @@ public class jPanelProdutos extends javax.swing.JPanel {
         jTextFile = new javax.swing.JTextPane();
         btnLoadFile = new javax.swing.JButton();
         btnOdernar = new javax.swing.JButton();
+        jPanelDetalhes2 = new javax.swing.JPanel();
+        jLabelDescricao = new javax.swing.JLabel();
+        jLabelEstoque = new javax.swing.JLabel();
+        jLabelPreco = new javax.swing.JLabel();
+        jLabelIcon = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -142,7 +147,6 @@ public class jPanelProdutos extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTextFile);
 
         btnLoadFile.setToolTipText("");
-        btnLoadFile.setActionCommand("");
         btnLoadFile.setLabel("Carregar arquivo...");
         btnLoadFile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -163,10 +167,70 @@ public class jPanelProdutos extends javax.swing.JPanel {
             }
         });
 
+        jPanelDetalhes2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabelDescricao.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        jLabelDescricao.setText("Produto");
+
+        jLabelEstoque.setText("Estoque: 0");
+
+        jLabelPreco.setText("Valor:");
+
+        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/produto-icon2.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanelDetalhes2Layout = new javax.swing.GroupLayout(jPanelDetalhes2);
+        jPanelDetalhes2.setLayout(jPanelDetalhes2Layout);
+        jPanelDetalhes2Layout.setHorizontalGroup(
+            jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDetalhes2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelDetalhes2Layout.createSequentialGroup()
+                        .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelDetalhes2Layout.setVerticalGroup(
+            jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDetalhes2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelDetalhes2Layout.createSequentialGroup()
+                        .addComponent(jLabelDescricao)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelEstoque)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelPreco))
+                    .addComponent(jLabelIcon))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(297, 297, 297)
+                        .addComponent(jLabel1)
+                        .addGap(0, 340, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLoadFile)))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnAddProduto)
@@ -177,23 +241,6 @@ public class jPanelProdutos extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOdernar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(297, 297, 297)
-                                .addComponent(jLabel1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnLoadFile)))
-                        .addGap(0, 29, Short.MAX_VALUE)))
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,7 +248,7 @@ public class jPanelProdutos extends javax.swing.JPanel {
                 .addGap(28, 28, 28)
                 .addComponent(jLabel1)
                 .addGap(29, 29, 29)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAddProduto)
@@ -209,7 +256,9 @@ public class jPanelProdutos extends javax.swing.JPanel {
                         .addComponent(btnDelProduto)
                         .addComponent(btnBuscaProduto)
                         .addComponent(btnOdernar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnLoadFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
@@ -276,6 +325,25 @@ public class jPanelProdutos extends javax.swing.JPanel {
     private javax.swing.JButton btnLoadFile;
     private javax.swing.JButton btnOdernar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelCPF;
+    private javax.swing.JLabel jLabelCPF1;
+    private javax.swing.JLabel jLabelCPF2;
+    private javax.swing.JLabel jLabelCPF3;
+    private javax.swing.JLabel jLabelDescricao;
+    private javax.swing.JLabel jLabelEmail;
+    private javax.swing.JLabel jLabelEmail1;
+    private javax.swing.JLabel jLabelEndereco;
+    private javax.swing.JLabel jLabelEndereco1;
+    private javax.swing.JLabel jLabelEstoque;
+    private javax.swing.JLabel jLabelIcon;
+    private javax.swing.JLabel jLabelNome;
+    private javax.swing.JLabel jLabelNome1;
+    private javax.swing.JLabel jLabelPreco;
+    private javax.swing.JPanel jPanelDetalhes;
+    private javax.swing.JPanel jPanelDetalhes1;
+    private javax.swing.JPanel jPanelDetalhes2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextPane jTextFile;

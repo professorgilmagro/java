@@ -4,7 +4,11 @@
 package estoque;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe para implementação de métodos comuns aos objetos
@@ -13,7 +17,7 @@ import java.util.*;
  */
 abstract class AbstractModel implements Serializable, IOModelInterface {
     
-    final protected String STORAGE_DIR = "src/estoque/storage/" ;
+    final protected String STORAGE_DIR = "storage/" ;
     
     /**
      * Retorna todos os objetos de um determinado model a partir do arquivo
@@ -24,7 +28,6 @@ abstract class AbstractModel implements Serializable, IOModelInterface {
      */
     @Override
     public List getAll() throws FileNotFoundException, IOException {
-        System.out.println(this.getFileName());
         List items = new ArrayList() ;
         File file = new File(this.getFileName());
        
@@ -87,7 +90,20 @@ abstract class AbstractModel implements Serializable, IOModelInterface {
      */
     @Override
     public String getStorageDir() {
-        return this.STORAGE_DIR ;
+        CodeSource codeSource = Cliente.class.getProtectionDomain().getCodeSource();
+        String appDir;
+        
+        try {
+            File app = new File(codeSource.getLocation().toURI().getPath());
+            appDir = app.getParentFile().getPath() ;
+        } catch (URISyntaxException ex) {
+            appDir = "" ;
+        }
+        
+        String storageDir = String.format("%s/%s", appDir, this.STORAGE_DIR) ;
+        new File(storageDir).mkdirs();
+        
+        return storageDir ;
     }
     
     /**
