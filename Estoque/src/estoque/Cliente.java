@@ -194,6 +194,11 @@ public class Cliente extends AbstractModel{
     }
     
     @Override
+    public void setID(long ID) {
+        this.setCodigo(ID);
+    }
+    
+    @Override
     public String getFileName() {
         File file = new java.io.File("");
         return String.format("%sclientes.dat" , this.getStorageDir()) ;

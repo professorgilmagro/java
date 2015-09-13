@@ -43,11 +43,10 @@ public final class jPanelCategorias extends javax.swing.JPanel {
     public void addCategoria() {
         while (true) {
             try {
-                long codigo = (long) Integer.parseInt(util.showInput("Digite o código da categoria.")) ;
                 String nome = util.showInput("Digite o nome.");
                 String descricao = util.showInput("Digite a descrição.");
 
-                Categoria cat = new Categoria(codigo, nome, descricao);
+                Categoria cat = new Categoria(nome, descricao);
                 cat.save();
                 this.loadItems();
                 
@@ -98,10 +97,8 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
         tableCategoria.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tableCategoria.setColumnSelectionAllowed(true);
         tableCategoria.setName(""); // NOI18N
         jScrollPane2.setViewportView(tableCategoria);
-        tableCategoria.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         btnAddCategoria.setMnemonic('a');
         btnAddCategoria.setText("Adicionar");

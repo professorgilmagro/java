@@ -18,8 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 /**
@@ -62,7 +60,6 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                     return ;
                 }
                 
-                long codigo = (long) Integer.parseInt(util.showInput("Digite o código do produto.")) ;
                 Categoria categoria = (Categoria) util.showOptions("Selecione a categoria.", objs.toArray(), "Categoria") ;
                 String nome = util.showInput("Digite o nome.");
                 String descricao = util.showInput("Digite a descrição.");
@@ -72,7 +69,6 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 int nivelCritico = Integer.parseInt(util.showInput("Digite o nível crítico de estoque para este produto.")) ;
 
                 estoque.Produto produto = new Produto(nome, descricao, valor);
-                produto.setCodigo(codigo);
                 produto.setCodCategoria(categoria);
                 produto.setPeso(peso);
                 produto.setSaldoEstoque(estoque);
@@ -139,7 +135,6 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tableProdutos.setColumnSelectionAllowed(true);
         tableProdutos.setName(""); // NOI18N
         tableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -147,7 +142,6 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             }
         });
         jScrollPane2.setViewportView(tableProdutos);
-        tableProdutos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tableProdutos.getColumnModel().getColumnCount() > 0) {
             tableProdutos.getColumnModel().getColumn(1).setResizable(false);
             tableProdutos.getColumnModel().getColumn(2).setResizable(false);

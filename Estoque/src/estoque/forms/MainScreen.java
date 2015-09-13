@@ -11,7 +11,7 @@ import javax.swing.*;
  * 
  * @author gilmar
  */
-public class MainScreen extends javax.swing.JFrame {
+public final class MainScreen extends javax.swing.JFrame {
 
     /**
      * Creates new form tela_principal
@@ -165,15 +165,13 @@ public class MainScreen extends javax.swing.JFrame {
 
         jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-sair.png"))); // NOI18N
         jMenuSair.setMnemonic('s');
+        jMenuSair.setToolTipText("Sair do Sistema");
+        jMenuSair.setContentAreaFilled(false);
         jMenuSair.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuSair.setLabel("Sair");
-        jMenuSair.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenuSairMenuSelected(evt);
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+        jMenuSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSairMouseClicked(evt);
             }
         });
         jMenuBarMain.add(jMenuSair);
@@ -223,13 +221,13 @@ public class MainScreen extends javax.swing.JFrame {
        this.showCategoria();
     }//GEN-LAST:event_jMenuProdCategoriaActionPerformed
 
-    private void jMenuSairMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuSairMenuSelected
-        this.dispose();
-    }//GEN-LAST:event_jMenuSairMenuSelected
-
     private void jMenuAddVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAddVendaActionPerformed
         this.showVendas();
     }//GEN-LAST:event_jMenuAddVendaActionPerformed
+
+    private void jMenuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSairMouseClicked
+         this.dispose();
+    }//GEN-LAST:event_jMenuSairMouseClicked
     
     /**
      * Cria o frame e exibe a tela de Categorias

@@ -48,6 +48,20 @@ public interface IOModelInterface {
     public long getID();
     
     /**
+     * Define o código identificador do objeto
+     * 
+     * @param ID 
+     */
+    public void setID(long ID);
+    
+    /**
+     * Retorna o maior código identificador utilizado na coleção de dados
+     * 
+     * @return long
+     */
+    public long getMaxID();
+    
+    /**
      * Retorna o diretório onde os arquivos de dados são guardados
      * 
      * @return String

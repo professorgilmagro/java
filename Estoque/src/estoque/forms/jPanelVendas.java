@@ -131,7 +131,6 @@ public class jPanelVendas extends javax.swing.JPanel {
                 "Código", "Produto", "Valor unitário", "Quantidade", "Subtotal"
             }
         ));
-        tableItems.setColumnSelectionAllowed(true);
         tableItems.setName(""); // NOI18N
         tableItems.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -139,7 +138,6 @@ public class jPanelVendas extends javax.swing.JPanel {
             }
         });
         jScrollPane2.setViewportView(tableItems);
-        tableItems.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (tableItems.getColumnModel().getColumnCount() > 0) {
             tableItems.getColumnModel().getColumn(1).setPreferredWidth(200);
         }

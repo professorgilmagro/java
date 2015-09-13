@@ -28,14 +28,12 @@ public class Categoria extends AbstractModel{
     /**
      * Facilita a criação da categoria
      * 
-     * @param Codigo        Código da categoria
      * @param Nome          Nome do produto
      * @param Descricao     Descrição
      */
-    public Categoria(Long Codigo, String Nome, String Descricao){
+    public Categoria(String Nome, String Descricao){
         this.nome = Nome;
         this.descricao = Descricao;
-        this.codigo = Codigo;
     }
     
     @Override
@@ -75,6 +73,11 @@ public class Categoria extends AbstractModel{
     @Override
     public long getID() {
         return this.getCodigo();
+    }
+    
+    @Override
+    public void setID(long ID) {
+        this.setCodigo(ID);
     }
     
     @Override

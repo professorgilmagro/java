@@ -56,8 +56,14 @@ abstract class AbstractModel implements Serializable, IOModelInterface {
     @Override
     public void save() throws FileNotFoundException, IOException, ClassNotFoundException {
         List objects = this.getAll();
-        objects.add(this);
         
+        if(this.getID() == 0){
+            Long max = this.getMaxID();
+            this.setID( ++max );
+        }
+        
+        objects.add(this);
+                
         FileOutputStream fos = new FileOutputStream(this.getFileName());
         ObjectOutputStream obs = new ObjectOutputStream(fos);
         obs.writeObject(objects);
@@ -81,6 +87,23 @@ abstract class AbstractModel implements Serializable, IOModelInterface {
         obs.writeObject(objects);
         obs.close();
         fos.close();
+    }
+    
+    @Override
+    public long getMaxID(){
+        long max = 0;
+        try {
+            List objects = this.getAll();
+            for (Object object : objects) {
+                IOModelInterface model = (IOModelInterface) object;
+                if(model.getID() > max){
+                    max = model.getID();
+                }
+            }
+        } catch (IOException ex) {
+        }
+        
+        return max;
     }
     
     /**

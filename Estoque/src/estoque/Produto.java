@@ -107,6 +107,11 @@ public class Produto extends AbstractModel{
     }
     
     @Override
+    public void setID(long ID) {
+        this.setCodigo(ID);
+    }
+    
+    @Override
     public TableModel getTableModel(){
         DefaultTableModel model = new DefaultTableModel();
                      
@@ -215,4 +220,5 @@ public class Produto extends AbstractModel{
     public boolean estoqueCritico() {
         return this.getSaldoEstoque() < this.getNivelCritico() ;
     }
+    
 } 

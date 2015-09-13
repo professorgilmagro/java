@@ -49,7 +49,6 @@ public class jPanelClientes extends javax.swing.JPanel {
                 Cliente cli = new Cliente();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 
-                long codigo = (long) Integer.parseInt(util.showInput("Digite o código do cliente.")) ;
                 String nome = util.showInput("Digite o nome.");
                 String sobrenome = util.showInput("Digite o sobrenome.");
                 Long cpf = Long.parseLong(util.showInput("Digite o CPF."));
@@ -79,7 +78,6 @@ public class jPanelClientes extends javax.swing.JPanel {
                 String email = util.showInput("Digite o email.");
                 String telefone = util.showInput("Digite o telefone.");
 
-                cli.setCodigo(codigo);
                 cli.setDataNascimento(nascimento);
                 cli.setEmail(email);
                 cli.setNome(nome);
