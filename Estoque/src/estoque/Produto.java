@@ -26,8 +26,14 @@ public class Produto extends AbstractModel{
     private double peso;
     private long codCategoria;
     private int saldoEstoque;
+    private int estoqueNivelCritico;
     
-    public Produto(){}
+    /**
+     * Inicializa o nível de estoque
+     */
+    public Produto(){
+        this.estoqueNivelCritico = 0;
+    }
     
     /**
      * Facilita a criação do produto
@@ -37,6 +43,7 @@ public class Produto extends AbstractModel{
      * @param Valor         Valor unitário
      */
     public Produto(String Nome, String Descricao, double Valor ){
+        this.estoqueNivelCritico = 0;
         this.nome = Nome;
         this.descricao = Descricao;
         this.valor = Valor;
@@ -157,18 +164,55 @@ public class Produto extends AbstractModel{
     public Categoria getCategoria() {
         Categoria cat = new Categoria();
         try {
-            return (Categoria) cat.findByID(this.getID());
+            return (Categoria) cat.findByID(this.getCodCategoria());
         } catch (IOException ex) {
-            cat.setCodigo(this.getID());
+            cat.setCodigo(this.getCodCategoria());
             return cat;
         }
     }
-
+    
+    /**
+     * Retorna a quantidade disponível em estoque
+     * 
+     * @return int
+     */
     public int getSaldoEstoque() {
         return this.saldoEstoque;
     }
-
+    
+    /**
+     * Define a quantidade em estoque
+     * 
+     * @param saldoEstoque
+     */
     public void setSaldoEstoque(int saldoEstoque) {
         this.saldoEstoque = saldoEstoque;
+    }
+    
+    /**
+     * Retorna o nível crítico para o estoque
+     * 
+     * @return int
+     */
+    public int getNivelCritico() {
+        return estoqueNivelCritico;
+    }
+    
+     /**
+     * Define o nível crítico de estoque para o produto
+     * 
+     * @param nivel
+     */
+    public void setNivelCritico(int nivel) {
+        this.estoqueNivelCritico = nivel;
+    }
+    
+    /**
+     * Retorna se o estoque está em nível crítico
+     * 
+     * @return boolean
+     */
+    public boolean estoqueCritico() {
+        return this.getSaldoEstoque() < this.getNivelCritico() ;
     }
 } 

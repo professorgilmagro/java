@@ -9,13 +9,17 @@ import estoque.Categoria;
 import estoque.IOModelInterface;
 import estoque.Produto;
 import estoque.util;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 /**
@@ -65,12 +69,14 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 double peso = Double.parseDouble(util.showInput("Digite o peso (kg).")) ;
                 double valor = Double.parseDouble(util.showInput("Digite o valor unitário.")) ;
                 int estoque = Integer.parseInt(util.showInput("Digite a quantidade em estoque.")) ;
+                int nivelCritico = Integer.parseInt(util.showInput("Digite o nível crítico de estoque para este produto.")) ;
 
                 estoque.Produto produto = new Produto(nome, descricao, valor);
                 produto.setCodigo(codigo);
                 produto.setCodCategoria(categoria);
                 produto.setPeso(peso);
                 produto.setSaldoEstoque(estoque);
+                produto.setNivelCritico(nivelCritico);
                 produto.save();
                 this.loadItems();
                 
@@ -107,10 +113,11 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         btnOdernar = new javax.swing.JButton();
         jPanelDetalhes2 = new javax.swing.JPanel();
         jLabelDescricao = new javax.swing.JLabel();
-        jLabelEstoque = new javax.swing.JLabel();
         jLabelPreco = new javax.swing.JLabel();
         jLabelIcon = new javax.swing.JLabel();
         jLabelCategoria = new javax.swing.JLabel();
+        jLabelEstoque = new javax.swing.JLabel();
+        jLabelCategoria1 = new javax.swing.JLabel();
         btnAddCategoria = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -118,15 +125,21 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         tableProdutos.setAutoCreateRowSorter(true);
         tableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableProdutos.setColumnSelectionAllowed(true);
         tableProdutos.setName(""); // NOI18N
         tableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -134,6 +147,11 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             }
         });
         jScrollPane2.setViewportView(tableProdutos);
+        tableProdutos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tableProdutos.getColumnModel().getColumnCount() > 0) {
+            tableProdutos.getColumnModel().getColumn(1).setResizable(false);
+            tableProdutos.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         btnAddProduto.setMnemonic('a');
         btnAddProduto.setText("Adicionar");
@@ -200,15 +218,21 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         jLabelDescricao.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabelDescricao.setText("Produto");
 
-        jLabelEstoque.setText("Estoque: 0");
-
         jLabelPreco.setText("Valor:");
 
-        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/produto-icon2.png"))); // NOI18N
+        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-produto.png"))); // NOI18N
 
         jLabelCategoria.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabelCategoria.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelCategoria.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabelCategoria.setText("Sessão");
+
+        jLabelEstoque.setFont(new java.awt.Font("Noto Sans", 1, 36)); // NOI18N
+        jLabelEstoque.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelEstoque.setText("0");
+
+        jLabelCategoria1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabelCategoria1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelCategoria1.setText("Saldo Estoque");
 
         javax.swing.GroupLayout jPanelDetalhes2Layout = new javax.swing.GroupLayout(jPanelDetalhes2);
         jPanelDetalhes2.setLayout(jPanelDetalhes2Layout);
@@ -219,31 +243,35 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 .addComponent(jLabelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelDetalhes2Layout.createSequentialGroup()
-                        .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 199, Short.MAX_VALUE))
-                    .addGroup(jPanelDetalhes2Layout.createSequentialGroup()
-                        .addComponent(jLabelDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jLabelCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDetalhes2Layout.createSequentialGroup()
+                        .addComponent(jLabelCategoria1)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDetalhes2Layout.createSequentialGroup()
+                        .addComponent(jLabelEstoque, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
         );
         jPanelDetalhes2Layout.setVerticalGroup(
             jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDetalhes2Layout.createSequentialGroup()
+            .addGroup(jPanelDetalhes2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelDetalhes2Layout.createSequentialGroup()
-                        .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelCategoria1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelEstoque))
+                    .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelDetalhes2Layout.createSequentialGroup()
                             .addComponent(jLabelDescricao)
-                            .addComponent(jLabelCategoria))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelEstoque)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelPreco))
-                    .addComponent(jLabelIcon))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabelCategoria)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabelPreco))
+                        .addComponent(jLabelIcon)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -266,44 +294,38 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(298, 298, 298)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLoadFile))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(297, 297, 297)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jScrollPane2)
-                                    .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnAddProduto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelProduto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscaProduto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnOdernar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAddCategoria)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAddProduto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDelProduto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBuscaProduto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnOdernar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAddCategoria)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDelProduto)
@@ -311,13 +333,13 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                     .addComponent(btnOdernar)
                     .addComponent(btnAddProduto)
                     .addComponent(btnAddCategoria))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnLoadFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addGap(18, 18, 18))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLoadFile))
+                .addGap(36, 36, 36))
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");
@@ -379,11 +401,20 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         
         try {
             Produto p = (Produto) prod.findByID(ID);
-            String estoque = Integer.toString(p.getSaldoEstoque());
+            Integer estoque = p.getSaldoEstoque();
+            DecimalFormat df = new DecimalFormat("#,###");
             this.jLabelDescricao.setText(String.format("%s %s", p.getNome(), p.getDescricao()));
-            this.jLabelEstoque.setText(String.format("Saldo em estoque: %s", estoque));
+            this.jLabelEstoque.setText(df.format(estoque));
             this.jLabelPreco.setText(p.getFormatPrice());
             this.jLabelCategoria.setText(p.getCategoria().toString());
+            
+            jLabelEstoque.setForeground(Color.BLUE);
+            jLabelEstoque.setToolTipText("");
+            if(p.estoqueCritico()){
+                jLabelEstoque.setToolTipText(String.format("Nível crítico, abaixo de %s",p.getNivelCritico()));
+                jLabelEstoque.setForeground(Color.RED);
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -401,8 +432,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
        MainScreen main = new MainScreen();
        main.showCategoria();
     }//GEN-LAST:event_btnAddCategoriaActionPerformed
-
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCategoria;
     private javax.swing.JButton btnAddProduto;
@@ -412,6 +442,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
     private javax.swing.JButton btnOdernar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCategoria;
+    private javax.swing.JLabel jLabelCategoria1;
     private javax.swing.JLabel jLabelDescricao;
     private javax.swing.JLabel jLabelEstoque;
     private javax.swing.JLabel jLabelIcon;

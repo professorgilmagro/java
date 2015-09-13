@@ -4,7 +4,6 @@
 package estoque.forms;
 
 import estoque.util;
-import java.awt.Dialog;
 import javax.swing.*;
 
 /**
@@ -13,8 +12,6 @@ import javax.swing.*;
  * @author gilmar
  */
 public class MainScreen extends javax.swing.JFrame {
-    private jPanelProdutos panel;
-    private JFrame frame;
 
     /**
      * Creates new form tela_principal
@@ -48,12 +45,14 @@ public class MainScreen extends javax.swing.JFrame {
         jLabelLogo = new javax.swing.JLabel();
         jMenuBarMain = new javax.swing.JMenuBar();
         jMenuVendas = new javax.swing.JMenu();
+        jMenuAddVenda = new javax.swing.JMenuItem();
         jMenuProdutos = new javax.swing.JMenu();
         jMenuProdutoCadastro = new javax.swing.JMenuItem();
         jMenuProdCategoria = new javax.swing.JMenuItem();
         jMenuClientes = new javax.swing.JMenu();
         jMenuClienteCadastro = new javax.swing.JMenuItem();
         jMenuConfig = new javax.swing.JMenu();
+        jMenuSair = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AIEC - Atividade Módulo 2");
@@ -90,20 +89,32 @@ public class MainScreen extends javax.swing.JFrame {
         jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/logo-aiec.png"))); // NOI18N
         jPanelScreen.add(jLabelLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, 66));
 
-        jMenuBarMain.setMargin(new java.awt.Insets(10, 10, 0, 0));
+        jMenuBarMain.setMargin(new java.awt.Insets(10, 20, 0, 0));
 
-        jMenuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/sale.png"))); // NOI18N
+        jMenuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-venda.png"))); // NOI18N
         jMenuVendas.setMnemonic('v');
         jMenuVendas.setText("Vendas");
-        jMenuVendas.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
-        jMenuVendas.setMargin(new java.awt.Insets(0, 0, 0, 25));
+        jMenuVendas.setToolTipText("Gerir vendas, pedidos e orçamentos");
+        jMenuVendas.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        jMenuVendas.setMargin(new java.awt.Insets(0, 0, 0, 10));
+
+        jMenuAddVenda.setMnemonic('p');
+        jMenuAddVenda.setText("Pedido");
+        jMenuAddVenda.setToolTipText("");
+        jMenuAddVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuAddVendaActionPerformed(evt);
+            }
+        });
+        jMenuVendas.add(jMenuAddVenda);
+
         jMenuBarMain.add(jMenuVendas);
 
-        jMenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/produto-icon2.png"))); // NOI18N
+        jMenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-produto.png"))); // NOI18N
         jMenuProdutos.setMnemonic('p');
         jMenuProdutos.setText("Produtos");
-        jMenuProdutos.setToolTipText("");
-        jMenuProdutos.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        jMenuProdutos.setToolTipText("Gerir produtos");
+        jMenuProdutos.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuProdutos.setMargin(new java.awt.Insets(0, 0, 0, 25));
 
         jMenuProdutoCadastro.setMnemonic('c');
@@ -126,10 +137,11 @@ public class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuProdutos);
 
-        jMenuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/cliente-icon.png"))); // NOI18N
+        jMenuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-cliente.png"))); // NOI18N
         jMenuClientes.setMnemonic('c');
         jMenuClientes.setText("Clientes");
-        jMenuClientes.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        jMenuClientes.setToolTipText("Gerir clientes");
+        jMenuClientes.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuClientes.setMargin(new java.awt.Insets(0, 0, 0, 25));
 
         jMenuClienteCadastro.setMnemonic('c');
@@ -143,12 +155,28 @@ public class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuClientes);
 
-        jMenuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/config.png"))); // NOI18N
+        jMenuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-config.png"))); // NOI18N
         jMenuConfig.setMnemonic('o');
         jMenuConfig.setText("Configurações");
-        jMenuConfig.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        jMenuConfig.setToolTipText("Backups");
+        jMenuConfig.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuConfig.setMargin(new java.awt.Insets(0, 0, 0, 25));
         jMenuBarMain.add(jMenuConfig);
+
+        jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-sair.png"))); // NOI18N
+        jMenuSair.setMnemonic('s');
+        jMenuSair.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        jMenuSair.setLabel("Sair");
+        jMenuSair.addMenuListener(new javax.swing.event.MenuListener() {
+            public void menuSelected(javax.swing.event.MenuEvent evt) {
+                jMenuSairMenuSelected(evt);
+            }
+            public void menuDeselected(javax.swing.event.MenuEvent evt) {
+            }
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
+            }
+        });
+        jMenuBarMain.add(jMenuSair);
 
         setJMenuBar(jMenuBarMain);
 
@@ -194,12 +222,20 @@ public class MainScreen extends javax.swing.JFrame {
     private void jMenuProdCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdCategoriaActionPerformed
        this.showCategoria();
     }//GEN-LAST:event_jMenuProdCategoriaActionPerformed
+
+    private void jMenuSairMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuSairMenuSelected
+        this.dispose();
+    }//GEN-LAST:event_jMenuSairMenuSelected
+
+    private void jMenuAddVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAddVendaActionPerformed
+        this.showVendas();
+    }//GEN-LAST:event_jMenuAddVendaActionPerformed
     
     /**
      * Cria o frame e exibe a tela de Categorias
      */
     public void showCategoria(){
-        JPanel panel = new jPanelCategoria();
+        JPanel panel = new jPanelCategorias();
         JFrame frame = this.getDefaultFrame(panel);
         frame.setSize(450,400);
         frame.setVisible(true);
@@ -220,6 +256,16 @@ public class MainScreen extends javax.swing.JFrame {
     public void showProdutos(){
         JPanel panel = new jPanelProdutos();
         JFrame frame = this.getDefaultFrame(panel);
+        frame.setVisible(true);
+    }
+    
+    /**
+     * Cria o frame e exibe a tela de Vendas
+     */
+    public void showVendas(){
+        JPanel panel = new jPanelVendas();
+        JFrame frame = this.getDefaultFrame(panel);
+        frame.setExtendedState(MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
     
@@ -275,6 +321,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelOrientador;
     private javax.swing.JLabel jLabelUnidade;
+    private javax.swing.JMenuItem jMenuAddVenda;
     private javax.swing.JMenuBar jMenuBarMain;
     private javax.swing.JMenuItem jMenuClienteCadastro;
     private javax.swing.JMenu jMenuClientes;
@@ -282,6 +329,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuProdCategoria;
     private javax.swing.JMenuItem jMenuProdutoCadastro;
     private javax.swing.JMenu jMenuProdutos;
+    private javax.swing.JMenu jMenuSair;
     private javax.swing.JMenu jMenuVendas;
     private javax.swing.JPanel jPanelScreen;
     // End of variables declaration//GEN-END:variables

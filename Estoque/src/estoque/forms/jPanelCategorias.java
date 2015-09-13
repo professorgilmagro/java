@@ -20,12 +20,12 @@ import javax.swing.table.TableModel;
  *
  * @author gilmar
  */
-public final class jPanelCategoria extends javax.swing.JPanel {
+public final class jPanelCategorias extends javax.swing.JPanel {
 
     /**
      * Creates new form jPanelProdutos
      */
-    public jPanelCategoria() {
+    public jPanelCategorias() {
         initComponents();
         this.loadItems();
     }
@@ -83,18 +83,25 @@ public final class jPanelCategoria extends javax.swing.JPanel {
         tableCategoria.setAutoCreateRowSorter(true);
         tableCategoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableCategoria.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tableCategoria.setColumnSelectionAllowed(true);
         tableCategoria.setName(""); // NOI18N
         jScrollPane2.setViewportView(tableCategoria);
+        tableCategoria.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         btnAddCategoria.setMnemonic('a');
         btnAddCategoria.setText("Adicionar");
@@ -172,7 +179,7 @@ public final class jPanelCategoria extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabelTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAddCategoria)
@@ -180,9 +187,9 @@ public final class jPanelCategoria extends javax.swing.JPanel {
                         .addComponent(btnDelCategoria)
                         .addComponent(btnBuscaCategoria)
                         .addComponent(btnLoadFile)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");
@@ -220,9 +227,9 @@ public final class jPanelCategoria extends javax.swing.JPanel {
             try {
                 cat.remove(ID);
             } catch (IOException ex) {
-                Logger.getLogger(jPanelCategoria.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(jPanelCategorias.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(jPanelCategoria.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(jPanelCategorias.class.getName()).log(Level.SEVERE, null, ex);
             }
            this.loadItems();
        }

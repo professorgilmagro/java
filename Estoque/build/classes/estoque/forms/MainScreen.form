@@ -5,35 +5,48 @@
     <Menu class="javax.swing.JMenuBar" name="jMenuBarMain">
       <Properties>
         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-          <Insets value="[10, 10, 0, 0]"/>
+          <Insets value="[10, 20, 0, 0]"/>
         </Property>
       </Properties>
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenuVendas">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/estoque/forms/sale.png"/>
+              <Image iconType="3" name="/estoque/forms/icon-venda.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="118"/>
             <Property name="text" type="java.lang.String" value="Vendas"/>
+            <Property name="toolTipText" type="java.lang.String" value="Gerir vendas, pedidos e or&#xe7;amentos"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Noto Sans" size="18" style="0"/>
+              <Font name="Noto Sans" size="14" style="1"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-              <Insets value="[0, 0, 0, 25]"/>
+              <Insets value="[0, 0, 0, 10]"/>
             </Property>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuAddVenda">
+              <Properties>
+                <Property name="mnemonic" type="int" value="112"/>
+                <Property name="text" type="java.lang.String" value="Pedido"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuAddVendaActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuProdutos">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/estoque/forms/produto-icon2.png"/>
+              <Image iconType="3" name="/estoque/forms/icon-produto.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="112"/>
             <Property name="text" type="java.lang.String" value="Produtos"/>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="toolTipText" type="java.lang.String" value="Gerir produtos"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Noto Sans" size="18" style="0"/>
+              <Font name="Noto Sans" size="14" style="1"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 0, 0, 25]"/>
@@ -63,12 +76,13 @@
         <Menu class="javax.swing.JMenu" name="jMenuClientes">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/estoque/forms/cliente-icon.png"/>
+              <Image iconType="3" name="/estoque/forms/icon-cliente.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="99"/>
             <Property name="text" type="java.lang.String" value="Clientes"/>
+            <Property name="toolTipText" type="java.lang.String" value="Gerir clientes"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Noto Sans" size="18" style="0"/>
+              <Font name="Noto Sans" size="14" style="1"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 0, 0, 25]"/>
@@ -89,17 +103,33 @@
         <Menu class="javax.swing.JMenu" name="jMenuConfig">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/estoque/forms/config.png"/>
+              <Image iconType="3" name="/estoque/forms/icon-config.png"/>
             </Property>
             <Property name="mnemonic" type="int" value="111"/>
             <Property name="text" type="java.lang.String" value="Configura&#xe7;&#xf5;es"/>
+            <Property name="toolTipText" type="java.lang.String" value="Backups"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Noto Sans" size="18" style="0"/>
+              <Font name="Noto Sans" size="14" style="1"/>
             </Property>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 0, 0, 25]"/>
             </Property>
           </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuSair">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/estoque/forms/icon-sair.png"/>
+            </Property>
+            <Property name="mnemonic" type="int" value="115"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Noto Sans" size="14" style="1"/>
+            </Property>
+            <Property name="label" type="java.lang.String" value="Sair"/>
+          </Properties>
+          <Events>
+            <EventHandler event="menuSelected" listener="javax.swing.event.MenuListener" parameters="javax.swing.event.MenuEvent" handler="jMenuSairMenuSelected"/>
+          </Events>
         </Menu>
       </SubComponents>
     </Menu>

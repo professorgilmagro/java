@@ -1,5 +1,5 @@
 /*
- * Tela de clientes
+ * Tela de vendas
  */
 package estoque.forms;
 
@@ -20,12 +20,12 @@ import java.util.Date;
  *
  * @author gilmar
  */
-public class jPanelClientes extends javax.swing.JPanel {
+public class jPanelVendas extends javax.swing.JPanel {
 
     /**
      * Creates new form jPanelProdutos
      */
-    public jPanelClientes() {
+    public jPanelVendas() {
         initComponents();
         this.loadItems();
     }
@@ -34,16 +34,9 @@ public class jPanelClientes extends javax.swing.JPanel {
      * Carrega todos os clientes na tabela
      */
     public void loadItems(){
-        Cliente cli = new Cliente();
-        
-        TableModel model = cli.getTableModel() ;
-        this.tableClientes.setModel(model);
-        this.tableClientes.setAutoCreateRowSorter(true);
-        this.tableClientes.enableInputMethods(false);
-        this.jTextFile.setText( String.format( "Dados extraidos do arquivo: %s" , cli.getFileName()) );
     }
     
-    public void addCliente() {
+    public void addProduto() {
         while (true) {
             try {
                 Cliente cli = new Cliente();
@@ -110,15 +103,12 @@ public class jPanelClientes extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        tableClientes = new javax.swing.JTable();
+        tableItems = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnBusca = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextFile = new javax.swing.JTextPane();
         btnLoadFile = new javax.swing.JButton();
-        btnOdernar = new javax.swing.JButton();
         jPanelDetalhes = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabelEndereco = new javax.swing.JLabel();
@@ -126,32 +116,36 @@ public class jPanelClientes extends javax.swing.JPanel {
         jLabelCPF = new javax.swing.JLabel();
         jLabelEmail = new javax.swing.JLabel();
         jLabelIcon = new javax.swing.JLabel();
-        jLabelSexo = new javax.swing.JLabel();
+        jLabelTotal = new javax.swing.JLabel();
+        btnLoadFile1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
-        tableClientes.setAutoCreateRowSorter(true);
-        tableClientes.setModel(new javax.swing.table.DefaultTableModel(
+        tableItems.setAutoCreateRowSorter(true);
+        tableItems.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
+        tableItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Produto", "Valor unitário", "Quantidade", "Subtotal"
             }
         ));
-        tableClientes.setName(""); // NOI18N
-        tableClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableItems.setColumnSelectionAllowed(true);
+        tableItems.setName(""); // NOI18N
+        tableItems.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tableClientesMouseReleased(evt);
+                tableItemsMouseReleased(evt);
             }
         });
-        jScrollPane2.setViewportView(tableClientes);
+        jScrollPane2.setViewportView(tableItems);
+        tableItems.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tableItems.getColumnModel().getColumnCount() > 0) {
+            tableItems.getColumnModel().getColumn(1).setPreferredWidth(200);
+        }
 
-        btnAdd.setMnemonic('a');
-        btnAdd.setText("Adicionar");
+        btnAdd.setMnemonic('n');
+        btnAdd.setText("Nova venda");
         btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 btnAddMouseReleased(evt);
@@ -159,7 +153,7 @@ public class jPanelClientes extends javax.swing.JPanel {
         });
 
         btnDelete.setMnemonic('x');
-        btnDelete.setText("Excluir");
+        btnDelete.setText("Excluir item");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -177,31 +171,19 @@ public class jPanelClientes extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cadastro de Clientes");
+        jLabel1.setText("Controle de Vendas");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jTextFile.setBackground(new java.awt.Color(254, 240, 156));
-        jTextFile.setText("Dados oriundos do arquivo:");
-        jScrollPane1.setViewportView(jTextFile);
-
+        btnLoadFile.setText("Carregar venda...");
         btnLoadFile.setToolTipText("");
-        btnLoadFile.setLabel("Carregar arquivo...");
         btnLoadFile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 btnLoadFileMouseReleased(evt);
             }
         });
-
-        btnOdernar.setMnemonic('o');
-        btnOdernar.setToolTipText("");
-        btnOdernar.setLabel("Odernar");
-        btnOdernar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnOdernarMouseReleased(evt);
-            }
-        });
-        btnOdernar.addActionListener(new java.awt.event.ActionListener() {
+        btnLoadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOdernarActionPerformed(evt);
+                btnLoadFileActionPerformed(evt);
             }
         });
 
@@ -209,7 +191,7 @@ public class jPanelClientes extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel2.setText("Endereço:");
+        jLabel2.setText("Endereço de entrega:");
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabelEndereco.setText("-");
@@ -222,35 +204,25 @@ public class jPanelClientes extends javax.swing.JPanel {
 
         jLabelEmail.setText("E-mail");
 
-        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-cliente.png"))); // NOI18N
-
-        jLabelSexo.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabelSexo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelSexo.setText("Sexo:");
-        jLabelSexo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-venda.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanelDetalhesLayout = new javax.swing.GroupLayout(jPanelDetalhes);
         jPanelDetalhes.setLayout(jPanelDetalhesLayout);
         jPanelDetalhesLayout.setHorizontalGroup(
             jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                        .addComponent(jLabelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabelIcon)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                                .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                                .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelSexo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
+                        .addGap(20, 20, 20)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -262,9 +234,7 @@ public class jPanelClientes extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                        .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelNome)
-                            .addComponent(jLabelSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabelNome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelCPF)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -277,55 +247,71 @@ public class jPanelClientes extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabelTotal.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLabelTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelTotal.setText("Total: R$ 0,00");
+
+        btnLoadFile1.setMnemonic('e');
+        btnLoadFile1.setText("Alterar endereço de entrega");
+        btnLoadFile1.setToolTipText("");
+        btnLoadFile1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnLoadFile1MouseReleased(evt);
+            }
+        });
+        btnLoadFile1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadFile1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(296, 296, 296)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+                    .addComponent(jPanelDetalhes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addGap(6, 6, 6)
                         .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBusca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnOdernar)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanelDetalhes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                        .addComponent(btnLoadFile)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLoadFile1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLoadFile)))
+                        .addComponent(jLabelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(327, 327, 327)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
+                .addGap(9, 9, 9)
+                .addComponent(jPanelDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdd)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnDelete)
-                        .addComponent(btnBusca)
-                        .addComponent(btnOdernar)))
-                .addGap(27, 27, 27)
-                .addComponent(jPanelDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLoadFile))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabelTotal)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnAdd)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnDelete)
+                            .addComponent(btnBusca)
+                            .addComponent(btnLoadFile)
+                            .addComponent(btnLoadFile1))))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");
@@ -335,7 +321,7 @@ public class jPanelClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscaMouseReleased
 
     private void btnAddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseReleased
-        this.addCliente();
+        this.addProduto();
     }//GEN-LAST:event_btnAddMouseReleased
 
     private void btnLoadFileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadFileMouseReleased
@@ -343,47 +329,37 @@ public class jPanelClientes extends javax.swing.JPanel {
         int status = chooser.showSaveDialog(null);
         if (status == JFileChooser.APPROVE_OPTION) {
             File outfile = chooser.getSelectedFile();
-             this.jTextFile.setText( String.format( "Dados extraidos do arquivo: %s" , outfile.getPath()) );
         }
     }//GEN-LAST:event_btnLoadFileMouseReleased
 
-    private void btnOdernarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOdernarMouseReleased
-        TableModel model = this.tableClientes.getModel();
-        this.tableClientes.getSelectedRow();
-    }//GEN-LAST:event_btnOdernarMouseReleased
-
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = this.tableClientes.getSelectedRow();
+        int row = this.tableItems.getSelectedRow();
                 
         if(row == -1){
             util.showMessage("Selecione um cliente para excluir.");
             return;
         }
        
-        long ID = (long) this.tableClientes.getModel().getValueAt(row, 0);
-        String item = (String) this.tableClientes.getModel().getValueAt(row, 1);
+        long ID = (long) this.tableItems.getModel().getValueAt(row, 0);
+        String item = (String) this.tableItems.getModel().getValueAt(row, 1);
         String message = String.format("Tem certeza que deseja excluir o cliente '%s'?",item);
         if(util.showConfirm(message, "Remover cliente?")) {
            IOModelInterface cli = new Cliente();
             try {
                 cli.remove(ID);
             } catch (IOException ex) {
-                Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(jPanelVendas.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(jPanelVendas.class.getName()).log(Level.SEVERE, null, ex);
             }
            this.loadItems();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnOdernarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdernarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnOdernarActionPerformed
-
-    private void tableClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientesMouseReleased
-        int row = this.tableClientes.getSelectedRow();
-        long ID = (long) this.tableClientes.getModel().getValueAt(row, 0);
-        String item = (String) this.tableClientes.getModel().getValueAt(row, 1);
+    public void fillCliente(){
+        int row = this.tableItems.getSelectedRow();
+        long ID = (long) this.tableItems.getModel().getValueAt(row, 0);
+        String item = (String) this.tableItems.getModel().getValueAt(row, 1);
         Cliente cli = new Cliente();
         try {
             Cliente c = (Cliente) cli.findByID(ID);
@@ -391,11 +367,26 @@ public class jPanelClientes extends javax.swing.JPanel {
             this.jLabelNome.setText(c.getFullName());
             this.jLabelEmail.setText("E-mail: " + c.getEmail());
             this.jLabelEndereco.setText(c.getEndereco());
-            this.jLabelSexo.setText(c.getFormatSexo());
         } catch (IOException ex) {
-            Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(jPanelVendas.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_tableClientesMouseReleased
+    }
+    
+    private void tableItemsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableItemsMouseReleased
+        
+    }//GEN-LAST:event_tableItemsMouseReleased
+
+    private void btnLoadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLoadFileActionPerformed
+
+    private void btnLoadFile1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadFile1MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLoadFile1MouseReleased
+
+    private void btnLoadFile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFile1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLoadFile1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -403,7 +394,7 @@ public class jPanelClientes extends javax.swing.JPanel {
     private javax.swing.JButton btnBusca;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnLoadFile;
-    private javax.swing.JButton btnOdernar;
+    private javax.swing.JButton btnLoadFile1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelCPF;
@@ -411,11 +402,9 @@ public class jPanelClientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelEndereco;
     private javax.swing.JLabel jLabelIcon;
     private javax.swing.JLabel jLabelNome;
-    private javax.swing.JLabel jLabelSexo;
+    private javax.swing.JLabel jLabelTotal;
     private javax.swing.JPanel jPanelDetalhes;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextFile;
-    private javax.swing.JTable tableClientes;
+    private javax.swing.JTable tableItems;
     // End of variables declaration//GEN-END:variables
 }
