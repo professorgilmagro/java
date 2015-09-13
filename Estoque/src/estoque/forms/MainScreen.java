@@ -3,6 +3,8 @@
  */
 package estoque.forms;
 
+import estoque.util;
+import java.awt.Dialog;
 import javax.swing.*;
 
 /**
@@ -40,20 +42,23 @@ public class MainScreen extends javax.swing.JFrame {
         jPanelScreen = new javax.swing.JPanel();
         jLabelDisciplina = new javax.swing.JLabel();
         jLabelUnidade = new javax.swing.JLabel();
-        jLabelLogo = new javax.swing.JLabel();
         jLabelOrientador = new javax.swing.JLabel();
         jLabelCriadoPor = new javax.swing.JLabel();
         jLabelDescricao = new javax.swing.JLabel();
+        jLabelLogo = new javax.swing.JLabel();
         jMenuBarMain = new javax.swing.JMenuBar();
         jMenuVendas = new javax.swing.JMenu();
         jMenuProdutos = new javax.swing.JMenu();
         jMenuProdutoCadastro = new javax.swing.JMenuItem();
+        jMenuProdCategoria = new javax.swing.JMenuItem();
         jMenuClientes = new javax.swing.JMenu();
         jMenuClienteCadastro = new javax.swing.JMenuItem();
+        jMenuConfig = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AIEC - Atividade Módulo 2");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
         jPanelScreen.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -65,11 +70,7 @@ public class MainScreen extends javax.swing.JFrame {
 
         jLabelUnidade.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabelUnidade.setText("Unidade 2");
-        jPanelScreen.add(jLabelUnidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, -1, -1));
-
-        jLabelLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/logo-aiec.png"))); // NOI18N
-        jPanelScreen.add(jLabelLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, -1, 66));
+        jPanelScreen.add(jLabelUnidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, -1, -1));
 
         jLabelOrientador.setText("Orientador: Andrei Cardoso Vanderlei");
         jPanelScreen.add(jLabelOrientador, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, -1, -1));
@@ -85,12 +86,27 @@ public class MainScreen extends javax.swing.JFrame {
         jLabelDescricao.setText("Cadastro de Vendas");
         jPanelScreen.add(jLabelDescricao, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, -1, -1));
 
+        jLabelLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/logo-aiec.png"))); // NOI18N
+        jPanelScreen.add(jLabelLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, 66));
+
+        jMenuBarMain.setMargin(new java.awt.Insets(10, 10, 0, 0));
+
+        jMenuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/sale.png"))); // NOI18N
+        jMenuVendas.setMnemonic('v');
         jMenuVendas.setText("Vendas");
+        jMenuVendas.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        jMenuVendas.setMargin(new java.awt.Insets(0, 0, 0, 25));
         jMenuBarMain.add(jMenuVendas);
 
+        jMenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/produto-icon2.png"))); // NOI18N
+        jMenuProdutos.setMnemonic('p');
         jMenuProdutos.setText("Produtos");
         jMenuProdutos.setToolTipText("");
+        jMenuProdutos.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        jMenuProdutos.setMargin(new java.awt.Insets(0, 0, 0, 25));
 
+        jMenuProdutoCadastro.setMnemonic('c');
         jMenuProdutoCadastro.setText("Cadastro");
         jMenuProdutoCadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,10 +115,24 @@ public class MainScreen extends javax.swing.JFrame {
         });
         jMenuProdutos.add(jMenuProdutoCadastro);
 
+        jMenuProdCategoria.setMnemonic('a');
+        jMenuProdCategoria.setText("Categoria");
+        jMenuProdCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuProdCategoriaActionPerformed(evt);
+            }
+        });
+        jMenuProdutos.add(jMenuProdCategoria);
+
         jMenuBarMain.add(jMenuProdutos);
 
+        jMenuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/cliente-icon.png"))); // NOI18N
+        jMenuClientes.setMnemonic('c');
         jMenuClientes.setText("Clientes");
+        jMenuClientes.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        jMenuClientes.setMargin(new java.awt.Insets(0, 0, 0, 25));
 
+        jMenuClienteCadastro.setMnemonic('c');
         jMenuClienteCadastro.setText("Cadastrar");
         jMenuClienteCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -112,6 +142,13 @@ public class MainScreen extends javax.swing.JFrame {
         jMenuClientes.add(jMenuClienteCadastro);
 
         jMenuBarMain.add(jMenuClientes);
+
+        jMenuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/config.png"))); // NOI18N
+        jMenuConfig.setMnemonic('o');
+        jMenuConfig.setText("Configurações");
+        jMenuConfig.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
+        jMenuConfig.setMargin(new java.awt.Insets(0, 0, 0, 25));
+        jMenuBarMain.add(jMenuConfig);
 
         setJMenuBar(jMenuBarMain);
 
@@ -127,25 +164,22 @@ public class MainScreen extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(82, 82, 82)
+                .addGap(96, 96, 96)
                 .addComponent(jPanelScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     
-           
     /**
      * Exibe a tela de cadastro de produtos
      * 
      * @param evt 
      */
     private void jMenuProdutoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdutoCadastroActionPerformed
-        JPanel panel = new jPanelProdutos();
-        JFrame frame = this.getDefaultFrame(panel);
-        frame.setVisible(true);
+        this.showProdutos();
     }//GEN-LAST:event_jMenuProdutoCadastroActionPerformed
     
      /**
@@ -154,11 +188,41 @@ public class MainScreen extends javax.swing.JFrame {
      * @param evt 
      */
     private void jMenuClienteCadastroMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuClienteCadastroMouseReleased
+       this.showClientes();
+    }//GEN-LAST:event_jMenuClienteCadastroMouseReleased
+
+    private void jMenuProdCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdCategoriaActionPerformed
+       this.showCategoria();
+    }//GEN-LAST:event_jMenuProdCategoriaActionPerformed
+    
+    /**
+     * Cria o frame e exibe a tela de Categorias
+     */
+    public void showCategoria(){
+        JPanel panel = new jPanelCategoria();
+        JFrame frame = this.getDefaultFrame(panel);
+        frame.setSize(450,400);
+        frame.setVisible(true);
+    }
+    
+    /**
+     * Cria o frame e exibe a tela de Clientes
+     */
+    public void showClientes(){
        JPanel panel = new jPanelClientes();
        JFrame frame = this.getDefaultFrame(panel);
        frame.setVisible(true);
-    }//GEN-LAST:event_jMenuClienteCadastroMouseReleased
-
+    }
+    
+    /**
+     * Cria o frame e exibe a tela de Produtos
+     */
+    public void showProdutos(){
+        JPanel panel = new jPanelProdutos();
+        JFrame frame = this.getDefaultFrame(panel);
+        frame.setVisible(true);
+    }
+    
     /**
      * Start do Sistema
      * 
@@ -194,9 +258,12 @@ public class MainScreen extends javax.swing.JFrame {
      */    
     public JFrame getDefaultFrame( JPanel panel ){            
         JFrame frame = new JFrame();
+        frame.setTitle("Sistema de vendas");
         frame.add(panel);
         frame.setSize(this.getSize());
         frame.setLocation(this.getLocation());
+        frame.setResizable(false);
+        frame.pack();
         
         return frame;
     }
@@ -211,6 +278,8 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBarMain;
     private javax.swing.JMenuItem jMenuClienteCadastro;
     private javax.swing.JMenu jMenuClientes;
+    private javax.swing.JMenu jMenuConfig;
+    private javax.swing.JMenuItem jMenuProdCategoria;
     private javax.swing.JMenuItem jMenuProdutoCadastro;
     private javax.swing.JMenu jMenuProdutos;
     private javax.swing.JMenu jMenuVendas;

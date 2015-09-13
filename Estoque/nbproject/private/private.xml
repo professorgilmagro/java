@@ -3,14 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/gilmar/AIEC/Estoque/src/estoque/CepService.java</file>
-            <file>file:/home/gilmar/AIEC/Estoque/src/estoque/IOModelInterface.java</file>
-            <file>file:/home/gilmar/AIEC/Estoque/src/estoque/forms/jPanelProdutos.java</file>
-            <file>file:/home/gilmar/AIEC/Estoque/src/estoque/forms/jPanelClientes.java</file>
-            <file>file:/home/gilmar/AIEC/Estoque/src/estoque/Produto.java</file>
-            <file>file:/home/gilmar/AIEC/Estoque/src/estoque/AbstractModel.java</file>
-            <file>file:/home/gilmar/AIEC/Estoque/src/estoque/Cliente.java</file>
-            <file>file:/home/gilmar/AIEC/Estoque/src/estoque/forms/MainScreen.java</file>
+            <file>file:/home/gilmar/java/Estoque/src/estoque/util.java</file>
+            <file>file:/home/gilmar/java/Estoque/src/estoque/Produto.java</file>
+            <file>file:/home/gilmar/java/Estoque/src/estoque/forms/jPanelCategoria.java</file>
+            <file>file:/home/gilmar/java/Estoque/src/estoque/forms/jPanelProdutos.java</file>
+            <file>file:/home/gilmar/java/Estoque/src/estoque/forms/cliente-icon.png</file>
+            <file>file:/home/gilmar/java/Estoque/src/estoque/forms/MainScreen.java</file>
+            <file>file:/home/gilmar/java/Estoque/src/estoque/Categoria.java</file>
         </group>
     </open-files>
 </project-private>

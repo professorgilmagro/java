@@ -9,7 +9,9 @@ import estoque.forms.MainScreen;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.table.TableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +40,9 @@ public class Cliente extends AbstractModel{
     private String Email;  
     private int Numero ;
     
+    private final String SEXO_M = "M";
+    private final String SEXO_F = "F";
+        
     public Cliente(){}
     
     /**
@@ -232,8 +237,7 @@ public class Cliente extends AbstractModel{
      * @param cws 
      */
     public void fillFromService(CepService cws){
-        String logradouro = String.format("%s %s", cws.getTipoLogradouro(),cws.getLogradouro());
-        this.setLogadouro(logradouro);
+        this.setLogadouro(cws.getLogradouro());
         this.setBairro(cws.getBairro());
         this.setCidade(cws.getCidade());
         this.setEstado(cws.getEstado());
@@ -250,9 +254,38 @@ public class Cliente extends AbstractModel{
         Matcher matcher = pattern.matcher(cpf);  
         if (matcher.matches()){   
             cpf = matcher.replaceAll("$1.$2.$3-$4");
-            System.out.println("porque não funciona");
         }
         
         return cpf;       
-    }  
+    }
+    
+     /**
+     * Retorna o Sexo formatado
+     * 
+     * @return String
+     */
+    public String getFormatSexo() {
+        if(this.getSexo().equals(SEXO_F)){
+            return "Feminino";
+        }
+        
+        if(this.getSexo().equals(SEXO_M)){
+            return "Masculino";
+        }
+        
+        return this.getSexo();
+    }
+    
+    /**
+     * Retorna um map com as opções de sexo
+     * 
+     * @return Map
+     */
+    public Map getMapSexo(){
+        Map<String, String> map = new HashMap<>();
+        map.put(SEXO_M, "Masculino");
+        map.put(SEXO_F, "Feminino");
+        
+        return map;
+    }
 }

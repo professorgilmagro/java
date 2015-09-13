@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.table.TableModel;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -48,18 +50,22 @@ public class jPanelClientes extends javax.swing.JPanel {
     public void addCliente() {
         while (true) {
             try {
+                Cliente cli = new Cliente();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                
                 long codigo = (long) Integer.parseInt(util.showInput("Digite o código do cliente.")) ;
                 String nome = util.showInput("Digite o nome.");
                 String sobrenome = util.showInput("Digite o sobrenome.");
                 Long cpf = Long.parseLong(util.showInput("Digite o CPF."));
                 String cep = util.showInput("Digite o Código Postal.");
+                String sexo = util.showOptions("Selecione o sexo.", cli.getMapSexo(), "Sexo").toString();
                 Integer numero = Integer.parseInt(util.showInput("Digite o número da residência."));
                 CepService cws = new CepService(cep);
-                Cliente cli = new Cliente();
                 cli.fillFromService(cws);
                 cli.setCEP(Long.parseLong(cep));
                 cli.setNumero(numero);
+                cli.setSexo(sexo);
+                
                 
                 String message = String.format( "O endereço abaixo está correto?\n%s", cli.getEndereco());
                 if(util.showConfirm(message, "Confirmação de endereço") == false){
@@ -124,6 +130,7 @@ public class jPanelClientes extends javax.swing.JPanel {
         jLabelCPF = new javax.swing.JLabel();
         jLabelEmail = new javax.swing.JLabel();
         jLabelCPF1 = new javax.swing.JLabel();
+        jLabelSexo = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -147,6 +154,7 @@ public class jPanelClientes extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tableClientes);
 
+        btnAdd.setMnemonic('a');
         btnAdd.setText("Adicionar");
         btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -154,6 +162,7 @@ public class jPanelClientes extends javax.swing.JPanel {
             }
         });
 
+        btnDelete.setMnemonic('x');
         btnDelete.setText("Excluir");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,6 +170,7 @@ public class jPanelClientes extends javax.swing.JPanel {
             }
         });
 
+        btnBusca.setMnemonic('l');
         btnBusca.setText("Localizar");
         btnBusca.setToolTipText("");
         btnBusca.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -185,6 +195,7 @@ public class jPanelClientes extends javax.swing.JPanel {
             }
         });
 
+        btnOdernar.setMnemonic('o');
         btnOdernar.setToolTipText("");
         btnOdernar.setLabel("Odernar");
         btnOdernar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -217,6 +228,11 @@ public class jPanelClientes extends javax.swing.JPanel {
 
         jLabelCPF1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/cliente-icon.png"))); // NOI18N
 
+        jLabelSexo.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jLabelSexo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelSexo.setText("Sexo:");
+        jLabelSexo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
         javax.swing.GroupLayout jPanelDetalhesLayout = new javax.swing.GroupLayout(jPanelDetalhes);
         jPanelDetalhes.setLayout(jPanelDetalhesLayout);
         jPanelDetalhesLayout.setHorizontalGroup(
@@ -228,17 +244,22 @@ public class jPanelClientes extends javax.swing.JPanel {
                         .addComponent(jLabelCPF1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelNome, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
                             .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                                 .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabelCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
+                                .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelSexo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
+                                .addComponent(jLabelEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanelDetalhesLayout.setVerticalGroup(
@@ -247,14 +268,16 @@ public class jPanelClientes extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                        .addComponent(jLabelNome)
+                        .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelNome)
+                            .addComponent(jLabelSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelCPF)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelEmail))
                     .addComponent(jLabelCPF1))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -271,7 +294,7 @@ public class jPanelClientes extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addGap(6, 6, 6)
@@ -372,8 +395,9 @@ public class jPanelClientes extends javax.swing.JPanel {
             Cliente c = (Cliente) cli.findByID(ID);
             this.jLabelCPF.setText("CPF: " + c.getFormatCPF());
             this.jLabelNome.setText(c.getFullName());
-            this.jLabelEmail.setText(c.getEmail());
+            this.jLabelEmail.setText("E-mail: " + c.getEmail());
             this.jLabelEndereco.setText(c.getEndereco());
+            this.jLabelSexo.setText(c.getFormatSexo());
         } catch (IOException ex) {
             Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -393,6 +417,7 @@ public class jPanelClientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelEndereco;
     private javax.swing.JLabel jLabelNome;
+    private javax.swing.JLabel jLabelSexo;
     private javax.swing.JPanel jPanelDetalhes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -1,7 +1,7 @@
 package estoque;
 
 /*
- * WebService de busca de CEP - Republica Virtual
+ * WebService de busca de CEP - WideNet
  */
 
 import java.net.URL;
@@ -10,20 +10,17 @@ import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 
 /**
- * WebService de busca de CEP - Republica Virtual
+ * WebService de busca de CEP - WideNet
  * 
  * @author Gilmar Soares
  */
 public final class CepService {
     
-    private String UF;
-    private String Cidade;
-    private String Bairro;
-    private String TipoLogradouro;
     private String Logradouro;
-        
-    private int status_code = 0;
-    private String status_description;
+    private String Bairro;
+    private String Cidade;
+    private String UF;
+    private int status = 0;
     
     /** 
      * Construtor da classe
@@ -32,39 +29,31 @@ public final class CepService {
      */
     public CepService(String cep) {
         try {
-            URL url = new URL("http://cep.republicavirtual.com.br/web_cep.php?cep=" + cep + "&formato=xml");
+            URL url = new URL(String.format("http://apps.widenet.com.br/busca-cep/api/cep/%s.xml",cep));
             Document document = getDocumento(url);
             Element root = document.getRootElement();
 
             for ( Iterator i = root.elementIterator(); i.hasNext(); ) {
                 Element element = (Element) i.next();
                 
-                if (element.getQualifiedName().equals("uf")){
+                if (element.getQualifiedName().equals("state")){
                     this.setEstado(element.getText());                
                 }
                 
-                if (element.getQualifiedName().equals("cidade")){
+                if (element.getQualifiedName().equals("city")){
                     this.setCidade(element.getText());                
                 }
                 
-                if (element.getQualifiedName().equals("bairro")){
+                if (element.getQualifiedName().equals("district")){
                     this.setBairro(element.getText());                
                 }
                 
-                if (element.getQualifiedName().equals("tipo_logradouro")){
-                    this.setTipoLogradouro(element.getText());   
-                }
-                
-                if (element.getQualifiedName().equals("logradouro")){
+                if (element.getQualifiedName().equals("address")){
                     this.setLogradouro(element.getText());
                 }
                 
-                if (element.getQualifiedName().equals("status_code")){
-                    this.setResultado(Integer.parseInt(element.getText()));
-                }
-                
-                if (element.getQualifiedName().equals("status_description")){
-                    this.setStatusDescription(element.getText());
+                if (element.getQualifiedName().equals("status")){
+                    this.setStatus(Integer.parseInt(element.getText()));
                 }
             }
         }
@@ -139,24 +128,6 @@ public final class CepService {
     }
 
     /**
-     * Retorna o Tipo de Logradrouro
-     * 
-     * @return
-     */
-    public String getTipoLogradouro() {
-        return this.TipoLogradouro;
-    }
-
-    /**
-     * Atribui um valor para o tipo logradrouro
-     * 
-     * @param tipoLogradouro
-     */
-    public void setTipoLogradouro(String tipoLogradouro) {
-        this.TipoLogradouro = tipoLogradouro;
-    }
-
-    /**
      * Recupera o Logradouro
      * 
      * @return
@@ -179,34 +150,25 @@ public final class CepService {
      * 
      * @return
      */
-    public int getStatusCode() {
-        return status_code;
+    public int getStatus() {
+        return status;
     }
 
     /**
-     * Atribui o código do status
+     * Define o valor do Estado
      * 
-     * @param status_code
+     * @param UF
      */
-    public void setResultado(int status_code) {
-        this.status_code = status_code;
+    public void setUF(String UF) {
+        this.UF = UF;
     }
 
     /**
-     * Retorna a Descrição de Status do serviço
+     * Define o valor do Status do serviço
      * 
-     * @return
+     * @param status
      */
-    public String getStatusDescription() {
-        return status_description;
-    }
-
-    /**
-     * Atribui a descrição do status
-     * 
-     * @param status_description
-     */ 
-    public void setStatusDescription(String status_description) {
-        this.status_description = status_description;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

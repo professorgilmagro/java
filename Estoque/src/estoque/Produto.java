@@ -24,7 +24,8 @@ public class Produto extends AbstractModel{
     private String nome, descricao;
     private double valor;
     private double peso;
-    private int codCategoria;
+    private long codCategoria;
+    private int saldoEstoque;
     
     public Produto(){}
     
@@ -64,10 +65,6 @@ public class Produto extends AbstractModel{
         this.peso = Peso;
     }
     
-    public void setCategoria(int Categoria){
-        this.codCategoria = Categoria;
-    }
-
     public void setValor(double Valor){
         this.valor = Valor;
     }
@@ -86,10 +83,6 @@ public class Produto extends AbstractModel{
 
     public double getPeso(){
         return this.peso;
-    }
-    
-    public int getCategoria(){
-        return this.codCategoria;
     }
     
     public double getValor(){
@@ -117,7 +110,6 @@ public class Produto extends AbstractModel{
         model.addColumn("Peso");
         model.addColumn("Valor");
         
-        DecimalFormat df = new DecimalFormat("0.00");
         try {
             List produtos = this.getAll();
             for (Object item : produtos) {
@@ -128,7 +120,7 @@ public class Produto extends AbstractModel{
                     prod.getDescricao(),
                     prod.getCategoria(),
                     prod.getPeso(),
-                    df.format(prod.getValor())
+                    prod.getFormatPrice()
                 };
                 
                 model.addRow(data);
@@ -139,4 +131,44 @@ public class Produto extends AbstractModel{
         
         return model;
     }
-}
+    
+    public String getFormatPrice(){
+        DecimalFormat df = new DecimalFormat("0.00");
+        return String.format("R$ %s", df.format(this.getValor()));
+    }
+
+    public Long getCodCategoria() {
+        return codCategoria;
+    }
+
+    public void setCodCategoria(long codCategoria) {
+        this.codCategoria = codCategoria;
+    }
+    
+    public void setCodCategoria(Categoria Cat) {
+        this.codCategoria = Cat.getID();
+    }
+    
+    /**
+     * Retorna uma instância da Categoria de relação com este objeto
+     * 
+     * @return Categoria
+     */
+    public Categoria getCategoria() {
+        Categoria cat = new Categoria();
+        try {
+            return (Categoria) cat.findByID(this.getID());
+        } catch (IOException ex) {
+            cat.setCodigo(this.getID());
+            return cat;
+        }
+    }
+
+    public int getSaldoEstoque() {
+        return this.saldoEstoque;
+    }
+
+    public void setSaldoEstoque(int saldoEstoque) {
+        this.saldoEstoque = saldoEstoque;
+    }
+} 
