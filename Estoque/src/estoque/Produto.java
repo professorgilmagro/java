@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Controle de produto
+ * Produto
  * 
  * @author gilmar <gilmar.santos@grupofolha.com.br>
  */

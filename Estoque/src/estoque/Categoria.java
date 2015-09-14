@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Controle de produto
+ * Categoria de produto
  * 
  * @author gilmar <gilmar.santos@grupofolha.com.br>
  */

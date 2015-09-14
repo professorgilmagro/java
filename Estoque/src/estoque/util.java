@@ -17,21 +17,39 @@ import javax.swing.JPanel;
  * @author gilmar
  */
 public class util {
+    
+    public static final String TITLE_DEFAULT = "Sistema de Vendas" ;
 
     public util(){}
     
-    /**
+     /**
+     * Exibe uma mensagem do tipo input na tela
+     * 
+     * @param message   Mensagem a ser exibida
+     */
+    public static void showMessage(String message) {
+       util.showMessage(message, util.TITLE_DEFAULT, JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+     /**
      * Exibe uma mensagem do tipo input na tela
      * 
      * @param message   Mensagem a ser exibida
      * @param type      Tipo (Informativa, Alerta, Erro)
      */
     public static void showMessage(String message, int type) {
-        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), message , null, type );
+        util.showMessage(message, util.TITLE_DEFAULT, type);
     }
     
-    public static void showMessage(String message) {
-       util.showMessage(message, JOptionPane.INFORMATION_MESSAGE);
+    /**
+     * Exibe uma mensagem do tipo input na tela
+     * 
+     * @param message   Mensagem a ser exibida
+     * @param title
+     * @param type      Tipo (Informativa, Alerta, Erro)
+     */
+    public static void showMessage(String message, String title, int type) {
+        JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), message , title, type );
     }
     
     /**

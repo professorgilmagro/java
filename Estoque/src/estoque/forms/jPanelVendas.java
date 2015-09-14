@@ -6,16 +6,17 @@ package estoque.forms;
 import estoque.CepService;
 import estoque.Cliente;
 import estoque.Produto;
+import estoque.Venda;
 import estoque.util;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,8 +25,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author gilmar
  */
-public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
+public class jPanelVendas extends javax.swing.JPanel{
     final JFrame frame = new JFrame();
+    
+    private Long clienteID ;
     
     /**
      * Creates new form jPanelProdutos
@@ -70,6 +73,7 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
             
             this.tableItems.setModel(model);
             this.jLabelTotal.setText(util.convertDoubleToCurrency(0.0));
+            this.jTextObs.setText("");
             
             while (true) {
                 this.addItem();
@@ -87,6 +91,8 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
      */
     public Boolean loadCliente(Long ID) {
         try {
+           this.clienteID = null;
+           
            Cliente cli = (Cliente) new Cliente().findByID(ID);
            if( cli == null ){
                util.showMessage("Cliente não localizado.", JOptionPane.WARNING_MESSAGE);
@@ -96,7 +102,8 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
                this.jLabelEndereco.setText("");
                return false;
            }
-
+           
+           this.clienteID = ID ;
            this.jLabelNome.setText(cli.getFullName());
            this.jLabelCPF.setText(cli.getFormatCPF());
            this.jLabelEmail.setText(cli.getEmail());
@@ -121,10 +128,20 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
         try {
             Produto produto = new Produto();
             Produto p = (Produto) produto.findByID(Long.parseLong(code));
+            
+            if (p.getSaldoEstoque() < Integer.parseInt(qtde)) {
+                String message = String.format(
+                        "Estoque insuficiente para a quantidade informada. Saldo atual: %s.", 
+                        p.getSaldoEstoque()
+                ) ;
+                util.showMessage(message, p.getNome(), JOptionPane.WARNING_MESSAGE);
+                return ;
+            }
+            
             DecimalFormat df = new DecimalFormat("0.00");
             Double subtotal = p.getValor() * Integer.parseInt(qtde);
             total += subtotal;
-
+            
             Object[] data = {
                 p.getCodigo(),
                 p.getNome(),
@@ -166,6 +183,9 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
         jLabelTotal = new javax.swing.JLabel();
         btnLoadFile1 = new javax.swing.JButton();
         btnAddItem = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextObs = new javax.swing.JTextPane();
+        btnFinalizarPedido = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -269,12 +289,14 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
                             .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 110, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
+                                .addComponent(jLabelEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(46, 46, 46)))))
                 .addContainerGap())
         );
         jPanelDetalhesLayout.setVerticalGroup(
@@ -324,20 +346,40 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
             }
         });
 
+        jTextObs.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Observações"));
+        jScrollPane1.setViewportView(jTextObs);
+
+        btnFinalizarPedido.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnFinalizarPedido.setMnemonic('F');
+        btnFinalizarPedido.setText("Finalizar pedido");
+        btnFinalizarPedido.setToolTipText("");
+        btnFinalizarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizarPedidoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(327, 327, 327)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jPanelDetalhes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(327, 327, 327)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jPanelDetalhes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddItem)
@@ -347,8 +389,8 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
                         .addComponent(btnLoadFile)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLoadFile1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnFinalizarPedido)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -359,17 +401,21 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
                 .addGap(9, 9, 9)
                 .addComponent(jPanelDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdd)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnDelete)
                         .addComponent(btnLoadFile)
                         .addComponent(btnLoadFile1)
-                        .addComponent(btnAddItem))
-                    .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(79, Short.MAX_VALUE))
+                        .addComponent(btnAddItem)
+                        .addComponent(btnFinalizarPedido)))
+                .addContainerGap())
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");
@@ -447,10 +493,46 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
         this.addItem();
     }//GEN-LAST:event_btnAddItemActionPerformed
 
+    private void btnFinalizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarPedidoActionPerformed
+        Venda v = new Venda();
+        v.setClienteID(this.clienteID);
+        v.setDataVenda(new Date());
+        v.setEnderecoEntrega(this.jLabelEndereco.getText());
+        v.setObs(this.jTextObs.getText());
+        
+        DefaultTableModel model = (DefaultTableModel) this.tableItems.getModel();
+        
+        List items = new ArrayList();
+        for (int i = 0; i < model.getRowCount(); i++) {
+           Object[] row = {
+               model.getValueAt(i, 0),
+               model.getValueAt(i, 1),
+               model.getValueAt(i, 2),
+               util.convertCurrencyToDouble(model.getValueAt(i, 3).toString()),
+               Integer.parseInt(model.getValueAt(i, 4).toString()),
+               util.convertCurrencyToDouble(model.getValueAt(i, 5).toString()),
+           };
+          
+           items.add(row);
+        }
+        
+        v.setItens(items);
+        v.setValorFrete(0.0);
+        v.setDescontos(0.0);
+        
+        try {
+            v.save();
+            util.showMessage("Pedido salvo com sucesso.");
+        } catch (Exception ex) {
+           util.showMessage("Houve um erro na tentativa de salvar o pedido. Tenta mais tarde.", JOptionPane.ERROR_MESSAGE );
+        }
+    }//GEN-LAST:event_btnFinalizarPedidoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddItem;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnFinalizarPedido;
     private javax.swing.JButton btnLoadFile;
     private javax.swing.JButton btnLoadFile1;
     private javax.swing.JLabel jLabel1;
@@ -462,38 +544,10 @@ public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
     private javax.swing.JLabel jLabelNome;
     private javax.swing.JLabel jLabelTotal;
     private javax.swing.JPanel jPanelDetalhes;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextPane jTextObs;
     private javax.swing.JTable tableItems;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-         boolean selected = (e.getStateChange() == ItemEvent.SELECTED);
-                AbstractButton button = (AbstractButton) e.getItemSelectable();
-                String command = button.getActionCommand();
-                System.out.println(command);
-                if (selected) {
-                    int messageType = -1;
-                    String message = "";
-                    if (command.equals("SEARCH_BY_ID")) {
-                        messageType = JOptionPane.INFORMATION_MESSAGE;
-                        message = "Information Message";
-                    } else if (command.equals("SEARCH_BY_NAME")) {
-                        messageType = JOptionPane.WARNING_MESSAGE;
-                        message = "Warning Message";
-                    } else if (command.equals("ERROR")) {
-                        messageType = JOptionPane.ERROR_MESSAGE;
-                        message = "Error Message";
-                    } else if (command.equals("QUESTION")) {
-                        messageType = JOptionPane.QUESTION_MESSAGE;
-                        message = "Question Message";
-                    } else if (command.equals("CMD_CANCEL")) {
-                       this.frame.dispose();
-                       message = "Question Message";
-                       messageType = JOptionPane.QUESTION_MESSAGE;
-                   }
-                
-                    util.showMessage(message,messageType);
-                }
-    }
+   
 }
