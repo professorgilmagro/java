@@ -5,11 +5,12 @@
  */
 package estoque;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.text.DecimalFormat;
 import java.util.Map;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -104,4 +105,82 @@ public class util {
         
         return response;
     }
+    
+     /**
+     * Cria uma Frame padrão para exibição dos Panels
+     * 
+     * @param panel
+     * @param parent
+     * @param Title
+     * 
+     * @return JDialog
+     */    
+    public static JDialog getDefaultWindow( JPanel panel, JFrame parent, String Title ){            
+        JDialog dialog = util.getDefaultWindow(panel, Title);
+        dialog.setSize(parent.getSize());
+        dialog.setLocationRelativeTo(null);
+        
+        return dialog;
+    }
+    
+     /**
+     * Cria uma Frame padrão para exibição dos Panels
+     * 
+     * @param panel
+     * @param Title
+     * 
+     * @return JDialog
+     */    
+    public static JDialog getDefaultWindow( JPanel panel, String Title ){            
+        JDialog dialog = new JDialog();
+        dialog.setTitle(Title);
+        dialog.add(panel);
+        dialog.setModal(true);
+        
+        return dialog;
+    }
+    
+    /**
+     * Converte uma string formatada em moeda corrente para um double
+     * 
+     * @param value
+     * @return 
+     */
+    public static Double convertCurrencyToDouble(String value){
+        return util.convertCurrencyToDouble(value, "R$");
+    }
+    
+    /**
+     * Converte uma string formatada em moeda corrente para um double
+     * 
+     * @param value
+     * @param simbol
+     * @return 
+     */
+    public static Double convertCurrencyToDouble(String value, String simbol){
+        return Double.parseDouble(value.replace(simbol, "").replace(",", ".").trim());
+    }
+    
+    /**
+     * Converte um valor em uma string formatada em moeda corrente
+     * 
+     * @param value
+     * @return 
+     */
+    public static String convertDoubleToCurrency(Double value){
+        return util.convertDoubleToCurrency(value, "R$");
+    }
+    
+    /**
+     * Converte um valor em uma string formatada em moeda corrente
+     * 
+     * @param value
+     * @param simbol
+     * @return 
+     */
+    public static String convertDoubleToCurrency(Double value, String simbol){
+        DecimalFormat df = new DecimalFormat("0.00");
+        return String.format("%s %s", simbol, df.format(value));         
+    }
+
 }

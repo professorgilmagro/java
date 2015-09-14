@@ -4,6 +4,7 @@
 package estoque.forms;
 
 import estoque.util;
+import java.awt.GraphicsEnvironment;
 import javax.swing.*;
 
 /**
@@ -234,9 +235,10 @@ public final class MainScreen extends javax.swing.JFrame {
      */
     public void showCategoria(){
         JPanel panel = new jPanelCategorias();
-        JFrame frame = this.getDefaultFrame(panel);
-        frame.setSize(450,400);
-        frame.setVisible(true);
+        JDialog window = util.getDefaultWindow(panel, this, "Categorias");
+        window.setSize(450,400);
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
     }
     
     /**
@@ -244,8 +246,8 @@ public final class MainScreen extends javax.swing.JFrame {
      */
     public void showClientes(){
        JPanel panel = new jPanelClientes();
-       JFrame frame = this.getDefaultFrame(panel);
-       frame.setVisible(true);
+       JDialog window = util.getDefaultWindow(panel, this, "Clientes");
+       window.setVisible(true);
     }
     
     /**
@@ -253,8 +255,8 @@ public final class MainScreen extends javax.swing.JFrame {
      */
     public void showProdutos(){
         JPanel panel = new jPanelProdutos();
-        JFrame frame = this.getDefaultFrame(panel);
-        frame.setVisible(true);
+        JDialog window = util.getDefaultWindow(panel, this, "Produtos");
+        window.setVisible(true);
     }
     
     /**
@@ -262,9 +264,10 @@ public final class MainScreen extends javax.swing.JFrame {
      */
     public void showVendas(){
         JPanel panel = new jPanelVendas();
-        JFrame frame = this.getDefaultFrame(panel);
-        frame.setExtendedState(MAXIMIZED_BOTH);
-        frame.setVisible(true);
+        JDialog window = util.getDefaultWindow(panel, "Controle de Vendas");
+        window.setModal(false);
+        window.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
+        window.setVisible(true);
     }
     
     /**
@@ -293,25 +296,6 @@ public final class MainScreen extends javax.swing.JFrame {
         });
     }
     
-    /**
-     * Cria uma Frame padrão para exibição dos Panels
-     * 
-     * @param panel
-     * 
-     * @return JFrame
-     */    
-    public JFrame getDefaultFrame( JPanel panel ){            
-        JFrame frame = new JFrame();
-        frame.setTitle("Sistema de vendas");
-        frame.add(panel);
-        frame.setSize(this.getSize());
-        frame.setLocation(this.getLocation());
-        frame.setResizable(false);
-        frame.pack();
-        
-        return frame;
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelCriadoPor;
     private javax.swing.JLabel jLabelDescricao;

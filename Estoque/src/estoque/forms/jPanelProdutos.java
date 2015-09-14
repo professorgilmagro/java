@@ -143,8 +143,10 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tableProdutos);
         if (tableProdutos.getColumnModel().getColumnCount() > 0) {
+            tableProdutos.getColumnModel().getColumn(0).setResizable(false);
             tableProdutos.getColumnModel().getColumn(1).setResizable(false);
             tableProdutos.getColumnModel().getColumn(2).setResizable(false);
+            tableProdutos.getColumnModel().getColumn(3).setResizable(false);
         }
 
         btnAddProduto.setMnemonic('a');

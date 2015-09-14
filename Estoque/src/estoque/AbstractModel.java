@@ -7,8 +7,6 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Classe para implementação de métodos comuns aos objetos

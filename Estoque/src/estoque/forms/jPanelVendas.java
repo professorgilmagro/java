@@ -5,91 +5,139 @@ package estoque.forms;
 
 import estoque.CepService;
 import estoque.Cliente;
-import estoque.IOModelInterface;
+import estoque.Produto;
 import estoque.util;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.table.TableModel;
-import java.util.Date;
+import javax.swing.AbstractButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author gilmar
  */
-public class jPanelVendas extends javax.swing.JPanel {
-
+public class jPanelVendas extends javax.swing.JPanel implements ItemListener{
+    final JFrame frame = new JFrame();
+    
     /**
      * Creates new form jPanelProdutos
      */
     public jPanelVendas() {
         initComponents();
-        this.loadItems();
     }
     
     /**
-     * Carrega todos os clientes na tabela
+     * Remove um item da lista de produtos
      */
-    public void loadItems(){
+    public void removeItem(){
+        int row = this.tableItems.getSelectedRow();
+                
+        if(row == -1){
+            util.showMessage("Selecione um item para excluir.");
+            return;
+        }
+       
+        DefaultTableModel model = (DefaultTableModel) this.tableItems.getModel();
+        String item = (String) model.getValueAt(row, 1);
+        String message = String.format("Tem certeza que deseja excluir o item '%s'?", item);
+        
+        if(util.showConfirm(message, "Remover item?")) {
+            Double total = util.convertCurrencyToDouble(jLabelTotal.getText());
+            Double sub = util.convertCurrencyToDouble((String) model.getValueAt(row, 5));
+            this.jLabelTotal.setText(util.convertDoubleToCurrency(total-sub));
+            model.removeRow(row);
+        }
     }
     
-    public void addProduto() {
-        while (true) {
-            try {
-                Cliente cli = new Cliente();
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                
-                long codigo = (long) Integer.parseInt(util.showInput("Digite o código do cliente.")) ;
-                String nome = util.showInput("Digite o nome.");
-                String sobrenome = util.showInput("Digite o sobrenome.");
-                Long cpf = Long.parseLong(util.showInput("Digite o CPF."));
-                String cep = util.showInput("Digite o Código Postal.");
-                String sexo = util.showOptions("Selecione o sexo.", cli.getMapSexo(), "Sexo").toString();
-                Integer numero = Integer.parseInt(util.showInput("Digite o número da residência."));
-                CepService cws = new CepService(cep);
-                cli.fillFromService(cws);
-                cli.setCEP(Long.parseLong(cep));
-                cli.setNumero(numero);
-                cli.setSexo(sexo);
-                
-                
-                String message = String.format( "O endereço abaixo está correto?\n%s", cli.getEndereco());
-                if(util.showConfirm(message, "Confirmação de endereço") == false){
-                    String logradouro = util.showInput("Digite o logradouro.");
-                    String bairro = util.showInput("Digite o bairro.");
-                    String cidade = util.showInput("Digite a cidade.");
-                    String estado = util.showInput("Digite o estado.");
-                    cli.setLogadouro(logradouro);
-                    cli.setBairro(bairro);
-                    cli.setCidade(cidade);
-                    cli.setEstado(estado);
-                }
-                
-                Date nascimento = formatter.parse(util.showInput("Digite a data de Nascimento."));
-                String email = util.showInput("Digite o email.");
-                String telefone = util.showInput("Digite o telefone.");
-
-                cli.setCodigo(codigo);
-                cli.setDataNascimento(nascimento);
-                cli.setEmail(email);
-                cli.setNome(nome);
-                cli.setSobrenome(sobrenome);
-                cli.setCPF(cpf);
-                cli.setTelefone(telefone);
-                
-                cli.save();
-                this.loadItems();
-                
-                util.showMessage("Cliente salvo com sucesso");
-                if ( util.showConfirm( "Gostaria de cadastrar mais um cliente?" , "Cliente") == false ) {
+    /**
+     * Carrega os dados referentes à um novo pedido
+     */
+    public void novoPedido() {
+       String code = util.showInput("Digite o código do cliente");
+        if( this.loadCliente(Long.parseLong(code))){
+            DefaultTableModel model = new DefaultTableModel();
+            for (int i = 0; i < this.tableItems.getColumnCount(); i++) {
+                model.addColumn(this.tableItems.getColumnName(i));
+            }
+            
+            this.tableItems.setModel(model);
+            this.jLabelTotal.setText(util.convertDoubleToCurrency(0.0));
+            
+            while (true) {
+                this.addItem();
+                if ( util.showConfirm( "Gostaria de adicionar mais produto?" , "Produtos") == false ) {
                     break;
                 }
-            } catch (Exception e) {
-                break;
             }
+        }
+    }
+    
+    /**
+     * Carrega as informações do cliente na tela
+     * @param ID
+     * @return 
+     */
+    public Boolean loadCliente(Long ID) {
+        try {
+           Cliente cli = (Cliente) new Cliente().findByID(ID);
+           if( cli == null ){
+               util.showMessage("Cliente não localizado.", JOptionPane.WARNING_MESSAGE);
+               this.jLabelNome.setText("Nome do cliente");
+               this.jLabelCPF.setText("CPF");
+               this.jLabelEmail.setText("E-mail");
+               this.jLabelEndereco.setText("");
+               return false;
+           }
+
+           this.jLabelNome.setText(cli.getFullName());
+           this.jLabelCPF.setText(cli.getFormatCPF());
+           this.jLabelEmail.setText(cli.getEmail());
+           this.jLabelEndereco.setText(cli.getEndereco());
+        } catch (IOException ex) {
+           util.showMessage("Cliente não localizado.", JOptionPane.WARNING_MESSAGE);
+           return false ;
+        }
+        
+       return true;
+    }
+    
+    /**
+     * Remove um item da lista de produtos
+     */
+    public void addItem(){
+        DefaultTableModel model = (DefaultTableModel) this.tableItems.getModel();
+        String code = util.showInput("Digite o código do produto.");
+        String qtde = util.showInput("Digite a quantidade.");
+        Double total = util.convertCurrencyToDouble(this.jLabelTotal.getText());
+        
+        try {
+            Produto produto = new Produto();
+            Produto p = (Produto) produto.findByID(Long.parseLong(code));
+            DecimalFormat df = new DecimalFormat("0.00");
+            Double subtotal = p.getValor() * Integer.parseInt(qtde);
+            total += subtotal;
+
+            Object[] data = {
+                p.getCodigo(),
+                p.getNome(),
+                p.getDescricao(),
+                p.getFormatPrice(),
+                Integer.parseInt(qtde),
+                String.format("R$ %s", df.format(subtotal))
+            };
+            
+            model.addRow(data);
+            this.jLabelTotal.setText(String.format("R$ %s", df.format(total)));
+        } catch (IOException ex) {
+            util.showMessage("Produto não encontrado.", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -106,7 +154,6 @@ public class jPanelVendas extends javax.swing.JPanel {
         tableItems = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnBusca = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnLoadFile = new javax.swing.JButton();
         jPanelDetalhes = new javax.swing.JPanel();
@@ -118,6 +165,7 @@ public class jPanelVendas extends javax.swing.JPanel {
         jLabelIcon = new javax.swing.JLabel();
         jLabelTotal = new javax.swing.JLabel();
         btnLoadFile1 = new javax.swing.JButton();
+        btnAddItem = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -125,12 +173,20 @@ public class jPanelVendas extends javax.swing.JPanel {
         tableItems.setFont(new java.awt.Font("Noto Sans", 0, 14)); // NOI18N
         tableItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null}
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Código", "Produto", "Valor unitário", "Quantidade", "Subtotal"
+                "Código", "Produto", "Descrição", "Valor unitário", "Quantidade", "Subtotal"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableItems.setName(""); // NOI18N
         tableItems.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -142,14 +198,17 @@ public class jPanelVendas extends javax.swing.JPanel {
             tableItems.getColumnModel().getColumn(1).setPreferredWidth(200);
         }
 
+        btnAdd.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         btnAdd.setMnemonic('n');
         btnAdd.setText("Nova venda");
-        btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnAddMouseReleased(evt);
+        btnAdd.setToolTipText("");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
             }
         });
 
+        btnDelete.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         btnDelete.setMnemonic('x');
         btnDelete.setText("Excluir item");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -158,20 +217,12 @@ public class jPanelVendas extends javax.swing.JPanel {
             }
         });
 
-        btnBusca.setMnemonic('l');
-        btnBusca.setText("Localizar");
-        btnBusca.setToolTipText("");
-        btnBusca.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnBuscaMouseReleased(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Controle de Vendas");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        btnLoadFile.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         btnLoadFile.setText("Carregar venda...");
         btnLoadFile.setToolTipText("");
         btnLoadFile.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -218,7 +269,7 @@ public class jPanelVendas extends javax.swing.JPanel {
                             .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 110, Short.MAX_VALUE))
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,10 +296,11 @@ public class jPanelVendas extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabelTotal.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLabelTotal.setFont(new java.awt.Font("Noto Sans", 1, 24)); // NOI18N
         jLabelTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelTotal.setText("Total: R$ 0,00");
+        jLabelTotal.setText("R$ 0,00");
 
+        btnLoadFile1.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         btnLoadFile1.setMnemonic('e');
         btnLoadFile1.setText("Alterar endereço de entrega");
         btnLoadFile1.setToolTipText("");
@@ -263,32 +315,41 @@ public class jPanelVendas extends javax.swing.JPanel {
             }
         });
 
+        btnAddItem.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnAddItem.setMnemonic('a');
+        btnAddItem.setText("Adicionar item");
+        btnAddItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddItemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(327, 327, 327)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addComponent(jPanelDetalhes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnAdd)
-                        .addGap(6, 6, 6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddItem)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBusca)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLoadFile)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLoadFile1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(327, 327, 327)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,28 +360,20 @@ public class jPanelVendas extends javax.swing.JPanel {
                 .addComponent(jPanelDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelTotal)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnAdd)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnDelete)
-                            .addComponent(btnBusca)
-                            .addComponent(btnLoadFile)
-                            .addComponent(btnLoadFile1))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAdd)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnDelete)
+                        .addComponent(btnLoadFile)
+                        .addComponent(btnLoadFile1)
+                        .addComponent(btnAddItem))
+                    .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnBuscaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscaMouseReleased
-    }//GEN-LAST:event_btnBuscaMouseReleased
-
-    private void btnAddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseReleased
-        this.addProduto();
-    }//GEN-LAST:event_btnAddMouseReleased
 
     private void btnLoadFileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadFileMouseReleased
         JFileChooser chooser = new JFileChooser();
@@ -331,27 +384,7 @@ public class jPanelVendas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLoadFileMouseReleased
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = this.tableItems.getSelectedRow();
-                
-        if(row == -1){
-            util.showMessage("Selecione um cliente para excluir.");
-            return;
-        }
-       
-        long ID = (long) this.tableItems.getModel().getValueAt(row, 0);
-        String item = (String) this.tableItems.getModel().getValueAt(row, 1);
-        String message = String.format("Tem certeza que deseja excluir o cliente '%s'?",item);
-        if(util.showConfirm(message, "Remover cliente?")) {
-           IOModelInterface cli = new Cliente();
-            try {
-                cli.remove(ID);
-            } catch (IOException ex) {
-                Logger.getLogger(jPanelVendas.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(jPanelVendas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           this.loadItems();
-        }
+        this.removeItem();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     public void fillCliente(){
@@ -383,13 +416,40 @@ public class jPanelVendas extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLoadFile1MouseReleased
 
     private void btnLoadFile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFile1ActionPerformed
-        // TODO add your handling code here:
+        String cep = util.showInput("Digite o CEP");
+        Integer numero = Integer.parseInt(util.showInput("Digite o número da residência."));
+        Cliente cli = (Cliente) new Cliente();
+        CepService cws = new CepService(cep);
+        cli.fillFromService(cws);
+        cli.setCEP(Long.parseLong(cep));
+        cli.setNumero(numero);
+
+        String message = String.format( "O endereço abaixo está correto?\n%s", cli.getEndereco());
+        if(util.showConfirm(message, "Confirmação de endereço") == false){
+            String logradouro = util.showInput("Digite o logradouro.");
+            String bairro = util.showInput("Digite o bairro.");
+            String cidade = util.showInput("Digite a cidade.");
+            String estado = util.showInput("Digite o estado.");
+            cli.setLogadouro(logradouro);
+            cli.setBairro(bairro);
+            cli.setCidade(cidade);
+            cli.setEstado(estado);
+        }
+        
+        this.jLabelEndereco.setText(cli.getEndereco());
     }//GEN-LAST:event_btnLoadFile1ActionPerformed
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        this.novoPedido();
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddItemActionPerformed
+        this.addItem();
+    }//GEN-LAST:event_btnAddItemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnBusca;
+    private javax.swing.JButton btnAddItem;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnLoadFile;
     private javax.swing.JButton btnLoadFile1;
@@ -405,4 +465,35 @@ public class jPanelVendas extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tableItems;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+         boolean selected = (e.getStateChange() == ItemEvent.SELECTED);
+                AbstractButton button = (AbstractButton) e.getItemSelectable();
+                String command = button.getActionCommand();
+                System.out.println(command);
+                if (selected) {
+                    int messageType = -1;
+                    String message = "";
+                    if (command.equals("SEARCH_BY_ID")) {
+                        messageType = JOptionPane.INFORMATION_MESSAGE;
+                        message = "Information Message";
+                    } else if (command.equals("SEARCH_BY_NAME")) {
+                        messageType = JOptionPane.WARNING_MESSAGE;
+                        message = "Warning Message";
+                    } else if (command.equals("ERROR")) {
+                        messageType = JOptionPane.ERROR_MESSAGE;
+                        message = "Error Message";
+                    } else if (command.equals("QUESTION")) {
+                        messageType = JOptionPane.QUESTION_MESSAGE;
+                        message = "Question Message";
+                    } else if (command.equals("CMD_CANCEL")) {
+                       this.frame.dispose();
+                       message = "Question Message";
+                       messageType = JOptionPane.QUESTION_MESSAGE;
+                   }
+                
+                    util.showMessage(message,messageType);
+                }
+    }
 }
