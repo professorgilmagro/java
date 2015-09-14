@@ -7,6 +7,7 @@ import estoque.CepService;
 import estoque.Cliente;
 import estoque.IOModelInterface;
 import estoque.util;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,9 @@ public class jPanelClientes extends javax.swing.JPanel {
         this.jTextFile.setText( String.format( "Dados extraidos do arquivo: %s" , cli.getFileName()) );
     }
     
+    /**
+     * Cadastrar um novo cliente
+     */
     public void addCliente() {
         while (true) {
             try {
@@ -146,6 +150,11 @@ public class jPanelClientes extends javax.swing.JPanel {
                 tableClientesMouseReleased(evt);
             }
         });
+        tableClientes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tableClientesKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableClientes);
 
         btnAdd.setMnemonic('a');
@@ -192,16 +201,6 @@ public class jPanelClientes extends javax.swing.JPanel {
         btnOdernar.setMnemonic('o');
         btnOdernar.setToolTipText("");
         btnOdernar.setLabel("Odernar");
-        btnOdernar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnOdernarMouseReleased(evt);
-            }
-        });
-        btnOdernar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOdernarActionPerformed(evt);
-            }
-        });
 
         jPanelDetalhes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -331,11 +330,21 @@ public class jPanelClientes extends javax.swing.JPanel {
 
     private void btnBuscaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscaMouseReleased
     }//GEN-LAST:event_btnBuscaMouseReleased
-
+    
+    /**
+     * Aciona o evento para adicionar um novo cliente
+     * 
+     * @param evt 
+     */
     private void btnAddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseReleased
         this.addCliente();
     }//GEN-LAST:event_btnAddMouseReleased
-
+    
+    /**
+     * Permite carregar um arquivo externo
+     * 
+     * @param evt 
+     */
     private void btnLoadFileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadFileMouseReleased
         JFileChooser chooser = new JFileChooser();
         int status = chooser.showSaveDialog(null);
@@ -344,12 +353,12 @@ public class jPanelClientes extends javax.swing.JPanel {
              this.jTextFile.setText( String.format( "Dados extraidos do arquivo: %s" , outfile.getPath()) );
         }
     }//GEN-LAST:event_btnLoadFileMouseReleased
-
-    private void btnOdernarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOdernarMouseReleased
-        TableModel model = this.tableClientes.getModel();
-        this.tableClientes.getSelectedRow();
-    }//GEN-LAST:event_btnOdernarMouseReleased
-
+    
+    /**
+     * Remove o cliente selecionado na lista
+     * 
+     * @param evt 
+     */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = this.tableClientes.getSelectedRow();
                 
@@ -370,18 +379,20 @@ public class jPanelClientes extends javax.swing.JPanel {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
             }
-           this.loadItems();
+           
+            this.loadItems();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void btnOdernarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdernarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnOdernarActionPerformed
-
+    
+   
+    /**
+     * Ao clicar na linha de registro, atualiza os campos com os detalhes
+     * 
+     * @param evt 
+     */
     private void tableClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientesMouseReleased
         int row = this.tableClientes.getSelectedRow();
         long ID = (long) this.tableClientes.getModel().getValueAt(row, 0);
-        String item = (String) this.tableClientes.getModel().getValueAt(row, 1);
         Cliente cli = new Cliente();
         try {
             Cliente c = (Cliente) cli.findByID(ID);
@@ -394,6 +405,17 @@ public class jPanelClientes extends javax.swing.JPanel {
             Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tableClientesMouseReleased
+    
+    /**
+     * Atualiza os campos de detalhes ao pressionar as teclas "Para cima" ou "Para baixo"
+     * 
+     * @param evt 
+     */
+    private void tableClientesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableClientesKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.tableClientesMouseReleased(null);
+        }
+    }//GEN-LAST:event_tableClientesKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
