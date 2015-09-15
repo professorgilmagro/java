@@ -60,7 +60,19 @@ public class util {
      * @return String
      */
     public static String showInput(String message) {
-        return (String) JOptionPane.showInputDialog(message);
+        return util.showInput(message, TITLE_DEFAULT);
+    }
+    
+    /**
+     * Exibe uma mensagem do tipo input na tela
+     * 
+     * @param message   Mensagem a ser exibida
+     * @param title     Título do dialog
+     * 
+     * @return String
+     */
+    public static String showInput(String message, String title) {
+        return (String) JOptionPane.showInputDialog(null, message, title, JOptionPane.PLAIN_MESSAGE);
     }
     
     /**

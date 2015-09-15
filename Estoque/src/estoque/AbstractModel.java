@@ -58,9 +58,18 @@ abstract class AbstractModel implements Serializable, IOModelInterface {
         if(this.getID() == 0){
             Long max = this.getMaxID();
             this.setID( ++max );
+            objects.add(this);
         }
-        
-        objects.add(this);
+        else{
+            // entende que já existe e deve ser editado
+            for (int i = 0; i < objects.size(); i++) {
+                AbstractModel obj = (AbstractModel) objects.get(i);
+                if ( obj.getID() == this.getID() ) {
+                    objects.set(i, this);
+                    break;
+                }
+            }
+        }
                 
         FileOutputStream fos = new FileOutputStream(this.getFileName());
         ObjectOutputStream obs = new ObjectOutputStream(fos);

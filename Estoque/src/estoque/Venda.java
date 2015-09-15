@@ -5,10 +5,13 @@
 package estoque;
 
 import estoque.forms.MainScreen;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.table.TableModel;
 import java.util.logging.Level;
@@ -23,9 +26,8 @@ import javax.swing.table.DefaultTableModel;
 public class Venda extends AbstractModel{
     
     private long codigo;
-    private long clienteID;
+    private long clienteID = 0;
     private String enderecoEntrega;
-    private String descricao;
     private Date dataVenda;
     private List itens;
     private String obs;
@@ -163,5 +165,77 @@ public class Venda extends AbstractModel{
         }
         
         return model;
+    }
+    
+    /**
+     * Prepara os itens e retorna o model para renderização em tabela
+     * 
+     * @return DefaultTableModel
+     */
+    public DefaultTableModel getModelItems(){
+        DefaultTableModel model = new DefaultTableModel();
+        
+        model.addColumn("Código");
+        model.addColumn("Produto");
+        model.addColumn("Descrição");
+        model.addColumn("Valor unitário");
+        model.addColumn("Quantidade");
+        model.addColumn("Subtotal");
+        
+        for (Iterator iterator = this.getItens().iterator(); iterator.hasNext();) {
+            Object[] dataRow = (Object[]) iterator.next();
+            model.addRow(dataRow);
+        }
+
+        return model;
+    }
+    
+    /**
+     * Retorna o valor total do pedido
+     * 
+     * @return 
+     */
+    public Double getTotal(){
+        Double total = 0.0 ;
+        
+        for (Iterator iterator = this.getItens().iterator(); iterator.hasNext();) {
+            Object[] row = (Object[]) iterator.next();
+            total += Double.parseDouble(row[5].toString());
+        }
+        
+        return total + this.getValorFrete() - this.getDescontos() ;
+    }
+    
+    /**
+     * Sobrescrito para implementação da baixa de estoque
+     * 
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws ClassNotFoundException 
+     */
+    @Override
+    public void save() throws IOException, FileNotFoundException, ClassNotFoundException{
+        super.save();
+        this._baixaEstoque();
+    }
+    
+     /**
+     * Efetua a baixa no estoque para os produtos vendidos
+     */
+    private void _baixaEstoque() throws IOException, FileNotFoundException, ClassNotFoundException{
+        
+        for (Iterator iterator = this.getItens().iterator(); iterator.hasNext();) {
+            Object[] row = (Object[]) iterator.next();
+            Long produtoID = Long.parseLong(row[0].toString());
+            int qtde = Integer.parseInt(row[4].toString());
+            
+            Produto prod = new Produto();
+            Produto p = (Produto) prod.findByID(produtoID);
+            
+            int estoque = p.getSaldoEstoque();
+            util.showMessage(String.format("%d - %d = %d", estoque, qtde, estoque - qtde));
+            p.setSaldoEstoque(estoque - qtde);
+            p.save();
+        }
     }
 } 

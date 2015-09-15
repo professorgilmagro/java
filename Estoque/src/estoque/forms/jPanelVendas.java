@@ -64,7 +64,12 @@ public class jPanelVendas extends javax.swing.JPanel{
      * Carrega os dados referentes à um novo pedido
      */
     public void novoPedido() {
-       String code = util.showInput("Digite o código do cliente");
+        String code = util.showInput("Digite o código do cliente");
+        
+        if(code == null){
+            return;
+        }
+        
         if( this.loadCliente(Long.parseLong(code))){
             DefaultTableModel model = new DefaultTableModel();
             for (int i = 0; i < this.tableItems.getColumnCount(); i++) {
@@ -81,6 +86,11 @@ public class jPanelVendas extends javax.swing.JPanel{
                     break;
                 }
             }
+            
+            this.btnAddItem.setEnabled(true);
+            this.btnDelete.setEnabled(true);
+            this.btnFinalizarPedido.setEnabled(true);
+            this.btnAlterarEndereco.setEnabled(true);
         }
     }
     
@@ -95,7 +105,7 @@ public class jPanelVendas extends javax.swing.JPanel{
            
            Cliente cli = (Cliente) new Cliente().findByID(ID);
            if( cli == null ){
-               util.showMessage("Cliente não localizado.", JOptionPane.WARNING_MESSAGE);
+               util.showMessage("Cliente não cadastrado no sistema.", JOptionPane.WARNING_MESSAGE);
                this.jLabelNome.setText("Nome do cliente");
                this.jLabelCPF.setText("CPF");
                this.jLabelEmail.setText("E-mail");
@@ -108,7 +118,7 @@ public class jPanelVendas extends javax.swing.JPanel{
            this.jLabelCPF.setText(cli.getFormatCPF());
            this.jLabelEmail.setText(cli.getEmail());
            this.jLabelEndereco.setText(cli.getEndereco());
-        } catch (IOException ex) {
+        } catch (Exception ex) {
            util.showMessage("Cliente não localizado.", JOptionPane.WARNING_MESSAGE);
            return false ;
         }
@@ -122,13 +132,17 @@ public class jPanelVendas extends javax.swing.JPanel{
     public void addItem(){
         DefaultTableModel model = (DefaultTableModel) this.tableItems.getModel();
         String code = util.showInput("Digite o código do produto.");
-        String qtde = util.showInput("Digite a quantidade.");
+        
         Double total = util.convertCurrencyToDouble(this.jLabelTotal.getText());
+        if(code == null) return;
         
         try {
             Produto produto = new Produto();
             Produto p = (Produto) produto.findByID(Long.parseLong(code));
             
+            String qtde = util.showInput("Digite a quantidade.", p.getNome());
+            if(qtde == null) return;
+             
             if (p.getSaldoEstoque() < Integer.parseInt(qtde)) {
                 String message = String.format(
                         "Estoque insuficiente para a quantidade informada. Saldo atual: %s.", 
@@ -171,8 +185,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         tableItems = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        btnLoadFile = new javax.swing.JButton();
+        btnLoadOrder = new javax.swing.JButton();
         jPanelDetalhes = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabelEndereco = new javax.swing.JLabel();
@@ -180,12 +193,15 @@ public class jPanelVendas extends javax.swing.JPanel{
         jLabelCPF = new javax.swing.JLabel();
         jLabelEmail = new javax.swing.JLabel();
         jLabelIcon = new javax.swing.JLabel();
+        jLabelCodigoPedido = new javax.swing.JLabel();
+        jLabelData = new javax.swing.JLabel();
         jLabelTotal = new javax.swing.JLabel();
-        btnLoadFile1 = new javax.swing.JButton();
+        btnAlterarEndereco = new javax.swing.JButton();
         btnAddItem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextObs = new javax.swing.JTextPane();
         btnFinalizarPedido = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -237,22 +253,17 @@ public class jPanelVendas extends javax.swing.JPanel{
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Controle de Vendas");
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        btnLoadFile.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
-        btnLoadFile.setText("Carregar venda...");
-        btnLoadFile.setToolTipText("");
-        btnLoadFile.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnLoadOrder.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnLoadOrder.setText("Carregar venda...");
+        btnLoadOrder.setToolTipText("");
+        btnLoadOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnLoadFileMouseReleased(evt);
+                btnLoadOrderMouseReleased(evt);
             }
         });
-        btnLoadFile.addActionListener(new java.awt.event.ActionListener() {
+        btnLoadOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoadFileActionPerformed(evt);
+                btnLoadOrderActionPerformed(evt);
             }
         });
 
@@ -275,6 +286,18 @@ public class jPanelVendas extends javax.swing.JPanel{
 
         jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/estoque/forms/icon-venda.png"))); // NOI18N
 
+        jLabelCodigoPedido.setFont(new java.awt.Font("Noto Sans", 1, 36)); // NOI18N
+        jLabelCodigoPedido.setForeground(new java.awt.Color(74, 86, 142));
+        jLabelCodigoPedido.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelCodigoPedido.setText("Nº 0000");
+        jLabelCodigoPedido.setToolTipText("");
+
+        jLabelData.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        jLabelData.setForeground(new java.awt.Color(83, 106, 253));
+        jLabelData.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelData.setText("-");
+        jLabelData.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanelDetalhesLayout = new javax.swing.GroupLayout(jPanelDetalhes);
         jPanelDetalhes.setLayout(jPanelDetalhesLayout);
         jPanelDetalhesLayout.setHorizontalGroup(
@@ -286,10 +309,17 @@ public class jPanelVendas extends javax.swing.JPanel{
                         .addComponent(jLabelIcon)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
+                                .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelCodigoPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
+                                .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
+                                .addComponent(jLabelCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelData, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -305,9 +335,13 @@ public class jPanelVendas extends javax.swing.JPanel{
                 .addContainerGap()
                 .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                        .addComponent(jLabelNome)
+                        .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelNome)
+                            .addComponent(jLabelCodigoPedido))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelCPF)
+                        .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelCPF)
+                            .addComponent(jLabelData))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelEmail))
                     .addComponent(jLabelIcon))
@@ -322,18 +356,18 @@ public class jPanelVendas extends javax.swing.JPanel{
         jLabelTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelTotal.setText("R$ 0,00");
 
-        btnLoadFile1.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
-        btnLoadFile1.setMnemonic('e');
-        btnLoadFile1.setText("Alterar endereço de entrega");
-        btnLoadFile1.setToolTipText("");
-        btnLoadFile1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnAlterarEndereco.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnAlterarEndereco.setMnemonic('e');
+        btnAlterarEndereco.setText("Alterar endereço de entrega");
+        btnAlterarEndereco.setToolTipText("");
+        btnAlterarEndereco.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnLoadFile1MouseReleased(evt);
+                btnAlterarEnderecoMouseReleased(evt);
             }
         });
-        btnLoadFile1.addActionListener(new java.awt.event.ActionListener() {
+        btnAlterarEndereco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoadFile1ActionPerformed(evt);
+                btnAlterarEnderecoActionPerformed(evt);
             }
         });
 
@@ -359,46 +393,47 @@ public class jPanelVendas extends javax.swing.JPanel{
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Controle de Vendas");
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jPanelDetalhes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(327, 327, 327)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jPanelDetalhes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddItem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDelete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLoadFile)
+                        .addComponent(btnLoadOrder)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLoadFile1)
+                        .addComponent(btnAlterarEndereco)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnFinalizarPedido)))
+                        .addComponent(btnFinalizarPedido))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
                 .addGap(9, 9, 9)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -406,62 +441,63 @@ public class jPanelVendas extends javax.swing.JPanel{
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdd)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnDelete)
-                        .addComponent(btnLoadFile)
-                        .addComponent(btnLoadFile1)
+                        .addComponent(btnLoadOrder)
+                        .addComponent(btnAlterarEndereco)
                         .addComponent(btnAddItem)
                         .addComponent(btnFinalizarPedido)))
                 .addContainerGap())
         );
 
-        btnLoadFile.getAccessibleContext().setAccessibleName("");
+        btnLoadOrder.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLoadFileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadFileMouseReleased
-        JFileChooser chooser = new JFileChooser();
-        int status = chooser.showSaveDialog(null);
-        if (status == JFileChooser.APPROVE_OPTION) {
-            File outfile = chooser.getSelectedFile();
-        }
-    }//GEN-LAST:event_btnLoadFileMouseReleased
+    private void btnLoadOrderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadOrderMouseReleased
+    }//GEN-LAST:event_btnLoadOrderMouseReleased
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         this.removeItem();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    public void fillCliente(){
-        int row = this.tableItems.getSelectedRow();
-        long ID = (long) this.tableItems.getModel().getValueAt(row, 0);
-        String item = (String) this.tableItems.getModel().getValueAt(row, 1);
-        Cliente cli = new Cliente();
-        try {
-            Cliente c = (Cliente) cli.findByID(ID);
-            this.jLabelCPF.setText("CPF: " + c.getFormatCPF());
-            this.jLabelNome.setText(c.getFullName());
-            this.jLabelEmail.setText("E-mail: " + c.getEmail());
-            this.jLabelEndereco.setText(c.getEndereco());
-        } catch (IOException ex) {
-            Logger.getLogger(jPanelVendas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
     private void tableItemsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableItemsMouseReleased
         
     }//GEN-LAST:event_tableItemsMouseReleased
 
-    private void btnLoadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLoadFileActionPerformed
+    private void btnLoadOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadOrderActionPerformed
+        String orderID = util.showInput("Digite o código do pedido.");
+        Venda order = new Venda();
+        try {
+            Venda pedido = (Venda) order.findByID(Long.parseLong(orderID));
+            Cliente cli = pedido.getCliente();
+            
+            this.jLabelNome.setText(cli.getFullName());
+            this.jLabelEmail.setText(cli.getEmail());
+            this.jLabelCPF.setText(cli.getFormatCPF());
+            this.jTextObs.setText(pedido.getObs());
+            this.tableItems.setModel(pedido.getModelItems());
+            this.jLabelTotal.setText(util.convertDoubleToCurrency(pedido.getTotal()));
+            this.jLabelCodigoPedido.setText(String.format("%06d", pedido.getID()));
+            this.jLabelData.setText(pedido.getFormatDataVenda());
+            
+            this.btnAddItem.setEnabled(false);
+            this.btnDelete.setEnabled(false);
+            this.btnFinalizarPedido.setEnabled(false);
+            this.btnAlterarEndereco.setEnabled(false);
+        } catch (Exception ex) {
+            util.showMessage("Pedido não encontrado.", JOptionPane.WARNING_MESSAGE);
+        }
+         
+    }//GEN-LAST:event_btnLoadOrderActionPerformed
 
-    private void btnLoadFile1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadFile1MouseReleased
+    private void btnAlterarEnderecoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarEnderecoMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnLoadFile1MouseReleased
+    }//GEN-LAST:event_btnAlterarEnderecoMouseReleased
 
-    private void btnLoadFile1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFile1ActionPerformed
+    private void btnAlterarEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarEnderecoActionPerformed
         String cep = util.showInput("Digite o CEP");
         Integer numero = Integer.parseInt(util.showInput("Digite o número da residência."));
         Cliente cli = (Cliente) new Cliente();
@@ -483,7 +519,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         }
         
         this.jLabelEndereco.setText(cli.getEndereco());
-    }//GEN-LAST:event_btnLoadFile1ActionPerformed
+    }//GEN-LAST:event_btnAlterarEnderecoActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         this.novoPedido();
@@ -499,6 +535,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         v.setDataVenda(new Date());
         v.setEnderecoEntrega(this.jLabelEndereco.getText());
         v.setObs(this.jTextObs.getText());
+        this.jLabelData.setText(v.getFormatDataVenda());
         
         DefaultTableModel model = (DefaultTableModel) this.tableItems.getModel();
         
@@ -522,7 +559,8 @@ public class jPanelVendas extends javax.swing.JPanel{
         
         try {
             v.save();
-            util.showMessage("Pedido salvo com sucesso.");
+            this.jLabelCodigoPedido.setText(String.format("%06d", v.getID()));
+            util.showMessage(String.format("Pedido %s salvo com sucesso.", v.getID()));
         } catch (Exception ex) {
            util.showMessage("Houve um erro na tentativa de salvar o pedido. Tenta mais tarde.", JOptionPane.ERROR_MESSAGE );
         }
@@ -531,13 +569,15 @@ public class jPanelVendas extends javax.swing.JPanel{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddItem;
+    private javax.swing.JButton btnAlterarEndereco;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnFinalizarPedido;
-    private javax.swing.JButton btnLoadFile;
-    private javax.swing.JButton btnLoadFile1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnLoadOrder;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelCPF;
+    private javax.swing.JLabel jLabelCodigoPedido;
+    private javax.swing.JLabel jLabelData;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelEndereco;
     private javax.swing.JLabel jLabelIcon;
