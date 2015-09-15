@@ -43,8 +43,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnBuscaProduto" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnOdernar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnAddEstoque" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnAddCategoria" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -64,7 +64,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnDelProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnBuscaProduto" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnOdernar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnAddEstoque" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnAddProduto" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnAddCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -201,12 +201,15 @@
         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnLoadFileMouseReleased"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnOdernar">
+    <Component class="javax.swing.JButton" name="btnAddEstoque">
       <Properties>
-        <Property name="mnemonic" type="int" value="111"/>
+        <Property name="mnemonic" type="int" value="101"/>
+        <Property name="text" type="java.lang.String" value="Abastecer Estoque"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
-        <Property name="label" type="java.lang.String" value="Odernar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddEstoqueActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanelDetalhes2">
       <Properties>

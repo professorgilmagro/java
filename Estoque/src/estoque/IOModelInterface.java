@@ -74,4 +74,14 @@ public interface IOModelInterface {
      * @return TableModel
      */
     public TableModel getTableModel();
+    
+    /**
+     * Permite localizar um objeto a partir do ID
+     * 
+     * @param ID    Código do objeto
+     * 
+     * @return int
+     * @throws IOException 
+     */
+    public IOModelInterface findByID(long ID) throws IOException ;
 }

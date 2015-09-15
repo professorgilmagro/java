@@ -67,10 +67,20 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 }
                 
                 Categoria categoria = (Categoria) util.showOptions("Selecione a categoria.", objs.toArray(), "Categoria") ;
+                if( categoria == null ) return ;
+                
                 String nome = util.showInput("Digite o nome.");
+                 if( nome == null ) return ;
+                 
                 String descricao = util.showInput("Digite a descrição.");
-                double peso = Double.parseDouble(util.showInput("Digite o peso (kg).")) ;
-                double valor = Double.parseDouble(util.showInput("Digite o valor unitário.")) ;
+                 if( descricao == null ) return ;
+                 
+                double peso = util.convertCurrencyToDouble(util.showInput("Digite o peso (kg).")) ;
+                 if( peso == 0.00 ) return ;
+                 
+                double valor = util.convertCurrencyToDouble(util.showInput("Digite o valor unitário.")) ;
+                 if( valor == 0.00 ) return ;
+                 
                 int estoque = Integer.parseInt(util.showInput("Digite a quantidade em estoque.")) ;
                 int nivelCritico = Integer.parseInt(util.showInput("Digite o nível crítico de estoque para este produto.")) ;
 
@@ -110,7 +120,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextFile = new javax.swing.JTextPane();
         btnLoadFile = new javax.swing.JButton();
-        btnOdernar = new javax.swing.JButton();
+        btnAddEstoque = new javax.swing.JButton();
         jPanelDetalhes2 = new javax.swing.JPanel();
         jLabelDescricao = new javax.swing.JLabel();
         jLabelPreco = new javax.swing.JLabel();
@@ -199,9 +209,14 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             }
         });
 
-        btnOdernar.setMnemonic('o');
-        btnOdernar.setToolTipText("");
-        btnOdernar.setLabel("Odernar");
+        btnAddEstoque.setMnemonic('e');
+        btnAddEstoque.setText("Abastecer Estoque");
+        btnAddEstoque.setToolTipText("");
+        btnAddEstoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEstoqueActionPerformed(evt);
+            }
+        });
 
         jPanelDetalhes2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -299,8 +314,8 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscaProduto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnOdernar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAddEstoque)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddCategoria)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -316,7 +331,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDelProduto)
                     .addComponent(btnBuscaProduto)
-                    .addComponent(btnOdernar)
+                    .addComponent(btnAddEstoque)
                     .addComponent(btnAddProduto)
                     .addComponent(btnAddCategoria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
@@ -382,7 +397,8 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(jPanelProdutos.class.getName()).log(Level.SEVERE, null, ex);
             }
-           this.loadItems();
+           
+            this.loadItems();
        }
     }//GEN-LAST:event_btnDelProdutoActionPerformed
     
@@ -440,13 +456,52 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         window.setVisible(true);
     }//GEN-LAST:event_btnAddCategoriaActionPerformed
     
+    /**
+     * Gatilho para abastecimento de estoque
+     * 
+     * @param evt 
+     */
+    private void btnAddEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEstoqueActionPerformed
+       int row = this.tableProdutos.getSelectedRow();
+                
+        if(row == -1){
+            util.showMessage("Selecione um item para adicionar estoque.");
+            return;
+        }
+        
+        long ID = (long) this.tableProdutos.getModel().getValueAt(row, 0);
+        String item = (String) this.tableProdutos.getModel().getValueAt(row, 1);
+        
+        String message = String.format("Digite a quantidade desejada para adicionar ao estoque do produto '%s'", item ) ;
+        String qtde = util.showInput(message);
+        if( qtde == null) return ;
+        
+        IOModelInterface produto = new Produto();
+        try {
+            Produto p = (Produto) produto.findByID(ID);
+            p.addEstque(Integer.parseInt(qtde));
+            
+            DecimalFormat df = new DecimalFormat("#,###") ;
+            qtde = df.format(p.getSaldoEstoque());
+            message = String.format("O saldo após a adição da quantidade informada será de %s.\nConfirma a operação?", qtde);
+            if( util.showConfirm(message, "Abastecimento de estoque") ) {
+                p.save();
+                this.jLabelEstoque.setText(qtde);
+                util.showMessage("Estoque atualizado com sucesso.");
+            }
+        } catch ( Exception ex) {
+            System.out.println(ex.getMessage());
+            util.showMessage("Houve um problema na tentativa de adicionar o estoque.", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddEstoqueActionPerformed
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCategoria;
+    private javax.swing.JButton btnAddEstoque;
     private javax.swing.JButton btnAddProduto;
     private javax.swing.JButton btnBuscaProduto;
     private javax.swing.JButton btnDelProduto;
     private javax.swing.JButton btnLoadFile;
-    private javax.swing.JButton btnOdernar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCategoria;
     private javax.swing.JLabel jLabelCategoria1;

@@ -221,4 +221,13 @@ public class Produto extends AbstractModel{
         return this.getSaldoEstoque() < this.getNivelCritico() ;
     }
     
+    /**
+     * Permite adicionar novas quantidades ao estoque do objeto
+     * @param qtde  Quantidade a ser adicionada
+     */
+    public void addEstque( int qtde ) {
+       int estoqueAtual = this.getSaldoEstoque() ;
+       this.setSaldoEstoque( estoqueAtual + qtde );
+    }
+    
 } 
