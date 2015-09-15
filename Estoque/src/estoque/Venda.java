@@ -233,7 +233,6 @@ public class Venda extends AbstractModel{
             Produto p = (Produto) prod.findByID(produtoID);
             
             int estoque = p.getSaldoEstoque();
-            util.showMessage(String.format("%d - %d = %d", estoque, qtde, estoque - qtde));
             p.setSaldoEstoque(estoque - qtde);
             p.save();
         }

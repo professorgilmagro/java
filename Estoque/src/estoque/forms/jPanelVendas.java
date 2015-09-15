@@ -8,15 +8,11 @@ import estoque.Cliente;
 import estoque.Produto;
 import estoque.Venda;
 import estoque.util;
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +31,8 @@ public class jPanelVendas extends javax.swing.JPanel{
      */
     public jPanelVendas() {
         initComponents();
+        this.btnAlterarEndereco.setEnabled(false);
+        this.btnFinalizarPedido.setEnabled(false);
     }
     
     /**
@@ -564,6 +562,11 @@ public class jPanelVendas extends javax.swing.JPanel{
         } catch (Exception ex) {
            util.showMessage("Houve um erro na tentativa de salvar o pedido. Tenta mais tarde.", JOptionPane.ERROR_MESSAGE );
         }
+        
+        this.btnAddItem.setEnabled(false);
+        this.btnDelete.setEnabled(false);
+        this.btnFinalizarPedido.setEnabled(false);
+        this.btnAlterarEndereco.setEnabled(false);
     }//GEN-LAST:event_btnFinalizarPedidoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
