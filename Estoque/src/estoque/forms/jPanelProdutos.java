@@ -487,6 +487,12 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             if( util.showConfirm(message, "Abastecimento de estoque") ) {
                 p.save();
                 this.jLabelEstoque.setText(qtde);
+                jLabelEstoque.setForeground(Color.BLUE);
+                
+                if ( p.estoqueCritico() ) {
+                    jLabelEstoque.setForeground(Color.RED);
+                }
+                
                 util.showMessage("Estoque atualizado com sucesso.");
             }
         } catch ( Exception ex) {
