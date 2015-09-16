@@ -1,9 +1,9 @@
-Sistema de vendas - Programação Orientada a Objetos
-===
+Sistema de vendas
+=================
 
 Programa desenvolvido como atividade da disciplina POO - Unidade 2 a fim de colocar em prática os conceitos sobre listas, ordenamento, pesquisa
 e uso de arquivos em Java.
-O sistema em questão não utiizada banco de dados, toda as informações são guardadas e recuperadas a partir de arquivos de texto plano.
+O sistema em questão não utiizada banco de dados, toda as informações são guardadas e recuperadas a partir de arquivos de texto.
 
 Apesar de permitir o carregamento de um arquivo externo, o sistema provê de forma automática a criação e manipulaçãos dos arquivos.
 A interação com o usuário dá-se-á a partir da interface gráfica e, para tanto, foi utilizada a biblioteca Swing.
@@ -31,7 +31,6 @@ Produtos
 
 Clientes
 ---------------------------
-
 - Adicionar, remover e exibir produtos cadastrados
 - Obtenção automatizada de endereço por cep (webservice)
 - Ordernação via coluna da grade
