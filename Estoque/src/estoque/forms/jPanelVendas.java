@@ -309,7 +309,7 @@ public class jPanelVendas extends javax.swing.JPanel{
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                                 .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                                 .addComponent(jLabelCodigoPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                                 .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -543,9 +543,9 @@ public class jPanelVendas extends javax.swing.JPanel{
                model.getValueAt(i, 0),
                model.getValueAt(i, 1),
                model.getValueAt(i, 2),
-               util.convertCurrencyToDouble(model.getValueAt(i, 3).toString()),
-               Integer.parseInt(model.getValueAt(i, 4).toString()),
-               util.convertCurrencyToDouble(model.getValueAt(i, 5).toString()),
+               model.getValueAt(i, 3).toString(),
+               model.getValueAt(i, 4).toString(),
+               model.getValueAt(i, 5).toString(),
            };
           
            items.add(row);

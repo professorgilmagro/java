@@ -5,11 +5,11 @@
         <group>
             <file>file:/home/gilmar/java/Estoque/src/estoque/AbstractModel.java</file>
             <file>file:/home/gilmar/java/Estoque/src/estoque/util.java</file>
+            <file>file:/home/gilmar/java/Estoque/src/estoque/IOModelInterface.java</file>
             <file>file:/home/gilmar/java/Estoque/src/estoque/Produto.java</file>
             <file>file:/home/gilmar/java/Estoque/src/estoque/Cliente.java</file>
             <file>file:/home/gilmar/java/Estoque/src/estoque/forms/jPanelVendas.java</file>
-            <file>file:/home/gilmar/java/Estoque/src/estoque/forms/jPanelClientes.java</file>
-            <file>file:/home/gilmar/java/Estoque/src/estoque/forms/jPanelProdutos.java</file>
+            <file>file:/home/gilmar/java/Estoque/src/estoque/Venda.java</file>
         </group>
     </open-files>
 </project-private>

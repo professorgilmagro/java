@@ -200,7 +200,7 @@ public class Venda extends AbstractModel{
         
         for (Iterator iterator = this.getItens().iterator(); iterator.hasNext();) {
             Object[] row = (Object[]) iterator.next();
-            total += Double.parseDouble(row[5].toString());
+            total += util.convertCurrencyToDouble(row[5].toString());
         }
         
         return total + this.getValorFrete() - this.getDescontos() ;
