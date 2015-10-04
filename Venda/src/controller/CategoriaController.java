@@ -6,24 +6,25 @@ package controller;
 import dao.ModelInterface;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import model.Categoria;
 import model.Util;
 import view.MainScreen;
 import view.jPanelCategorias;
 
 /**
- *
+ * Controller para Manutenção de Categorias de Produtos
+ * 
  * @author gilmar
  */
 public class CategoriaController extends GenericController{
-
+    
+    /**
+     * Ao ser instanciado, define o Model padrão para o controlador
+     */
     public CategoriaController() {
         Categoria cat = new Categoria();
         super.setModel(cat);
@@ -39,19 +40,30 @@ public class CategoriaController extends GenericController{
         return cc;
     }
     
+    /**
+     * Renderiza o janela em modo gráfico
+     * 
+     * @see GenericController
+     */
     @Override
     public void displayView() {
         JFrame mainFrame = new MainScreen();
         JPanel panel = new jPanelCategorias();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Categorias");
         window.setLocationRelativeTo(null);
-        window.setSize(560,480);
-        window.setLocation(mainFrame.getX() + 100, mainFrame.getY() + 100);
+        window.setSize(800,480);
+        window.setLocation(mainFrame.getX(), mainFrame.getY() + 100);
         window.setVisible(true);
     }
-        
+    
+    /**
+     * Retorna o modelo para renderização da tabela na tela
+     * 
+     * @see GenericController
+     * @return DefaultTableModel
+     */
     @Override
-    public TableModel getTableModel(){
+    public DefaultTableModel getTableModel(){
         DefaultTableModel model = new DefaultTableModel();
                      
         model.addColumn("Código");
@@ -60,7 +72,7 @@ public class CategoriaController extends GenericController{
         
         try {
             ModelInterface cat = this.getObjModel();
-            List <ModelInterface> categorias = cat.getAll() ;
+            List <ModelInterface> categorias = cat.fetchAll() ;
             for (ModelInterface item : categorias) {
                 Categoria c = (Categoria) item ;
                 Object[] data = {
@@ -72,12 +84,17 @@ public class CategoriaController extends GenericController{
                 model.addRow(data);
             }
         } catch (IOException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         
         return model;
     }
     
+    /**
+     * Ação para criação de uma nova categoria
+     * 
+     * @return boolean
+     */
     public boolean create() {
         try {
             String nome = Util.showInput("Digite o nome.");
@@ -96,6 +113,4 @@ public class CategoriaController extends GenericController{
         
         return true;
     }
-    
-   
 }

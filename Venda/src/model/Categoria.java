@@ -9,7 +9,7 @@ package model;
  * 
  * @author gilmar <gilmar.santos@grupofolha.com.br>
  */
-public class Categoria extends AbstractModel{
+public class Categoria extends GenericModel{
     
     private long codigo;
     private String nome;

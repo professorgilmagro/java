@@ -54,7 +54,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         while (true) {
             try {
                 Categoria cat = new Categoria();
-                List objs = cat.getAll();
+                List objs = cat.fetchAll();
                 
                 if( objs.isEmpty() ) {
                     Util.showMessage(

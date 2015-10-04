@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author gilmar <gilmar.santos@grupofolha.com.br>
  */
-public class Venda extends AbstractModel{
+public class Venda extends GenericModel{
     
     private long codigo;
     private long clienteID = 0;
@@ -148,7 +148,7 @@ public class Venda extends AbstractModel{
         model.addColumn("Descrição");
         
         try {
-            List produtos = this.getAll();
+            List produtos = this.fetchAll();
             for (Object item : produtos) {
                 Venda prod = (Venda) item;
                 Object[] data = {

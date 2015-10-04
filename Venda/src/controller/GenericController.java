@@ -4,8 +4,19 @@
 package controller;
 
 import dao.ModelInterface;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
+import javax.swing.table.DefaultTableModel;
 import model.Util;
 
 /**
@@ -57,7 +68,7 @@ abstract class GenericController {
      * 
      * @return TableModel
      */
-    abstract public TableModel getTableModel();
+    abstract public DefaultTableModel getTableModel();
     
     public int remove( JTable table ) {
        int row = table.getSelectedRow();
@@ -91,10 +102,54 @@ abstract class GenericController {
      */
     public ModelInterface search() {
        String search = Util.showInput("Entre com o código ou nome a ser procurado");
+       if( search == null ) return this.getObjModel();
+       
        if ( Util.isNumeric(search) ) {
            return this.getObjModel().findBy(Long.parseLong(search));
        }
        
        return this.getObjModel().findBy(search);
+    }
+    
+    /**
+     * Permite salvar os dados em outro lugar (Backup)
+     */
+    public void saveToFile(){
+        JFileChooser chooser = new JFileChooser();
+        int status = chooser.showSaveDialog(null);
+        if (status == JFileChooser.APPROVE_OPTION) {
+            File source = new File(this.getObjModel().getFileName());
+            File dest = chooser.getSelectedFile() ;
+ 
+            try {
+                Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                Logger.getLogger(GenericController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            Util.showMessage(String.format( "Dados salvo com sucesso em: %s" , dest.getPath()));
+        }
+    }
+    
+    /**
+     * Permite carregar os dados a partir de outro arquivo
+     */
+     public void loadFromFile(JLabel fileStatus){
+        JFileChooser chooser = new JFileChooser();
+        int status = chooser.showOpenDialog(null);
+        if (status == JFileChooser.APPROVE_OPTION) {
+            File source = chooser.getSelectedFile();
+            
+            try {
+                FileInputStream inFile = new FileInputStream(source);
+                ObjectInputStream objectInputStream = new ObjectInputStream(inFile);
+            } catch (Exception ex) {
+                Util.showMessage("O arquivo informado é inválido!", "Inválido", JOptionPane.ERROR_MESSAGE);
+                return ;
+            }
+            
+            this.getObjModel().setFilename(source.getPath());
+            fileStatus.setText(String.format( "Dados salvo com sucesso em: %s" , source.getPath()));
+        }
     }
 }

@@ -16,9 +16,11 @@ import java.util.logging.Logger;
  * 
  * @author gilmar
  */
-abstract class AbstractModel implements Serializable, Comparable, ModelInterface {
+abstract class GenericModel implements Serializable, Comparable, ModelInterface {
     
     final protected String STORAGE_DIR = "storage/" ;
+    
+    private String filename = null ;
     
     /**
      * Retorna todos os objetos de um determinado model a partir do arquivo
@@ -28,18 +30,18 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
      * @throws IOException 
      */
     @Override
-    public List getAll() throws FileNotFoundException, IOException {
-        List<AbstractModel> items = new ArrayList<>();
+    public List fetchAll() throws FileNotFoundException, IOException {
+        List<GenericModel> items = new ArrayList<>();
         File file = new File(this.getFileName());
        
         if ( file.exists() ) {
-            FileInputStream inFile = new FileInputStream(file);
-            ObjectInputStream objStream = new ObjectInputStream(inFile);
-            
             try {
-              List objs = (List<AbstractModel>) objStream.readObject(); 
-                for (Object obj : objs) {
-                    items.add( (AbstractModel) obj );
+                FileInputStream inFile = new FileInputStream(file);
+                ObjectInputStream objStream = new ObjectInputStream(inFile);
+                List objs = (List<GenericModel>) objStream.readObject();
+                
+                for(Object obj : objs) {
+                    items.add((GenericModel) obj );
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -58,7 +60,7 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
      */    
     @Override
     public void save() throws FileNotFoundException, IOException, ClassNotFoundException {
-        List objects = this.getAll();
+        List objects = this.fetchAll();
         
         if(this.hashCode()== 0){
             Long max = this.getMaxID();
@@ -68,7 +70,7 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
         else{
             // entende que já existe e deve ser editado
             for (int i = 0; i < objects.size(); i++) {
-                AbstractModel obj = (AbstractModel) objects.get(i);
+                GenericModel obj = (GenericModel) objects.get(i);
                 if ( obj.hashCode()== this.hashCode() ) {
                     objects.set(i, this);
                     break;
@@ -85,7 +87,7 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
     
     @Override
     public void remove() throws FileNotFoundException, IOException, ClassNotFoundException {
-        List <ModelInterface> objects = this.getAll();
+        List <ModelInterface> objects = this.fetchAll();
         
         Boolean found = false ;
         for (int i = 0; objects.size() < 10; i++) {
@@ -110,7 +112,7 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
     public long getMaxID(){
         long max = 0;
         try {
-            List objects = this.getAll();
+            List objects = this.fetchAll();
             for (Object object : objects) {
                 ModelInterface model = (ModelInterface) object;
                 if(model.hashCode() > max){
@@ -154,10 +156,14 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
      */
     @Override
     public String getFileName() {
-        return String.format(
+        if ( this.filename == null ) {
+            this.filename = String.format(
                 "%s%s.dat", this.getStorageDir(), 
-                this.getClass().getName().replace("estoque.", "").toLowerCase()
-        );
+                this.getClass().getName().replace("model.", "").toLowerCase() 
+            );
+        }
+        
+        return this.filename ;
     }
     
     /**
@@ -169,7 +175,7 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
      */
     public ModelInterface findBy(long ID) {
         try {
-            List objects = this.getAll();
+            List objects = this.fetchAll();
             
             for (Object object : objects) {
                 ModelInterface model = (ModelInterface) object;
@@ -178,7 +184,7 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(AbstractModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         this.setID(0);
@@ -195,7 +201,7 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
     @Override
     public ModelInterface findBy(String name) {
         try {
-            List objects = this.getAll();
+            List objects = this.fetchAll();
             
             for (Object object : objects) {
                 ModelInterface model = (ModelInterface) object;
@@ -204,7 +210,7 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(AbstractModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         this.setID(0);
@@ -220,7 +226,7 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
      */
     @Override
     public int compareTo(Object o) {
-        AbstractModel obj = (AbstractModel) o ;
+        GenericModel obj = (GenericModel) o ;
         if (this.hashCode()< obj.hashCode()) {
             return -1;
         }
@@ -231,5 +237,15 @@ abstract class AbstractModel implements Serializable, Comparable, ModelInterface
         
         assert this.hashCode() > obj.hashCode();
         return 1;
+    }
+    
+    /**
+     * Permite associar uma outra origem para o arquivo
+     * 
+     * @param filename 
+     */
+    @Override
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

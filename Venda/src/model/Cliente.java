@@ -24,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author gilmar <gilmar.santos@grupofolha.com.br>
  */
-public class Cliente extends AbstractModel{
+public class Cliente extends GenericModel{
     
     private long Codigo;
     private String Nome, Sobrenome ;
@@ -216,7 +216,7 @@ public class Cliente extends AbstractModel{
         
         SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            List clientes = this.getAll();
+            List clientes = this.fetchAll();
             for (Object item : clientes) {
                 Cliente cli = (Cliente) item;
                 Object[] data = {

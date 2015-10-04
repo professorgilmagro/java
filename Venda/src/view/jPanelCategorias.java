@@ -6,8 +6,6 @@
 package view;
 
 import controller.CategoriaController;
-import java.io.File;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -36,7 +34,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         this.tableCategoria.setModel(model);
         this.tableCategoria.setAutoCreateRowSorter(true);
         this.tableCategoria.enableInputMethods(false);
-        this.jTextFile.setText(String.format("Arquivo: %s" , this.controller.getObjModel().getFileName()));
+        this.lblSource.setText(String.format("Arquivo: %s" , this.controller.getObjModel().getFileName()));
     }
     
     
@@ -56,10 +54,10 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         btnDelCategoria = new javax.swing.JButton();
         btnBuscaCategoria = new javax.swing.JButton();
         jLabelTitulo = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextFile = new javax.swing.JTextPane();
         btnLoadFile = new javax.swing.JButton();
         btnReload = new javax.swing.JButton();
+        btnSaveToFile = new javax.swing.JButton();
+        lblSource = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(560, 480));
 
@@ -91,8 +89,9 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         tableCategoria.setName(""); // NOI18N
         jScrollPane2.setViewportView(tableCategoria);
 
-        btnAddCategoria.setMnemonic('a');
-        btnAddCategoria.setText("Adicionar");
+        btnAddCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/add.png"))); // NOI18N
+        btnAddCategoria.setMnemonic('n');
+        btnAddCategoria.setText("Novo");
         btnAddCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 btnAddCategoriaMouseReleased(evt);
@@ -104,6 +103,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
+        btnDelCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/delete.png"))); // NOI18N
         btnDelCategoria.setMnemonic('x');
         btnDelCategoria.setText("Excluir");
         btnDelCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -112,6 +112,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
+        btnBuscaCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/search.png"))); // NOI18N
         btnBuscaCategoria.setMnemonic('l');
         btnBuscaCategoria.setText("Localizar");
         btnBuscaCategoria.setToolTipText("");
@@ -130,19 +131,22 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         jLabelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTitulo.setText("Categoria de Produtos");
 
-        jTextFile.setBackground(new java.awt.Color(254, 240, 156));
-        jTextFile.setText("Dados oriundos do arquivo:");
-        jScrollPane1.setViewportView(jTextFile);
-
+        btnLoadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/load-from-file.png"))); // NOI18N
         btnLoadFile.setMnemonic('c');
+        btnLoadFile.setText("Carregar do arquivo...");
         btnLoadFile.setToolTipText("");
-        btnLoadFile.setLabel("Carregar arquivo...");
         btnLoadFile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 btnLoadFileMouseReleased(evt);
             }
         });
+        btnLoadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadFileActionPerformed(evt);
+            }
+        });
 
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/refresh-icon.gif"))); // NOI18N
         btnReload.setMnemonic('r');
         btnReload.setText("Recarregar");
         btnReload.setToolTipText("");
@@ -159,6 +163,28 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
+        btnSaveToFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/save-on-file.png"))); // NOI18N
+        btnSaveToFile.setMnemonic('s');
+        btnSaveToFile.setText("Salvar em arquivo...");
+        btnSaveToFile.setToolTipText("");
+        btnSaveToFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSaveToFileMouseReleased(evt);
+            }
+        });
+        btnSaveToFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveToFileActionPerformed(evt);
+            }
+        });
+
+        lblSource.setBackground(new java.awt.Color(248, 248, 193));
+        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/refresh-icon.gif"))); // NOI18N
+        lblSource.setText("Dados oriundos do arquivo:");
+        lblSource.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 203, 111), 1, true));
+        lblSource.setIconTextGap(5);
+        lblSource.setOpaque(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -166,22 +192,24 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnAddCategoria)
-                                .addGap(6, 6, 6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDelCategoria)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBuscaCategoria)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnReload, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                                .addComponent(btnReload)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLoadFile))
-                            .addComponent(jLabelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                                .addComponent(btnLoadFile)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSaveToFile))
+                            .addComponent(lblSource, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -192,16 +220,16 @@ public final class jPanelCategorias extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddCategoria)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnDelCategoria)
-                        .addComponent(btnBuscaCategoria)
-                        .addComponent(btnLoadFile)
-                        .addComponent(btnReload)))
+                    .addComponent(btnDelCategoria)
+                    .addComponent(btnBuscaCategoria)
+                    .addComponent(btnReload)
+                    .addComponent(btnLoadFile)
+                    .addComponent(btnSaveToFile))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(108, Short.MAX_VALUE))
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");
@@ -228,12 +256,6 @@ public final class jPanelCategorias extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddCategoriaMouseReleased
 
     private void btnLoadFileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadFileMouseReleased
-        JFileChooser chooser = new JFileChooser();
-        int status = chooser.showSaveDialog(null);
-        if (status == JFileChooser.APPROVE_OPTION) {
-            File outfile = chooser.getSelectedFile();
-            this.jTextFile.setText(String.format( "Dados extraidos do arquivo: %s" , outfile.getPath()));
-        }
     }//GEN-LAST:event_btnLoadFileMouseReleased
 
     private void btnDelCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelCategoriaActionPerformed
@@ -281,6 +303,19 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         this.btnReload.setEnabled(false);
     }//GEN-LAST:event_btnReloadActionPerformed
 
+    private void btnSaveToFileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveToFileMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSaveToFileMouseReleased
+
+    private void btnLoadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFileActionPerformed
+        this.controller.loadFromFile(this.lblSource);
+        this.loadItems();
+    }//GEN-LAST:event_btnLoadFileActionPerformed
+
+    private void btnSaveToFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveToFileActionPerformed
+       this.controller.saveToFile();
+    }//GEN-LAST:event_btnSaveToFileActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCategoria;
@@ -288,10 +323,10 @@ public final class jPanelCategorias extends javax.swing.JPanel {
     private javax.swing.JButton btnDelCategoria;
     private javax.swing.JButton btnLoadFile;
     private javax.swing.JButton btnReload;
+    private javax.swing.JButton btnSaveToFile;
     private javax.swing.JLabel jLabelTitulo;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextFile;
+    private javax.swing.JLabel lblSource;
     private javax.swing.JTable tableCategoria;
     // End of variables declaration//GEN-END:variables
 }

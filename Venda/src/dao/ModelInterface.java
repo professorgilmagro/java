@@ -21,7 +21,7 @@ public interface ModelInterface {
      * @return List
      * @throws java.io.FileNotFoundException
      */
-     public List getAll() throws FileNotFoundException, IOException;
+     public List fetchAll() throws FileNotFoundException, IOException;
     
      /**
      * Salva os dados do objeto
@@ -65,6 +65,13 @@ public interface ModelInterface {
      * @return String
      */
     public String getFileName() ;
+    
+     /**
+     * Permite associar uma outra origem para o arquivo
+     * 
+     * @param filename
+     */
+    public void setFilename(String filename);
     
     /**
      * Permite localizar um objeto a partir do ID
