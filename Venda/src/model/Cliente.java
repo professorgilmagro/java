@@ -17,19 +17,19 @@ import java.util.regex.Pattern;
  */
 public class Cliente extends GenericModel{
     
-    private long Codigo;
-    private String Nome, Sobrenome ;
-    private Date DataNascimento;
-    private String Sexo;
-    private Long CPF;
-    private Long CEP;
-    private String Telefone;
-    private String Logadouro;
-    private String Estado;
-    private String Cidade;
-    private String Bairro;
-    private String Email;  
-    private int Numero ;
+    private long codigo;
+    private String nome, Sobrenome ;
+    private Date dataNascimento;
+    private String sexo;
+    private Long cpf;
+    private Long cep;
+    private String telefone;
+    private String logadouro;
+    private String estado;
+    private String cidade;
+    private String bairro;
+    private String email;  
+    private int numero ;
     
     private final String SEXO_M = "M";
     private final String SEXO_F = "F";
@@ -50,10 +50,7 @@ public class Cliente extends GenericModel{
             return false;
         }
         final Cliente other = (Cliente) obj;
-        if (this.Codigo != other.Codigo) {
-            return false;
-        }
-        return true;
+        return this.codigo == other.codigo;
     }
 
     /**
@@ -61,14 +58,14 @@ public class Cliente extends GenericModel{
      * 
      * @param Nome          
      * @param Sobrenome
-     * @param CPF
-     * @param CEP
+     * @param cpf
+     * @param cep
      */
-    public Cliente(String Nome, String Sobrenome, Long CPF, Long CEP ){
-        this.Nome = Nome;
+    public Cliente(String Nome, String Sobrenome, Long cpf, Long cep ){
+        this.nome = Nome;
         this.Sobrenome = Sobrenome;
-        this.CPF = CPF;
-        this.CEP = CEP;
+        this.cpf = cpf;
+        this.cep = cep;
     }
     
     @Override
@@ -77,31 +74,31 @@ public class Cliente extends GenericModel{
     }
     
     public long getCodigo() {
-        return Codigo;
+        return codigo;
     }
 
     public void setCodigo(long Codigo) {
-        this.Codigo = Codigo;
+        this.codigo = Codigo;
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String Nome) {
-        this.Nome = Nome;
+        this.nome = Nome;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String Email) {
-        this.Email = Email;
+        this.email = Email;
     }
     
     public String getFullName(){
-        return String.format("%s %s", this.Nome, this.Sobrenome);
+        return String.format("%s %s", this.nome, this.Sobrenome);
     }
     
     public String getEndereco(){
@@ -112,83 +109,83 @@ public class Cliente extends GenericModel{
     }
  
     public Date getDataNascimento() {
-        return DataNascimento;
+        return dataNascimento;
     }
 
     public void setDataNascimento(Date DataNascimento) {
-        this.DataNascimento = DataNascimento;
+        this.dataNascimento = DataNascimento;
     }
 
     public String getSexo() {
-        return Sexo;
+        return sexo;
     }
 
     public void setSexo(String Sexo) {
-        this.Sexo = Sexo;
+        this.sexo = Sexo;
     }
 
     public Long getCPF() {
-        return CPF;
+        return cpf;
     }
 
     public void setCPF(Long CPF) {
-        this.CPF = CPF;
+        this.cpf = CPF;
     }
 
     public Long getCEP() {
-        return CEP;
+        return cep;
     }
 
     public void setCEP(Long CEP) {
-        this.CEP = CEP;
+        this.cep = CEP;
     }
 
     public String getTelefone() {
-        return Telefone;
+        return telefone;
     }
 
     public void setTelefone(String Telefone) {
-        this.Telefone = Telefone;
+        this.telefone = Telefone;
     }
 
     public String getLogadouro() {
-        return Logadouro;
+        return logadouro;
     }
 
     public void setLogadouro(String Logadouro) {
-        this.Logadouro = Logadouro;
+        this.logadouro = Logadouro;
     }
 
     public String getEstado() {
-        return Estado;
+        return estado;
     }
 
     public void setEstado(String Estado) {
-        this.Estado = Estado;
+        this.estado = Estado;
     }
 
     public String getCidade() {
-        return Cidade;
+        return cidade;
     }
 
     public void setCidade(String Cidade) {
-        this.Cidade = Cidade;
+        this.cidade = Cidade;
     }
 
     public String getBairro() {
-        return Bairro;
+        return bairro;
     }
 
     public void setBairro(String Bairro) {
-        this.Bairro = Bairro;
+        this.bairro = Bairro;
     }
 
     public int getNumero() {
-        return Numero;
+        return numero;
     }
 
     public void setNumero(int Numero) {
-        this.Numero = Numero;
+        this.numero = Numero;
     }
 
     public String getSobrenome() {

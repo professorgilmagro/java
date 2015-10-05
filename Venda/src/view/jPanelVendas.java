@@ -3,12 +3,12 @@
  */
 package view;
 
+import controller.VendaController;
 import model.CepService;
 import model.Cliente;
 import model.Produto;
 import model.Venda;
 import model.Util;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,11 +26,17 @@ public class jPanelVendas extends javax.swing.JPanel{
     
     private Long clienteID ;
     
+     /**
+     * Recebe o controlador desta view
+     */
+    private VendaController controller ;
+    
     /**
      * Creates new form jPanelProdutos
      */
     public jPanelVendas() {
         initComponents();
+        this.controller = new VendaController();
         this.btnAlterarEndereco.setEnabled(false);
         this.btnFinalizarPedido.setEnabled(false);
     }
@@ -134,40 +140,31 @@ public class jPanelVendas extends javax.swing.JPanel{
         Double total = Util.convertCurrencyToDouble(this.jLabelTotal.getText());
         if(code == null) return;
         
-        try {
-            Produto produto = new Produto();
-            Produto p = (Produto) produto.findBy(Long.parseLong(code));
-            
-            String qtde = Util.showInput("Digite a quantidade.", p.getNome());
-            if(qtde == null) return;
-             
-            if (p.getSaldoEstoque() < Integer.parseInt(qtde)) {
-                String message = String.format(
-                        "Estoque insuficiente para a quantidade informada. Saldo atual: %s.", 
-                        p.getSaldoEstoque()
-                ) ;
-                Util.showMessage(message, p.getNome(), JOptionPane.WARNING_MESSAGE);
-                return ;
-            }
-            
-            DecimalFormat df = new DecimalFormat("0.00");
-            Double subtotal = p.getValor() * Integer.parseInt(qtde);
-            total += subtotal;
-            
-            Object[] data = {
-                p.getCodigo(),
-                p.getNome(),
-                p.getDescricao(),
-                p.getFormatPrice(),
-                Integer.parseInt(qtde),
-                String.format("R$ %s", df.format(subtotal))
-            };
-            
-            model.addRow(data);
-            this.jLabelTotal.setText(String.format("R$ %s", df.format(total)));
-        } catch (IOException ex) {
-            Util.showMessage("Produto não encontrado.", JOptionPane.WARNING_MESSAGE);
+        Produto produto = new Produto();
+        Produto p = (Produto) produto.findBy(Long.parseLong(code));
+        String qtde = Util.showInput("Digite a quantidade.", p.getNome());
+        if(qtde == null) return;
+        if (p.getSaldoEstoque() < Integer.parseInt(qtde)) {
+            String message = String.format(
+                    "Estoque insuficiente para a quantidade informada. Saldo atual: %s.",
+                    p.getSaldoEstoque()
+            ) ;
+            Util.showMessage(message, p.getNome(), JOptionPane.WARNING_MESSAGE);
+            return ;
         }
+        DecimalFormat df = new DecimalFormat("0.00");
+        Double subtotal = p.getValor() * Integer.parseInt(qtde);
+        total += subtotal;
+        Object[] data = {
+            p.getCodigo(),
+            p.getNome(),
+            p.getDescricao(),
+            p.getFormatPrice(),
+            Integer.parseInt(qtde),
+            String.format("R$ %s", df.format(subtotal))
+        };
+        model.addRow(data);
+        this.jLabelTotal.setText(String.format("R$ %s", df.format(total)));
     }
 
     /**
@@ -466,20 +463,18 @@ public class jPanelVendas extends javax.swing.JPanel{
     }//GEN-LAST:event_tableItemsMouseReleased
 
     private void btnLoadOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadOrderActionPerformed
-        String orderID = Util.showInput("Digite o código do pedido.");
-        Venda order = new Venda();
         try {
-            Venda pedido = (Venda) order.findBy(Long.parseLong(orderID));
-            Cliente cli = pedido.getCliente();
+            Venda order = (Venda) this.controller.search();
+            Cliente cli = order.getCliente();
             
             this.jLabelNome.setText(cli.getFullName());
             this.jLabelEmail.setText(cli.getEmail());
             this.jLabelCPF.setText(cli.getFormatCPF());
-            this.jTextObs.setText(pedido.getObs());
-            this.tableItems.setModel(pedido.getModelItems());
-            this.jLabelTotal.setText(Util.convertDoubleToCurrency(pedido.getTotal()));
-            this.jLabelCodigoPedido.setText(String.format("%06d", pedido.hasCode()));
-            this.jLabelData.setText(pedido.getFormatDataVenda());
+            this.jTextObs.setText(order.getObs());
+            this.tableItems.setModel(this.controller.getModelItems());
+            this.jLabelTotal.setText(Util.convertDoubleToCurrency(order.getTotal()));
+            this.jLabelCodigoPedido.setText(String.format("%06d", order.hashCode()));
+            this.jLabelData.setText(order.getFormatDataVenda());
             
             this.btnAddItem.setEnabled(false);
             this.btnDelete.setEnabled(false);
@@ -557,7 +552,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         
         try {
             v.save();
-            this.jLabelCodigoPedido.setText(String.format("%06d", v.hasCode()));
+            this.jLabelCodigoPedido.setText(String.format("%06d", v.hashCode()));
         } catch (Exception ex) {
            Util.showMessage("Houve um erro na tentativa de salvar o pedido. Tenta mais tarde.", JOptionPane.ERROR_MESSAGE );
         }

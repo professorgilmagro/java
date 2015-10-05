@@ -6,6 +6,7 @@ package view;
 import controller.CategoriaController;
 import controller.ClienteController;
 import controller.ProdutoController;
+import controller.VendaController;
 import model.Util;
 import java.awt.GraphicsEnvironment;
 import javax.swing.*;
@@ -236,23 +237,12 @@ public final class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuProdCategoriaActionPerformed
 
     private void jMenuAddVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAddVendaActionPerformed
-        this.showVendas();
+        VendaController.make().displayView();
     }//GEN-LAST:event_jMenuAddVendaActionPerformed
 
     private void jMenuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSairMouseClicked
          this.dispose();
     }//GEN-LAST:event_jMenuSairMouseClicked
-    
-    /**
-     * Cria o frame e exibe a tela de Vendas
-     */
-    public void showVendas(){
-        JPanel panel = new jPanelVendas();
-        JDialog window = Util.getDefaultWindow(panel, "Controle de Vendas");
-        window.setModal(false);
-        window.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
-        window.setVisible(true);
-    }
     
     /**
      * Start do Sistema

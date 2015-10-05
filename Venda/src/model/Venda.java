@@ -4,7 +4,6 @@
  */
 package model;
 
-import view.MainScreen;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -12,10 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.swing.table.TableModel;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * Vendas
@@ -37,7 +32,28 @@ public class Venda extends GenericModel{
        
     @Override
     public String toString() {
-        return String.format("%d - %s", this.hasCode(), this.getCliente());
+        return String.format("%s - compra realizada em %s", this.getCliente() , this.getDataVenda());
+    }
+
+    @Override
+    public int hashCode() {
+       return (int) this.getCodigo();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Venda other = (Venda) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+        
+        return true;
     }
     
     /**
@@ -47,11 +63,7 @@ public class Venda extends GenericModel{
      */
     public Cliente getCliente(){
         Cliente cli = new Cliente();
-        try {
-            return (Cliente) cli.findBy(this.getClienteID());
-        } catch (IOException ex) {
-            return cli;
-        }
+        return (Cliente) cli.findBy(this.getClienteID());
     }
 
     public void setCodigo(long codigo) {
@@ -67,11 +79,6 @@ public class Venda extends GenericModel{
         return String.format("%svendas.dat" , this.getStorageDir()) ;
     }
 
-    @Override
-    public long hasCode() {
-        return this.getCodigo();
-    }
-    
     @Override
     public void setID(long ID) {
         this.setCodigo(ID);
@@ -137,56 +144,6 @@ public class Venda extends GenericModel{
 
     public void setValorFrete(Double valorFrete) {
         this.valorFrete = valorFrete;
-    }
-    
-     @Override
-    public TableModel getTableModel(){
-        DefaultTableModel model = new DefaultTableModel();
-                     
-        model.addColumn("Código");
-        model.addColumn("Nome");
-        model.addColumn("Descrição");
-        
-        try {
-            List produtos = this.fetchAll();
-            for (Object item : produtos) {
-                Venda prod = (Venda) item;
-                Object[] data = {
-                    prod.getCodigo(),
-                    prod.getCliente(),
-                    prod.getCodigo()
-                };
-                
-                model.addRow(data);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return model;
-    }
-    
-    /**
-     * Prepara os itens e retorna o model para renderização em tabela
-     * 
-     * @return DefaultTableModel
-     */
-    public DefaultTableModel getModelItems(){
-        DefaultTableModel model = new DefaultTableModel();
-        
-        model.addColumn("Código");
-        model.addColumn("Produto");
-        model.addColumn("Descrição");
-        model.addColumn("Valor unitário");
-        model.addColumn("Quantidade");
-        model.addColumn("Subtotal");
-        
-        for (Iterator iterator = this.getItens().iterator(); iterator.hasNext();) {
-            Object[] dataRow = (Object[]) iterator.next();
-            model.addRow(dataRow);
-        }
-
-        return model;
     }
     
     /**
