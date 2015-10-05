@@ -90,5 +90,4 @@ public interface ModelInterface {
      * @return ModelInterface
      */
     public ModelInterface findBy(String name) ;
-
 }

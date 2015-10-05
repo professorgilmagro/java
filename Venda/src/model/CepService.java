@@ -16,6 +16,8 @@ import org.dom4j.io.SAXReader;
  */
 public final class CepService {
     
+    private final String URL_FORMAT = "http://apps.widenet.com.br/busca-cep/api/cep/%s.xml" ;
+    
     private String Logradouro;
     private String Bairro;
     private String Cidade;
@@ -29,7 +31,7 @@ public final class CepService {
      */
     public CepService(String cep) {
         try {
-            URL url = new URL(String.format("http://apps.widenet.com.br/busca-cep/api/cep/%s.xml",cep));
+            URL url = new URL(String.format(URL_FORMAT, cep));
             Document document = getDocumento(url);
             Element root = document.getRootElement();
 
@@ -58,7 +60,7 @@ public final class CepService {
             }
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         }        
     }
 

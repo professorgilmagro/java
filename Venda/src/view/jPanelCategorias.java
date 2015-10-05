@@ -18,6 +18,9 @@ import model.Util;
  */
 public final class jPanelCategorias extends javax.swing.JPanel {
     
+    /**
+     * Recebe o controlador desta view
+     */
     private CategoriaController controller ;
 
     /**
@@ -32,6 +35,13 @@ public final class jPanelCategorias extends javax.swing.JPanel {
     public void loadItems(){
         TableModel model = this.controller.getTableModel() ;
         this.tableCategoria.setModel(model);
+        
+         if (tableCategoria.getColumnModel().getColumnCount() > 0) {
+            tableCategoria.getColumnModel().getColumn(0).setMaxWidth(100);
+            tableCategoria.getColumnModel().getColumn(1).setMinWidth(200);
+            tableCategoria.getColumnModel().getColumn(1).setMaxWidth(400);
+        }
+        
         this.tableCategoria.setAutoCreateRowSorter(true);
         this.tableCategoria.enableInputMethods(false);
         this.lblSource.setText(String.format("Arquivo: %s" , this.controller.getObjModel().getFileName()));
@@ -88,6 +98,16 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         tableCategoria.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tableCategoria.setName(""); // NOI18N
         jScrollPane2.setViewportView(tableCategoria);
+        if (tableCategoria.getColumnModel().getColumnCount() > 0) {
+            tableCategoria.getColumnModel().getColumn(0).setMinWidth(50);
+            tableCategoria.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tableCategoria.getColumnModel().getColumn(0).setMaxWidth(120);
+            tableCategoria.getColumnModel().getColumn(1).setMinWidth(200);
+            tableCategoria.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tableCategoria.getColumnModel().getColumn(1).setMaxWidth(300);
+            tableCategoria.getColumnModel().getColumn(2).setMinWidth(100);
+            tableCategoria.getColumnModel().getColumn(2).setPreferredWidth(120);
+        }
 
         btnAddCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/add.png"))); // NOI18N
         btnAddCategoria.setMnemonic('n');
@@ -103,7 +123,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
-        btnDelCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/delete.png"))); // NOI18N
+        btnDelCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/delete.png"))); // NOI18N
         btnDelCategoria.setMnemonic('x');
         btnDelCategoria.setText("Excluir");
         btnDelCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +132,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
-        btnBuscaCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/search.png"))); // NOI18N
+        btnBuscaCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/search.png"))); // NOI18N
         btnBuscaCategoria.setMnemonic('l');
         btnBuscaCategoria.setText("Localizar");
         btnBuscaCategoria.setToolTipText("");
@@ -146,7 +166,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
-        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/refresh-icon.gif"))); // NOI18N
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/refresh-icon.gif"))); // NOI18N
         btnReload.setMnemonic('r');
         btnReload.setText("Recarregar");
         btnReload.setToolTipText("");
@@ -179,7 +199,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         });
 
         lblSource.setBackground(new java.awt.Color(248, 248, 193));
-        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/refresh-icon.gif"))); // NOI18N
+        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/information-icon.png"))); // NOI18N
         lblSource.setText("Dados oriundos do arquivo:");
         lblSource.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 203, 111), 1, true));
         lblSource.setIconTextGap(5);
@@ -197,20 +217,21 @@ public final class jPanelCategorias extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAddCategoria)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnAddCategoria)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnDelCategoria)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnBuscaCategoria)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnReload))
+                                    .addComponent(lblSource, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDelCategoria)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBuscaCategoria)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnReload)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLoadFile)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSaveToFile))
-                            .addComponent(lblSource, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnLoadFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnSaveToFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 11, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,11 +246,12 @@ public final class jPanelCategorias extends javax.swing.JPanel {
                     .addComponent(btnDelCategoria)
                     .addComponent(btnBuscaCategoria)
                     .addComponent(btnReload)
-                    .addComponent(btnLoadFile)
                     .addComponent(btnSaveToFile))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLoadFile))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");

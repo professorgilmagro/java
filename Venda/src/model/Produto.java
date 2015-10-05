@@ -4,14 +4,7 @@
  */
 package model;
 
-import view.MainScreen;
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.List;
-import javax.swing.table.TableModel;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * Produto
@@ -47,6 +40,29 @@ public class Produto extends GenericModel{
         this.nome = Nome;
         this.descricao = Descricao;
         this.valor = Valor;
+    }
+    
+     @Override
+    public int hashCode() {
+        return (int) this.getCodigo();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+       
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        final Produto other = (Produto) obj;
+        if (this.codigo != other.codigo) {
+            return false;
+        }
+
+        return true;
     }
     
     @Override
@@ -97,51 +113,8 @@ public class Produto extends GenericModel{
     }
 
     @Override
-    public String getFileName() {
-        return String.format("%sprodutos.dat" , this.getStorageDir()) ;
-    }
-
-    @Override
-    public long hasCode() {
-        return this.getCodigo();
-    }
-    
-    @Override
     public void setID(long ID) {
         this.setCodigo(ID);
-    }
-    
-    @Override
-    public TableModel getTableModel(){
-        DefaultTableModel model = new DefaultTableModel();
-                     
-        model.addColumn("Código");
-        model.addColumn("Nome");
-        model.addColumn("Descrição");
-        model.addColumn("Categoria");
-        model.addColumn("Peso");
-        model.addColumn("Valor");
-        
-        try {
-            List produtos = this.fetchAll();
-            for (Object item : produtos) {
-                Produto prod = (Produto) item;
-                Object[] data = {
-                    prod.getCodigo(),
-                    prod.getNome(),
-                    prod.getDescricao(),
-                    prod.getCategoria(),
-                    prod.getPeso(),
-                    prod.getFormatPrice()
-                };
-                
-                model.addRow(data);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return model;
     }
     
     public String getFormatPrice(){
@@ -158,7 +131,7 @@ public class Produto extends GenericModel{
     }
     
     public void setCodCategoria(Categoria Cat) {
-        this.codCategoria = Cat.hasCode();
+        this.codCategoria = Cat.getCodigo();
     }
     
     /**
@@ -168,12 +141,7 @@ public class Produto extends GenericModel{
      */
     public Categoria getCategoria() {
         Categoria cat = new Categoria();
-        try {
-            return (Categoria) cat.findBy(this.getCodCategoria());
-        } catch (IOException ex) {
-            cat.setCodigo(this.getCodCategoria());
-            return cat;
-        }
+        return (Categoria) cat.findBy(this.getCodCategoria());
     }
     
     /**
@@ -229,5 +197,4 @@ public class Produto extends GenericModel{
        int estoqueAtual = this.getSaldoEstoque() ;
        this.setSaldoEstoque( estoqueAtual + qtde );
     }
-    
 } 

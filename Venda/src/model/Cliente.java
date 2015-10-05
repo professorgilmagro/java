@@ -5,19 +5,10 @@
 package model;
 
 import java.util.Date;
-import view.MainScreen;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import javax.swing.table.TableModel;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * Cliente
@@ -44,7 +35,27 @@ public class Cliente extends GenericModel{
     private final String SEXO_F = "F";
         
     public Cliente(){}
-    
+
+    @Override
+    public int hashCode() {
+       return (int) this.getCodigo();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cliente other = (Cliente) obj;
+        if (this.Codigo != other.Codigo) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Facilita a criação de um novo cliente
      * 
@@ -187,55 +198,12 @@ public class Cliente extends GenericModel{
     public void setSobrenome(String Sobrenome) {
         this.Sobrenome = Sobrenome;
     }
-
-    @Override
-    public long hasCode() {
-        return this.getCodigo();
-    }
-    
+   
     @Override
     public void setID(long ID) {
         this.setCodigo(ID);
     }
-    
-    @Override
-    public String getFileName() {
-        File file = new java.io.File("");
-        return String.format("%sclientes.dat" , this.getStorageDir()) ;
-    }
-    
-    @Override
-    public TableModel getTableModel(){
-        DefaultTableModel model = new DefaultTableModel();
-                     
-        model.addColumn("Código");
-        model.addColumn("Nome");
-        model.addColumn("Nascimento");
-        model.addColumn("Telefone");
-        model.addColumn("Email");
-        
-        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            List clientes = this.fetchAll();
-            for (Object item : clientes) {
-                Cliente cli = (Cliente) item;
-                Object[] data = {
-                    cli.hasCode(),
-                    cli.getFullName(),
-                    dt.format(cli.getDataNascimento()),
-                    cli.getTelefone(),
-                    cli.getEmail(),
-                };
-                
-                model.addRow(data);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return model;
-    }
-   
+      
     /**
      * Preenche o objeto a partir do webservice
      * 

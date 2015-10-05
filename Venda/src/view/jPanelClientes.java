@@ -3,30 +3,36 @@
  */
 package view;
 
-import model.CepService;
+import controller.ClienteController;
 import model.Cliente;
 import dao.ModelInterface;
 import model.Util;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import java.util.Date;
+import model.Categoria;
 
 /**
  *
  * @author gilmar
  */
-public class jPanelClientes extends javax.swing.JPanel {
+public final class jPanelClientes extends javax.swing.JPanel {
+    
+     /**
+     * Recebe o controlador desta view
+     */
+    private ClienteController controller ;
 
     /**
      * Creates new form jPanelProdutos
      */
     public jPanelClientes() {
+        this.controller = new ClienteController();
         initComponents();
         this.loadItems();
     }
@@ -35,13 +41,11 @@ public class jPanelClientes extends javax.swing.JPanel {
      * Carrega todos os clientes na tabela
      */
     public void loadItems(){
-        Cliente cli = new Cliente();
-        
-        TableModel model = cli.getTableModel() ;
+        TableModel model = this.controller.getTableModel();
         this.tableClientes.setModel(model);
         this.tableClientes.setAutoCreateRowSorter(true);
         this.tableClientes.enableInputMethods(false);
-        this.jTextFile.setText( String.format( "Dados extraidos do arquivo: %s" , cli.getFileName()) );
+        this.lblSource.setText( String.format( "Dados extraidos do arquivo: %s" , this.controller.getObjModel().getFileName()));
     }
     
     /**
@@ -50,53 +54,16 @@ public class jPanelClientes extends javax.swing.JPanel {
     public void addCliente() {
         while (true) {
             try {
-                Cliente cli = new Cliente();
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                
-                String nome = Util.showInput("Digite o nome.");
-                String sobrenome = Util.showInput("Digite o sobrenome.");
-                Long cpf = Long.parseLong(Util.showInput("Digite o CPF."));
-                String cep = Util.showInput("Digite o Código Postal.");
-                String sexo = Util.showOptions("Selecione o sexo.", cli.getMapSexo(), "Sexo").toString();
-                Integer numero = Integer.parseInt(Util.showInput("Digite o número da residência."));
-                CepService cws = new CepService(cep);
-                cli.fillFromService(cws);
-                cli.setCEP(Long.parseLong(cep));
-                cli.setNumero(numero);
-                cli.setSexo(sexo);
-                
-                
-                String message = String.format( "O endereço abaixo está correto?\n%s", cli.getEndereco());
-                if(Util.showConfirm(message, "Confirmação de endereço") == false){
-                    String logradouro = Util.showInput("Digite o logradouro.");
-                    String bairro = Util.showInput("Digite o bairro.");
-                    String cidade = Util.showInput("Digite a cidade.");
-                    String estado = Util.showInput("Digite o estado.");
-                    cli.setLogadouro(logradouro);
-                    cli.setBairro(bairro);
-                    cli.setCidade(cidade);
-                    cli.setEstado(estado);
+                if( ! this.controller.create() ){
+                    break;
                 }
                 
-                Date nascimento = formatter.parse(Util.showInput("Digite a data de Nascimento."));
-                String email = Util.showInput("Digite o email.");
-                String telefone = Util.showInput("Digite o telefone.");
-
-                cli.setDataNascimento(nascimento);
-                cli.setEmail(email);
-                cli.setNome(nome);
-                cli.setSobrenome(sobrenome);
-                cli.setCPF(cpf);
-                cli.setTelefone(telefone);
-                
-                cli.save();
                 this.loadItems();
-                
-                Util.showMessage("Cliente salvo com sucesso");
                 if ( Util.showConfirm( "Gostaria de cadastrar mais um cliente?" , "Cliente") == false ) {
                     break;
                 }
-            } catch (Exception e) {
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
                 break;
             }
         }
@@ -117,9 +84,6 @@ public class jPanelClientes extends javax.swing.JPanel {
         btnDelete = new javax.swing.JButton();
         btnBusca = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextFile = new javax.swing.JTextPane();
-        btnLoadFile = new javax.swing.JButton();
         btnOdernar = new javax.swing.JButton();
         jPanelDetalhes = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -129,22 +93,26 @@ public class jPanelClientes extends javax.swing.JPanel {
         jLabelEmail = new javax.swing.JLabel();
         jLabelIcon = new javax.swing.JLabel();
         jLabelSexo = new javax.swing.JLabel();
+        lblSource = new javax.swing.JLabel();
+        btnLoadFromFile = new javax.swing.JButton();
+        btnSaveToFile = new javax.swing.JButton();
+        btnReload = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
         tableClientes.setAutoCreateRowSorter(true);
         tableClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableClientes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tableClientes.setMaximumSize(null);
         tableClientes.setName(""); // NOI18N
+        tableClientes.setPreferredSize(null);
         tableClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tableClientesMouseReleased(evt);
@@ -157,6 +125,7 @@ public class jPanelClientes extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tableClientes);
 
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/add2.png"))); // NOI18N
         btnAdd.setMnemonic('a');
         btnAdd.setText("Adicionar");
         btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -165,6 +134,7 @@ public class jPanelClientes extends javax.swing.JPanel {
             }
         });
 
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/delete.png"))); // NOI18N
         btnDelete.setMnemonic('x');
         btnDelete.setText("Excluir");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -173,12 +143,13 @@ public class jPanelClientes extends javax.swing.JPanel {
             }
         });
 
+        btnBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/search-client.png"))); // NOI18N
         btnBusca.setMnemonic('l');
         btnBusca.setText("Localizar");
         btnBusca.setToolTipText("");
-        btnBusca.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnBuscaMouseReleased(evt);
+        btnBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscaActionPerformed(evt);
             }
         });
 
@@ -186,18 +157,7 @@ public class jPanelClientes extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Clientes");
 
-        jTextFile.setBackground(new java.awt.Color(254, 240, 156));
-        jTextFile.setText("Dados oriundos do arquivo:");
-        jScrollPane1.setViewportView(jTextFile);
-
-        btnLoadFile.setToolTipText("");
-        btnLoadFile.setLabel("Carregar arquivo...");
-        btnLoadFile.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnLoadFileMouseReleased(evt);
-            }
-        });
-
+        btnOdernar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/sort_incr.png"))); // NOI18N
         btnOdernar.setMnemonic('o');
         btnOdernar.setToolTipText("");
         btnOdernar.setLabel("Odernar");
@@ -206,6 +166,7 @@ public class jPanelClientes extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/address-icon.png"))); // NOI18N
         jLabel2.setText("Endereço:");
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
@@ -215,14 +176,17 @@ public class jPanelClientes extends javax.swing.JPanel {
         jLabelNome.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabelNome.setText("Nome do cliente");
 
+        jLabelCPF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/card-identifier.png"))); // NOI18N
         jLabelCPF.setText("CPF");
 
+        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/email.png"))); // NOI18N
         jLabelEmail.setText("E-mail");
 
         jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-cliente.png"))); // NOI18N
 
         jLabelSexo.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabelSexo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelSexo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/sexo.png"))); // NOI18N
         jLabelSexo.setText("Sexo:");
         jLabelSexo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
@@ -243,15 +207,15 @@ public class jPanelClientes extends javax.swing.JPanel {
                                     .addComponent(jLabelCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                                .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
                                 .addComponent(jLabelSexo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                .addGap(21, 21, 21))
         );
         jPanelDetalhesLayout.setVerticalGroup(
             jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,62 +238,101 @@ public class jPanelClientes extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        lblSource.setBackground(new java.awt.Color(248, 248, 193));
+        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/information-icon.png"))); // NOI18N
+        lblSource.setText("Dados oriundos do arquivo:");
+        lblSource.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 203, 111), 1, true));
+        lblSource.setIconTextGap(5);
+        lblSource.setOpaque(true);
+
+        btnLoadFromFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/load-from-file.png"))); // NOI18N
+        btnLoadFromFile.setMnemonic('c');
+        btnLoadFromFile.setText("Carregar do arquivo...");
+        btnLoadFromFile.setToolTipText("");
+        btnLoadFromFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadFromFileActionPerformed(evt);
+            }
+        });
+
+        btnSaveToFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/save-on-file.png"))); // NOI18N
+        btnSaveToFile.setMnemonic('s');
+        btnSaveToFile.setText("Salvar em arquivo...");
+        btnSaveToFile.setToolTipText("");
+        btnSaveToFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveToFileActionPerformed(evt);
+            }
+        });
+
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/refresh-icon.gif"))); // NOI18N
+        btnReload.setMnemonic('r');
+        btnReload.setText("Recarregar");
+        btnReload.setToolTipText("");
+        btnReload.setAutoscrolls(true);
+        btnReload.setEnabled(false);
+        btnReload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(296, 296, 296)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdd)
-                        .addGap(6, 6, 6)
-                        .addComponent(btnDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBusca)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnOdernar)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanelDetalhes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLoadFile)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAdd)
+                                .addGap(9, 9, 9)
+                                .addComponent(btnDelete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBusca)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnOdernar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnReload)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSaveToFile))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLoadFromFile))
+                            .addComponent(jPanelDetalhes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2))
+                        .addContainerGap(24, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdd)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnDelete)
-                        .addComponent(btnBusca)
-                        .addComponent(btnOdernar)))
-                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDelete)
+                    .addComponent(btnBusca)
+                    .addComponent(btnOdernar)
+                    .addComponent(btnReload)
+                    .addComponent(btnSaveToFile)
+                    .addComponent(btnAdd))
+                .addGap(19, 19, 19)
                 .addComponent(jPanelDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLoadFile))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLoadFromFile))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
-
-        btnLoadFile.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnBuscaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscaMouseReleased
-    }//GEN-LAST:event_btnBuscaMouseReleased
     
     /**
      * Aciona o evento para adicionar um novo cliente
@@ -339,51 +342,16 @@ public class jPanelClientes extends javax.swing.JPanel {
     private void btnAddMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseReleased
         this.addCliente();
     }//GEN-LAST:event_btnAddMouseReleased
-    
-    /**
-     * Permite carregar um arquivo externo
-     * 
-     * @param evt 
-     */
-    private void btnLoadFileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadFileMouseReleased
-        JFileChooser chooser = new JFileChooser();
-        int status = chooser.showSaveDialog(null);
-        if (status == JFileChooser.APPROVE_OPTION) {
-            File outfile = chooser.getSelectedFile();
-             this.jTextFile.setText( String.format( "Dados extraidos do arquivo: %s" , outfile.getPath()) );
-        }
-    }//GEN-LAST:event_btnLoadFileMouseReleased
-    
+       
     /**
      * Remove o cliente selecionado na lista
      * 
      * @param evt 
      */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = this.tableClientes.getSelectedRow();
-                
-        if(row == -1){
-            Util.showMessage("Selecione um cliente para excluir.");
-            return;
-        }
-       
-        long ID = (long) this.tableClientes.getModel().getValueAt(row, 0);
-        String item = (String) this.tableClientes.getModel().getValueAt(row, 1);
-        String message = String.format("Tem certeza que deseja excluir o cliente '%s'?",item);
-        if(Util.showConfirm(message, "Remover cliente?")) {
-           ModelInterface cli = new Cliente();
-            try {
-                cli.remove(ID);
-            } catch (IOException ex) {
-                Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           
-            this.loadItems();
-        }
+        this.controller.remove(this.tableClientes) ;
+        this.loadItems();
     }//GEN-LAST:event_btnDeleteActionPerformed
-    
    
     /**
      * Ao clicar na linha de registro, atualiza os campos com os detalhes
@@ -393,17 +361,12 @@ public class jPanelClientes extends javax.swing.JPanel {
     private void tableClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientesMouseReleased
         int row = this.tableClientes.getSelectedRow();
         long ID = (long) this.tableClientes.getModel().getValueAt(row, 0);
-        Cliente cli = new Cliente();
-        try {
-            Cliente c = (Cliente) cli.findBy(ID);
-            this.jLabelCPF.setText("CPF: " + c.getFormatCPF());
-            this.jLabelNome.setText(c.getFullName());
-            this.jLabelEmail.setText("E-mail: " + c.getEmail());
-            this.jLabelEndereco.setText(c.getEndereco());
-            this.jLabelSexo.setText(c.getFormatSexo());
-        } catch (IOException ex) {
-            Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Cliente cli = (Cliente) this.controller.getObjModel().findBy(ID);
+        this.jLabelCPF.setText("CPF: " + cli.getFormatCPF());
+        this.jLabelNome.setText(cli.getFullName());
+        this.jLabelEmail.setText("E-mail: " + cli.getEmail());
+        this.jLabelEndereco.setText(cli.getEndereco());
+        this.jLabelSexo.setText(cli.getFormatSexo());
     }//GEN-LAST:event_tableClientesMouseReleased
     
     /**
@@ -417,13 +380,55 @@ public class jPanelClientes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tableClientesKeyReleased
 
+    private void btnLoadFromFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFromFileActionPerformed
+        this.controller.loadFromFile(this.lblSource);
+        this.loadItems();
+    }//GEN-LAST:event_btnLoadFromFileActionPerformed
+
+    private void btnSaveToFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveToFileActionPerformed
+        this.controller.saveToFile();
+    }//GEN-LAST:event_btnSaveToFileActionPerformed
+
+    private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
+        this.loadItems();
+        this.btnReload.setEnabled(false);
+    }//GEN-LAST:event_btnReloadActionPerformed
+
+    private void btnBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaActionPerformed
+        Cliente cli = (Cliente) this.controller.search();
+        
+        this.btnReload.setEnabled(false);
+        if ( cli.hashCode() == 0 ) {
+            Util.showMessage("Cliente não encontrado.", "Buscador", JOptionPane.WARNING_MESSAGE );
+            return ;
+        }
+        
+        this.btnReload.setEnabled(true);
+        DefaultTableModel model = ClienteController.make().getHeaderTableModel() ;
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
+        Object[] data = {
+            cli.getCodigo(),
+            cli.getFullName(),
+            dt.format(cli.getDataNascimento()),
+            cli.getTelefone(),
+            cli.getEmail(),
+        };
+                
+        model.addRow(data);
+        this.tableClientes.setModel(model);
+      
+        this.btnReload.setEnabled(true);
+    }//GEN-LAST:event_btnBuscaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBusca;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnLoadFile;
+    private javax.swing.JButton btnLoadFromFile;
     private javax.swing.JButton btnOdernar;
+    private javax.swing.JButton btnReload;
+    private javax.swing.JButton btnSaveToFile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelCPF;
@@ -433,9 +438,8 @@ public class jPanelClientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelNome;
     private javax.swing.JLabel jLabelSexo;
     private javax.swing.JPanel jPanelDetalhes;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextFile;
+    private javax.swing.JLabel lblSource;
     private javax.swing.JTable tableClientes;
     // End of variables declaration//GEN-END:variables
 }

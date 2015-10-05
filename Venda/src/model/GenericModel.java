@@ -31,17 +31,17 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
      */
     @Override
     public List fetchAll() throws FileNotFoundException, IOException {
-        List<GenericModel> items = new ArrayList<>();
+        List<ModelInterface> items = new ArrayList<>();
         File file = new File(this.getFileName());
        
         if ( file.exists() ) {
             try {
                 FileInputStream inFile = new FileInputStream(file);
                 ObjectInputStream objStream = new ObjectInputStream(inFile);
-                List objs = (List<GenericModel>) objStream.readObject();
+                List objs = (List<ModelInterface>) objStream.readObject();
                 
                 for(Object obj : objs) {
-                    items.add((GenericModel) obj );
+                    items.add((ModelInterface) obj );
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -64,6 +64,7 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
         
         if(this.hashCode()== 0){
             Long max = this.getMaxID();
+            System.out.println(max);
             this.setID( ++max );
             objects.add(this);
         }

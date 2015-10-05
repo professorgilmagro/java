@@ -4,6 +4,8 @@
 package view;
 
 import controller.CategoriaController;
+import controller.ClienteController;
+import controller.ProdutoController;
 import model.Util;
 import java.awt.GraphicsEnvironment;
 import javax.swing.*;
@@ -27,8 +29,8 @@ public final class MainScreen extends javax.swing.JFrame {
      * Inicializa as propriedades da tela com valores pré-determinados
      */
     protected void resetScreen(){
-        // Redimensiona a tela para o tamanho 800x600
-        this.setSize(800,600);
+        // Redimensiona a tela para o tamanho 1024x800
+        this.setSize(1024,680);
     }
 
     /**
@@ -59,6 +61,7 @@ public final class MainScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AIEC - Atividade Unidade III");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(800, 554));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
@@ -93,7 +96,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.setMargin(new java.awt.Insets(10, 20, 0, 0));
 
-        jMenuVendas.setForeground(new java.awt.Color(41, 100, 165));
+        jMenuVendas.setForeground(new java.awt.Color(129, 186, 248));
         jMenuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-venda.png"))); // NOI18N
         jMenuVendas.setMnemonic('v');
         jMenuVendas.setText("Vendas");
@@ -101,6 +104,7 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuVendas.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuVendas.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
+        jMenuAddVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/order.png"))); // NOI18N
         jMenuAddVenda.setMnemonic('p');
         jMenuAddVenda.setText("Pedido");
         jMenuAddVenda.setToolTipText("");
@@ -113,7 +117,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuVendas);
 
-        jMenuProdutos.setForeground(new java.awt.Color(41, 100, 165));
+        jMenuProdutos.setForeground(new java.awt.Color(129, 186, 248));
         jMenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-produto.png"))); // NOI18N
         jMenuProdutos.setMnemonic('p');
         jMenuProdutos.setText("Produtos");
@@ -121,6 +125,7 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuProdutos.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuProdutos.setMargin(new java.awt.Insets(0, 0, 0, 25));
 
+        jMenuProdutoCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/product-icon.png"))); // NOI18N
         jMenuProdutoCadastro.setMnemonic('c');
         jMenuProdutoCadastro.setText("Cadastro");
         jMenuProdutoCadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -130,6 +135,7 @@ public final class MainScreen extends javax.swing.JFrame {
         });
         jMenuProdutos.add(jMenuProdutoCadastro);
 
+        jMenuProdCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/category-item-icon.png"))); // NOI18N
         jMenuProdCategoria.setMnemonic('a');
         jMenuProdCategoria.setText("Categoria");
         jMenuProdCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +147,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuProdutos);
 
-        jMenuClientes.setForeground(new java.awt.Color(41, 100, 165));
+        jMenuClientes.setForeground(new java.awt.Color(129, 186, 248));
         jMenuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-cliente.png"))); // NOI18N
         jMenuClientes.setMnemonic('c');
         jMenuClientes.setText("Clientes");
@@ -149,6 +155,7 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuClientes.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuClientes.setMargin(new java.awt.Insets(0, 0, 0, 25));
 
+        jMenuClienteCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/client-icon.png"))); // NOI18N
         jMenuClienteCadastro.setMnemonic('c');
         jMenuClienteCadastro.setText("Cadastrar");
         jMenuClienteCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -160,7 +167,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuClientes);
 
-        jMenuConfig.setForeground(new java.awt.Color(41, 100, 165));
+        jMenuConfig.setForeground(new java.awt.Color(129, 186, 248));
         jMenuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-config.png"))); // NOI18N
         jMenuConfig.setMnemonic('o');
         jMenuConfig.setText("Configurações");
@@ -169,7 +176,7 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuConfig.setMargin(new java.awt.Insets(0, 0, 0, 25));
         jMenuBarMain.add(jMenuConfig);
 
-        jMenuSair.setForeground(new java.awt.Color(41, 100, 165));
+        jMenuSair.setForeground(new java.awt.Color(129, 186, 248));
         jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-sair.png"))); // NOI18N
         jMenuSair.setMnemonic('s');
         jMenuSair.setToolTipText("Sair do Sistema");
@@ -190,16 +197,16 @@ public final class MainScreen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
+                .addGap(175, 175, 175)
                 .addComponent(jPanelScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(96, 96, 96)
+                .addGap(66, 66, 66)
                 .addComponent(jPanelScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         pack();
@@ -212,7 +219,7 @@ public final class MainScreen extends javax.swing.JFrame {
      * @param evt 
      */
     private void jMenuProdutoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdutoCadastroActionPerformed
-        this.showProdutos();
+        ProdutoController.make().displayView();
     }//GEN-LAST:event_jMenuProdutoCadastroActionPerformed
     
      /**
@@ -221,7 +228,7 @@ public final class MainScreen extends javax.swing.JFrame {
      * @param evt 
      */
     private void jMenuClienteCadastroMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuClienteCadastroMouseReleased
-       this.showClientes();
+       ClienteController.make().displayView();
     }//GEN-LAST:event_jMenuClienteCadastroMouseReleased
 
     private void jMenuProdCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdCategoriaActionPerformed
@@ -235,24 +242,6 @@ public final class MainScreen extends javax.swing.JFrame {
     private void jMenuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSairMouseClicked
          this.dispose();
     }//GEN-LAST:event_jMenuSairMouseClicked
-    
-    /**
-     * Cria o frame e exibe a tela de Clientes
-     */
-    public void showClientes(){
-       JPanel panel = new jPanelClientes();
-       JDialog window = Util.getDefaultWindow(panel, this, "Clientes");
-       window.setVisible(true);
-    }
-    
-    /**
-     * Cria o frame e exibe a tela de Produtos
-     */
-    public void showProdutos(){
-        JPanel panel = new jPanelProdutos();
-        JDialog window = Util.getDefaultWindow(panel, this, "Produtos");
-        window.setVisible(true);
-    }
     
     /**
      * Cria o frame e exibe a tela de Vendas

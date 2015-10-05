@@ -51,7 +51,7 @@ public class Categoria extends GenericModel{
     
     @Override
     public String toString() {
-        return String.format("%s %s", this.getNome(), this.getDescricao());
+        return String.format("%s", this.getNome());
     }
 
     public void setCodigo(long codigo) {

@@ -51,8 +51,8 @@ public class CategoriaController extends GenericController{
         JPanel panel = new jPanelCategorias();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Categorias");
         window.setLocationRelativeTo(null);
-        window.setSize(800,480);
-        window.setLocation(mainFrame.getX(), mainFrame.getY() + 100);
+        window.setSize(620,480);
+        window.setLocation(mainFrame.getX() + 80, mainFrame.getY() + 110);
         window.setVisible(true);
     }
     
@@ -71,9 +71,8 @@ public class CategoriaController extends GenericController{
         model.addColumn("Descrição");
         
         try {
-            ModelInterface cat = this.getObjModel();
-            List <ModelInterface> categorias = cat.fetchAll() ;
-            for (ModelInterface item : categorias) {
+            List <ModelInterface> categorias = this.getObjModel().fetchAll();
+            for(ModelInterface item : categorias) {
                 Categoria c = (Categoria) item ;
                 Object[] data = {
                     c.getCodigo(),

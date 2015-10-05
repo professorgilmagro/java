@@ -3,21 +3,18 @@
  */
 package view;
 
-import model.Categoria;
-import dao.ModelInterface;
+import controller.CategoriaController;
+import controller.ClienteController;
+import controller.ProdutoController;
 import model.Produto;
 import model.Util;
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import model.Cliente;
 
 /**
  * Classe para controlar as funcionalidades de gerenciamento de proutos
@@ -25,11 +22,17 @@ import javax.swing.table.TableModel;
  * @author gilmar
  */
 public final class jPanelProdutos extends javax.swing.JPanel {
+    
+     /**
+     * Recebe o controlador desta view
+     */
+    private ProdutoController controller ;
 
     /**
      * Inicializa e renderiza os objetos gráficos na tela
      */
     public jPanelProdutos() {
+        this.controller = new ProdutoController();
         initComponents();
         this.loadItems();
     }
@@ -38,13 +41,11 @@ public final class jPanelProdutos extends javax.swing.JPanel {
      * Carrega todos os itens de produto
      */
     public void loadItems(){
-        Produto prod = new Produto();
-        
-        TableModel model = prod.getTableModel() ;
+        TableModel model = this.controller.getTableModel();
         this.tableProdutos.setModel(model);
         this.tableProdutos.setAutoCreateRowSorter(true);
         this.tableProdutos.enableInputMethods(false);
-        this.jTextFile.setText( String.format("Dados extraidos do arquivo: %s" , prod.getFileName()));
+        this.lblSource.setText( String.format("Dados extraidos do arquivo: %s" , this.controller.getObjModel().getFileName()));
     }
     
     /**
@@ -53,52 +54,12 @@ public final class jPanelProdutos extends javax.swing.JPanel {
     public void novoProduto() {
         while (true) {
             try {
-                Categoria cat = new Categoria();
-                List objs = cat.fetchAll();
-                
-                if( objs.isEmpty() ) {
-                    Util.showMessage(
-                        "Não há categoria de produto cadastrado.\n" +
-                        "Cadastre as categorias desejadas antes de continuar.",
-                        JOptionPane.WARNING_MESSAGE
-                    );
-                    
-                    return ;
-                }
-                
-                Categoria categoria = (Categoria) Util.showOptions("Selecione a categoria.", objs.toArray(), "Categoria") ;
-                if( categoria == null ) return ;
-                
-                String nome = Util.showInput("Digite o nome.");
-                 if( nome == null ) return ;
-                 
-                String descricao = Util.showInput("Digite a descrição.");
-                 if( descricao == null ) return ;
-                 
-                double peso = Util.convertCurrencyToDouble(Util.showInput("Digite o peso (kg).")) ;
-                 if( peso == 0.00 ) return ;
-                 
-                double valor = Util.convertCurrencyToDouble(Util.showInput("Digite o valor unitário.")) ;
-                 if( valor == 0.00 ) return ;
-                 
-                int estoque = Integer.parseInt(Util.showInput("Digite a quantidade em estoque.")) ;
-                int nivelCritico = Integer.parseInt(Util.showInput("Digite o nível crítico de estoque para este produto.")) ;
-
-                model.Produto produto = new Produto(nome, descricao, valor);
-                produto.setCodCategoria(categoria);
-                produto.setPeso(peso);
-                produto.setSaldoEstoque(estoque);
-                produto.setNivelCritico(nivelCritico);
-                produto.save();
+                this.controller.create();
                 this.loadItems();
-                
-                Util.showMessage("Produto salvo com sucesso");
                 if ( Util.showConfirm( "Gostaria de cadastrar mais um novo produto?" , "Estoque") == false ) {
                     break;
                 }
             } catch (Exception e) {
-                Util.showMessage("Valor inválido informado!", JOptionPane.ERROR_MESSAGE);
-                System.out.println(e.getMessage());
                 break;
             }
         }
@@ -117,8 +78,6 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         btnDelProduto = new javax.swing.JButton();
         btnBuscaProduto = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextFile = new javax.swing.JTextPane();
         btnLoadFile = new javax.swing.JButton();
         btnAddEstoque = new javax.swing.JButton();
         jPanelDetalhes2 = new javax.swing.JPanel();
@@ -129,8 +88,13 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         jLabelEstoque = new javax.swing.JLabel();
         jLabelCategoria1 = new javax.swing.JLabel();
         btnAddCategoria = new javax.swing.JButton();
+        lblSource = new javax.swing.JLabel();
+        btnSaveToFile = new javax.swing.JButton();
+        btnReload = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(1024, 600));
+
+        jScrollPane2.setPreferredSize(null);
 
         tableProdutos.setAutoCreateRowSorter(true);
         tableProdutos.setModel(new javax.swing.table.DefaultTableModel(
@@ -149,7 +113,9 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tableProdutos.setMaximumSize(new java.awt.Dimension(980, 200));
         tableProdutos.setName(""); // NOI18N
+        tableProdutos.setPreferredSize(new java.awt.Dimension(980, 200));
         tableProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tableProdutosMouseReleased(evt);
@@ -168,14 +134,16 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             tableProdutos.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        btnAddProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/add2.png"))); // NOI18N
         btnAddProduto.setMnemonic('a');
         btnAddProduto.setText("Adicionar");
-        btnAddProduto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnAddProdutoMouseReleased(evt);
+        btnAddProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProdutoActionPerformed(evt);
             }
         });
 
+        btnDelProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/delete.png"))); // NOI18N
         btnDelProduto.setMnemonic('x');
         btnDelProduto.setText("Excluir");
         btnDelProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -184,6 +152,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             }
         });
 
+        btnBuscaProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/search.png"))); // NOI18N
         btnBuscaProduto.setMnemonic('l');
         btnBuscaProduto.setText("Localizar");
         btnBuscaProduto.setToolTipText("");
@@ -192,23 +161,26 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 btnBuscaProdutoMouseReleased(evt);
             }
         });
+        btnBuscaProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscaProdutoActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de produtos");
 
-        jTextFile.setBackground(new java.awt.Color(254, 240, 156));
-        jTextFile.setText("Dados oriundos do arquivo:");
-        jScrollPane1.setViewportView(jTextFile);
-
+        btnLoadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/load-from-file.png"))); // NOI18N
         btnLoadFile.setToolTipText("");
         btnLoadFile.setLabel("Carregar arquivo...");
-        btnLoadFile.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                btnLoadFileMouseReleased(evt);
+        btnLoadFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadFileActionPerformed(evt);
             }
         });
 
+        btnAddEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/stock-icon.png"))); // NOI18N
         btnAddEstoque.setMnemonic('e');
         btnAddEstoque.setText("Abastecer Estoque");
         btnAddEstoque.setToolTipText("");
@@ -252,7 +224,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                     .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jLabelPreco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelCategoria, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelDetalhes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDetalhes2Layout.createSequentialGroup()
                         .addComponent(jLabelCategoria1)
@@ -281,6 +253,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnAddCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/category-item-icon.png"))); // NOI18N
         btnAddCategoria.setMnemonic('c');
         btnAddCategoria.setText("Categoria...");
         btnAddCategoria.setToolTipText("");
@@ -290,23 +263,43 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             }
         });
 
+        lblSource.setBackground(new java.awt.Color(248, 248, 193));
+        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/information-icon.png"))); // NOI18N
+        lblSource.setText("Dados oriundos do arquivo:");
+        lblSource.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 203, 111), 1, true));
+        lblSource.setIconTextGap(5);
+        lblSource.setOpaque(true);
+
+        btnSaveToFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/save-on-file.png"))); // NOI18N
+        btnSaveToFile.setMnemonic('s');
+        btnSaveToFile.setText("Salvar em arquivo...");
+        btnSaveToFile.setToolTipText("");
+        btnSaveToFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveToFileActionPerformed(evt);
+            }
+        });
+
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/refresh-icon.gif"))); // NOI18N
+        btnReload.setMnemonic('r');
+        btnReload.setText("Recarregar");
+        btnReload.setToolTipText("");
+        btnReload.setAutoscrolls(true);
+        btnReload.setEnabled(false);
+        btnReload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReloadActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(298, 298, 298)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLoadFile))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAddProduto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -317,7 +310,17 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                         .addComponent(btnAddEstoque)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAddCategoria)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnReload)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSaveToFile, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 223, Short.MAX_VALUE))
+                    .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLoadFile))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -325,22 +328,24 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDelProduto)
                     .addComponent(btnBuscaProduto)
                     .addComponent(btnAddEstoque)
                     .addComponent(btnAddProduto)
-                    .addComponent(btnAddCategoria))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                    .addComponent(btnAddCategoria)
+                    .addComponent(btnReload)
+                    .addComponent(btnSaveToFile))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLoadFile))
-                .addGap(36, 36, 36))
+                .addGap(54, 54, 54))
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");
@@ -349,57 +354,16 @@ public final class jPanelProdutos extends javax.swing.JPanel {
     private void btnBuscaProdutoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscaProdutoMouseReleased
     }//GEN-LAST:event_btnBuscaProdutoMouseReleased
     
-    /**
-     * Gatilho para cadastrar novo produto
-     * 
-     * @param evt 
-     */
-    private void btnAddProdutoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddProdutoMouseReleased
-        this.novoProduto();
-    }//GEN-LAST:event_btnAddProdutoMouseReleased
-    
-    /**
-     * Gatilho para carregamento de arquivo externo
-     * 
-     * @param evt 
-     */
-    private void btnLoadFileMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoadFileMouseReleased
-        JFileChooser chooser = new JFileChooser();
-        int status = chooser.showSaveDialog(null);
-        if (status == JFileChooser.APPROVE_OPTION) {
-            File outfile = chooser.getSelectedFile();
-             this.jTextFile.setText( String.format( "Dados extraidos do arquivo: %s" , outfile.getPath()) );
-        }
-    }//GEN-LAST:event_btnLoadFileMouseReleased
-    
+   
+   
     /**
      * Gatilho para exclusão de um produto da lista
      * 
      * @param evt 
      */
     private void btnDelProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelProdutoActionPerformed
-        int row = this.tableProdutos.getSelectedRow();
-                
-        if(row == -1){
-            Util.showMessage("Selecione um item para excluir.");
-            return;
-        }
-       
-        long ID = (long) this.tableProdutos.getModel().getValueAt(row, 0);
-        String item = (String) this.tableProdutos.getModel().getValueAt(row, 1);
-        String message = String.format("Tem certeza que deseja excluir o item '%s'?",item);
-       if(Util.showConfirm(message, "Remover item?")) {
-           ModelInterface produto = new Produto();
-            try {
-                produto.remove(ID);
-            } catch (IOException ex) {
-                Logger.getLogger(jPanelProdutos.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(jPanelProdutos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-           
-            this.loadItems();
-       }
+        this.controller.remove(this.tableProdutos);
+        this.loadItems();
     }//GEN-LAST:event_btnDelProdutoActionPerformed
     
     /**
@@ -408,28 +372,25 @@ public final class jPanelProdutos extends javax.swing.JPanel {
      * @param evt 
      */
     private void tableProdutosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProdutosMouseReleased
-        int row = this.tableProdutos.getSelectedRow();
-        long ID = (long) this.tableProdutos.getModel().getValueAt(row, 0);
-        Produto prod = new Produto();
-        
         try {
-            Produto p = (Produto) prod.findBy(ID);
+            int row = this.tableProdutos.getSelectedRow();
+            long ID = (long) this.tableProdutos.getModel().getValueAt(row, 0);
+
+            Produto p = (Produto) this.controller.getObjModel().findBy(ID);
             Integer estoque = p.getSaldoEstoque();
             DecimalFormat df = new DecimalFormat("#,###");
             this.jLabelDescricao.setText(String.format("%s %s", p.getNome(), p.getDescricao()));
             this.jLabelEstoque.setText(df.format(estoque));
             this.jLabelPreco.setText(p.getFormatPrice());
             this.jLabelCategoria.setText(p.getCategoria().toString());
-            
             jLabelEstoque.setForeground(Color.BLUE);
             jLabelEstoque.setToolTipText("");
             if(p.estoqueCritico()){
                 jLabelEstoque.setToolTipText(String.format("Nível crítico, abaixo de %s",p.getNivelCritico()));
                 jLabelEstoque.setForeground(Color.RED);
             }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_tableProdutosMouseReleased
     
@@ -450,10 +411,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
      * @param evt 
      */
     private void btnAddCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCategoriaActionPerformed
-        JDialog window = Util.getDefaultWindow(new jPanelCategorias(), "Categorias");
-        window.setSize(450,400);
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
+        CategoriaController.make().displayView();
     }//GEN-LAST:event_btnAddCategoriaActionPerformed
     
     /**
@@ -462,44 +420,52 @@ public final class jPanelProdutos extends javax.swing.JPanel {
      * @param evt 
      */
     private void btnAddEstoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEstoqueActionPerformed
-       int row = this.tableProdutos.getSelectedRow();
-                
-        if(row == -1){
-            Util.showMessage("Selecione um item para adicionar estoque.");
-            return;
-        }
-        
-        long ID = (long) this.tableProdutos.getModel().getValueAt(row, 0);
-        String item = (String) this.tableProdutos.getModel().getValueAt(row, 1);
-        
-        String message = String.format("Digite a quantidade desejada para adicionar ao estoque do produto '%s'", item ) ;
-        String qtde = Util.showInput(message);
-        if( qtde == null) return ;
-        
-        ModelInterface produto = new Produto();
-        try {
-            Produto p = (Produto) produto.findBy(ID);
-            p.addEstque(Integer.parseInt(qtde));
-            
-            DecimalFormat df = new DecimalFormat("#,###") ;
-            qtde = df.format(p.getSaldoEstoque());
-            message = String.format("O saldo após a adição da quantidade informada será de %s.\nConfirma a operação?", qtde);
-            if( Util.showConfirm(message, "Abastecimento de estoque") ) {
-                p.save();
-                this.jLabelEstoque.setText(qtde);
-                jLabelEstoque.setForeground(Color.BLUE);
-                
-                if ( p.estoqueCritico() ) {
-                    jLabelEstoque.setForeground(Color.RED);
-                }
-                
-                Util.showMessage("Estoque atualizado com sucesso.");
-            }
-        } catch ( Exception ex) {
-            System.out.println(ex.getMessage());
-            Util.showMessage("Houve um problema na tentativa de adicionar o estoque.", JOptionPane.ERROR_MESSAGE);
-        }
+       this.controller.supplyStockFromTable(this.tableProdutos, jLabelEstoque);
     }//GEN-LAST:event_btnAddEstoqueActionPerformed
+
+    private void btnAddProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProdutoActionPerformed
+       this.controller.create();
+    }//GEN-LAST:event_btnAddProdutoActionPerformed
+
+    private void btnSaveToFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveToFileActionPerformed
+        this.controller.saveToFile();
+    }//GEN-LAST:event_btnSaveToFileActionPerformed
+
+    private void btnReloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReloadActionPerformed
+        this.loadItems();
+        this.btnReload.setEnabled(false);
+    }//GEN-LAST:event_btnReloadActionPerformed
+
+    private void btnLoadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFileActionPerformed
+        this.controller.loadFromFile(this.lblSource);
+        this.loadItems();
+    }//GEN-LAST:event_btnLoadFileActionPerformed
+
+    private void btnBuscaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaProdutoActionPerformed
+         Produto prod = (Produto) this.controller.search();
+        
+        this.btnReload.setEnabled(false);
+        if ( prod.hashCode() == 0 ) {
+            Util.showMessage("Produto não encontrado.", "Buscador", JOptionPane.WARNING_MESSAGE );
+            return ;
+        }
+        
+        this.btnReload.setEnabled(true);
+        DefaultTableModel model = ProdutoController.make().getHeaderTableModel() ;
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
+        Object[] data = {
+            prod.getCodigo(),
+            prod.getNome(),
+            prod.getDescricao(),
+            prod.getCategoria(),
+            prod.getPeso(),
+            prod.getFormatPrice()
+        };
+                
+        model.addRow(data);
+        this.tableProdutos.setModel(model);
+        this.btnReload.setEnabled(true);
+    }//GEN-LAST:event_btnBuscaProdutoActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCategoria;
@@ -508,6 +474,8 @@ public final class jPanelProdutos extends javax.swing.JPanel {
     private javax.swing.JButton btnBuscaProduto;
     private javax.swing.JButton btnDelProduto;
     private javax.swing.JButton btnLoadFile;
+    private javax.swing.JButton btnReload;
+    private javax.swing.JButton btnSaveToFile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCategoria;
     private javax.swing.JLabel jLabelCategoria1;
@@ -516,9 +484,8 @@ public final class jPanelProdutos extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelIcon;
     private javax.swing.JLabel jLabelPreco;
     private javax.swing.JPanel jPanelDetalhes2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextFile;
+    private javax.swing.JLabel lblSource;
     private javax.swing.JTable tableProdutos;
     // End of variables declaration//GEN-END:variables
 }
