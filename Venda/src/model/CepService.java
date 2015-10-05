@@ -16,13 +16,14 @@ import org.dom4j.io.SAXReader;
  */
 public final class CepService {
     
-    private final String URL_FORMAT = "http://apps.widenet.com.br/busca-cep/api/cep/%s.xml" ;
+    private final String URL_FORMAT = "http://cep.republicavirtual.com.br/web_cep.php?cep=%s&formato=xml" ;
     
-    private String Logradouro;
-    private String Bairro;
-    private String Cidade;
-    private String UF;
-    private int status = 0;
+    private String logradouro;
+    private String tipoLogradouro;
+    private String bairro;
+    private String cidade;
+    private String uf;
+    private String status;
     
     /** 
      * Construtor da classe
@@ -38,29 +39,33 @@ public final class CepService {
             for ( Iterator i = root.elementIterator(); i.hasNext(); ) {
                 Element element = (Element) i.next();
                 
-                if (element.getQualifiedName().equals("state")){
+                if (element.getQualifiedName().equals("uf")){
                     this.setEstado(element.getText());                
                 }
                 
-                if (element.getQualifiedName().equals("city")){
+                if (element.getQualifiedName().equals("cidade")){
                     this.setCidade(element.getText());                
                 }
                 
-                if (element.getQualifiedName().equals("district")){
+                if (element.getQualifiedName().equals("bairro")){
                     this.setBairro(element.getText());                
                 }
                 
-                if (element.getQualifiedName().equals("address")){
+                if (element.getQualifiedName().equals("tipo_logradouro")){
+                    this.setTipoLogradouro(element.getText());
+                }
+                
+                if (element.getQualifiedName().equals("logradouro")){
                     this.setLogradouro(element.getText());
                 }
                 
-                if (element.getQualifiedName().equals("status")){
-                    this.setStatus(Integer.parseInt(element.getText()));
+                if (element.getQualifiedName().equals("resultado_txt")){
+                    this.setStatus(element.getText());
                 }
             }
         }
         catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }        
     }
 
@@ -83,16 +88,16 @@ public final class CepService {
      * @return String
      */
     public String getEstado() {
-        return UF;
+        return uf;
     }
 
     /**
      * Atribui o valor do Estado
      * 
-     * @param UF
+     * @param uf
      */
-    public void setEstado(String UF) {
-        this.UF = UF;
+    public void setEstado(String uf) {
+        this.uf = uf;
     }
 
     /**
@@ -100,7 +105,7 @@ public final class CepService {
      * @return
      */
     public String getCidade() {
-        return this.Cidade;
+        return this.cidade;
     }
 
     /**
@@ -108,7 +113,7 @@ public final class CepService {
      * @param cidade
      */
     public void setCidade(String cidade) {
-        this.Cidade = cidade;
+        this.cidade = cidade;
     }
 
     /**
@@ -117,7 +122,7 @@ public final class CepService {
      * @return
      */
     public String getBairro() {
-        return this.Bairro;
+        return this.bairro;
     }
 
     /**
@@ -126,7 +131,7 @@ public final class CepService {
      * @param bairro
      */
     public void setBairro(String bairro) {
-        this.Bairro = bairro;
+        this.bairro = bairro;
     }
 
     /**
@@ -135,7 +140,7 @@ public final class CepService {
      * @return
      */
     public String getLogradouro() {
-        return this.Logradouro;
+        return String.format("%s %s", this.logradouro , this.getTipoLogradouro());
     }
 
     /**
@@ -144,7 +149,7 @@ public final class CepService {
      * @param logradouro
      */
     public void setLogradouro(String logradouro) {
-        this.Logradouro = logradouro;
+        this.logradouro = logradouro;
     }
 
     /**
@@ -152,17 +157,17 @@ public final class CepService {
      * 
      * @return
      */
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
     /**
      * Define o valor do Estado
      * 
-     * @param UF
+     * @param uf
      */
-    public void setUF(String UF) {
-        this.UF = UF;
+    public void setUF(String uf) {
+        this.uf = uf;
     }
 
     /**
@@ -170,7 +175,15 @@ public final class CepService {
      * 
      * @param status
      */
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    protected String getTipoLogradouro() {
+        return tipoLogradouro;
+    }
+
+    public void setTipoLogradouro(String tipoLogradouro) {
+        this.tipoLogradouro = tipoLogradouro;
     }
 }
