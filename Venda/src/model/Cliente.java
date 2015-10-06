@@ -6,7 +6,10 @@ package model;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,16 +131,16 @@ public class Cliente extends GenericModel{
         return cpf;
     }
 
-    public void setCPF(Long CPF) {
-        this.cpf = CPF;
+    public void setCPF(Long cpf) {
+        this.cpf = cpf;
     }
 
     public Long getCEP() {
         return cep;
     }
 
-    public void setCEP(Long CEP) {
-        this.cep = CEP;
+    public void setCEP(Long cep) {
+        this.cep = cep;
     }
 
     public String getTelefone() {
@@ -257,5 +260,55 @@ public class Cliente extends GenericModel{
         map.put(SEXO_F, "Feminino");
         
         return map;
+    }
+    
+    /**
+     * Permite localizar um objeto a partir do CPF
+     * 
+     * @param cpf    CPF a ser localizado
+     * 
+     * @return ModelInterface
+     */
+    public Cliente findByCPF(long cpf) {
+        try {
+            List objects = this.fetchAll();
+            
+            for (Object object : objects) {
+                Cliente model = (Cliente) object;
+                if(model.getCPF() == cpf) {
+                    return model ;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.setID(0);
+        return this ;
+    }
+    
+    /**
+     * Permite localizar um objeto a partir do E-mail
+     * 
+     * @param email    E-mail a ser localizado
+     * 
+     * @return ModelInterface
+     */
+    public Cliente findByEmail(String email) {
+        try {
+            List objects = this.fetchAll();
+            
+            for (Object object : objects) {
+                Cliente model = (Cliente) object;
+                if(model.getEmail().toLowerCase().equals(email.toLowerCase())) {
+                    return model ;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.setID(0);
+        return this ;
     }
 }

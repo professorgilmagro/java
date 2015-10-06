@@ -45,7 +45,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         this.tableProdutos.setModel(model);
         this.tableProdutos.setAutoCreateRowSorter(true);
         this.tableProdutos.enableInputMethods(false);
-        this.lblSource.setText( String.format("Dados extraidos do arquivo: %s" , this.controller.getObjModel().getFileName()));
+        this.lblSource.setText(String.format("Dados extraidos do arquivo: %s", this.controller.getObjModel().getFileName()));
     }
     
     /**
@@ -54,12 +54,16 @@ public final class jPanelProdutos extends javax.swing.JPanel {
     public void novoProduto() {
         while (true) {
             try {
-                this.controller.create();
+                if(!this.controller.create()){
+                    break;
+                }
+                
                 this.loadItems();
-                if ( Util.showConfirm( "Gostaria de cadastrar mais um novo produto?" , "Estoque") == false ) {
+                if ( Util.showConfirm("Gostaria de cadastrar mais um produto?", "Estoque") == false) {
                     break;
                 }
             } catch (Exception e) {
+                System.out.println(e.getMessage());
                 break;
             }
         }
@@ -93,8 +97,6 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         btnReload = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(1024, 600));
-
-        jScrollPane2.setPreferredSize(null);
 
         tableProdutos.setAutoCreateRowSorter(true);
         tableProdutos.setModel(new javax.swing.table.DefaultTableModel(
@@ -298,9 +300,15 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblSource, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnLoadFile))
+                    .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnAddProduto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDelProduto)
@@ -313,15 +321,8 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnReload)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSaveToFile, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 223, Short.MAX_VALUE))
-                    .addComponent(jPanelDetalhes2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 701, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLoadFile))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(btnSaveToFile, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,7 +425,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddEstoqueActionPerformed
 
     private void btnAddProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProdutoActionPerformed
-       this.controller.create();
+       this.novoProduto();
     }//GEN-LAST:event_btnAddProdutoActionPerformed
 
     private void btnSaveToFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveToFileActionPerformed
@@ -443,6 +444,9 @@ public final class jPanelProdutos extends javax.swing.JPanel {
 
     private void btnBuscaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaProdutoActionPerformed
          Produto prod = (Produto) this.controller.search();
+         
+        // significa que o usuário cancelou a pesquisa
+        if ( prod.hashCode() == -1 ) return ;
         
         this.btnReload.setEnabled(false);
         if ( prod.hashCode() == 0 ) {
@@ -464,6 +468,8 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 
         model.addRow(data);
         this.tableProdutos.setModel(model);
+        this.tableProdutos.selectAll();
+        this.tableProdutosMouseReleased(null);
         this.btnReload.setEnabled(true);
     }//GEN-LAST:event_btnBuscaProdutoActionPerformed
     

@@ -64,7 +64,6 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
         
         if(this.hashCode()== 0){
             Long max = this.getMaxID();
-            System.out.println(max);
             this.setID( ++max );
             objects.add(this);
         }

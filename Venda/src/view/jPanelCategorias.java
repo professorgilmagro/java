@@ -231,7 +231,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnLoadFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnSaveToFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(0, 11, Short.MAX_VALUE))))
+                        .addGap(0, 13, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +251,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLoadFile))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");
@@ -290,10 +290,13 @@ public final class jPanelCategorias extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddCategoriaActionPerformed
 
     private void btnBuscaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaCategoriaActionPerformed
-        Categoria c = (Categoria) this.controller.search();
+        Categoria cat = (Categoria) this.controller.search();
+        
+        // significa que o usuário cancelou a pesquisa
+        if ( cat.hashCode() == -1 ) return ;
         
         this.btnReload.setEnabled(false);
-        if ( c.hashCode() == 0 ) {
+        if ( cat.hashCode() == 0 ) {
             Util.showMessage("Categoria não encontrada.", "Buscador", JOptionPane.WARNING_MESSAGE );
             return ;
         }
@@ -305,15 +308,14 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         model.addColumn("Nome");
         model.addColumn("Descrição");
         Object[] data = {
-             c.getCodigo(),
-             c.getNome(),
-             c.getDescricao()
+             cat.getCodigo(),
+             cat.getNome(),
+             cat.getDescricao()
          };
 
         model.addRow(data);
         this.tableCategoria.setModel(model);
-
-      
+        this.tableCategoria.selectAll();
     }//GEN-LAST:event_btnBuscaCategoriaActionPerformed
 
     private void btnReloadMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReloadMouseReleased

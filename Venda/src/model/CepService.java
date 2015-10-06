@@ -140,7 +140,7 @@ public final class CepService {
      * @return
      */
     public String getLogradouro() {
-        return String.format("%s %s", this.logradouro , this.getTipoLogradouro());
+        return String.format("%s %s", this.getTipoLogradouro(), this.logradouro);
     }
 
     /**

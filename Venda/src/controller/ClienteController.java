@@ -170,4 +170,40 @@ public class ClienteController extends GenericController{
 
         return true;
     }
+    
+    /**
+     * Permite fazer a busca do objeto a partir do código ou nome informado
+     * 
+     * @return ModelInterface
+     */
+    @Override
+    public ModelInterface search() {
+        ModelInterface objCli = this.getObjModel();
+        objCli.setID(-1);
+        
+        String[] options = {"Código", "Nome", "CPF", "E-mail"};
+        Object option = Util.showOptions("Selecione o tipo de pesquisa.", options, "Selecione o tipo de pesquisa");
+        if( option == null ) return objCli;
+        
+        String search = Util.showInput(String.format("Entre com o %s a ser procurado", option.toString()));
+        if( search == null ) return objCli;
+
+        if(option.equals("CPF")){
+            Cliente cli = (Cliente) this.getObjModel();
+            search = search.replace(".", "").replace("-", "");
+            return (ModelInterface) cli.findByCPF(Long.parseLong(search));
+        }
+        
+        if(option.equals("E-mail")){
+            Cliente cli = (Cliente) this.getObjModel();
+            return (ModelInterface) cli.findByEmail(search);
+        }
+        
+        if ( Util.isNumeric(search) ) {
+            return this.getObjModel().findBy(Long.parseLong(search));
+        }
+       
+       return this.getObjModel().findBy(search);
+    }
+    
 }

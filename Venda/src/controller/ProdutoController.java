@@ -19,7 +19,6 @@ import model.Categoria;
 import model.Produto;
 import model.Util;
 import view.MainScreen;
-import view.jPanelCategorias;
 import view.jPanelProdutos;
 
 /**
@@ -57,7 +56,8 @@ public class ProdutoController extends GenericController{
         JFrame mainFrame = new MainScreen();
         JPanel panel = new jPanelProdutos();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Produtos");
-        window.setSize(1024, 600);
+        window.setSize(930, 550);
+        window.setLocation(mainFrame.getX() + 50, mainFrame.getY() + 100);
         window.setVisible(true);
     }
     
@@ -135,16 +135,16 @@ public class ProdutoController extends GenericController{
             if( categoria == null ) return false;
 
             String nome = Util.showInput("Digite o nome.");
-             if( nome == null ) return false ;
+            if( nome == null ) return false ;
 
             String descricao = Util.showInput("Digite a descrição.");
-             if( descricao == null ) return false ;
+            if( descricao == null ) return false ;
 
             double peso = Util.convertCurrencyToDouble(Util.showInput("Digite o peso (kg).")) ;
-             if( peso == 0.00 ) return false ;
+            if( peso == 0.00 ) return false ;
 
             double valor = Util.convertCurrencyToDouble(Util.showInput("Digite o valor unitário.")) ;
-             if( valor == 0.00 ) return false ;
+            if( valor == 0.00 ) return false ;
 
             int estoque = Integer.parseInt(Util.showInput("Digite a quantidade em estoque.")) ;
             int nivelCritico = Integer.parseInt(Util.showInput("Digite o nível crítico de estoque para este produto.")) ;
@@ -157,7 +157,6 @@ public class ProdutoController extends GenericController{
             produto.save();
 
             Util.showMessage("Produto salvo com sucesso");
-
         } catch (Exception e) {
             Util.showMessage("Um ou mais valores informados inválidos!", JOptionPane.ERROR_MESSAGE);
             return false;

@@ -102,7 +102,10 @@ abstract class GenericController {
      */
     public ModelInterface search() {
        String search = Util.showInput("Entre com o código ou nome a ser procurado");
-       if( search == null ) return this.getObjModel();
+       if( search == null ){
+           this.getObjModel().setID(-1);
+           return this.getObjModel();
+       }
        
        if ( Util.isNumeric(search) ) {
            return this.getObjModel().findBy(Long.parseLong(search));

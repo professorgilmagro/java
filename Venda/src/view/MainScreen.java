@@ -242,6 +242,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
     private void jMenuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSairMouseClicked
          this.dispose();
+         System.exit(0);
     }//GEN-LAST:event_jMenuSairMouseClicked
     
     /**

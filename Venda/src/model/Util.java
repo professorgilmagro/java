@@ -103,9 +103,9 @@ public class Util {
      */
     public static Object showOptions(String message, Object[] options, String title){
         Object response = JOptionPane.showInputDialog(
-                JOptionPane.getRootFrame(), message , title,
-                JOptionPane.PLAIN_MESSAGE, null, options, null
-            );
+            JOptionPane.getRootFrame(), message , title,
+            JOptionPane.PLAIN_MESSAGE, null, options, null
+        );
         
         return response;
     }
