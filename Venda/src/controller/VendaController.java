@@ -4,28 +4,18 @@
 package controller;
 
 import dao.ModelInterface;
-import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import model.Categoria;
 import model.Produto;
 import model.Util;
 import model.Venda;
-import view.MainScreen;
-import view.jPanelProdutos;
 import view.jPanelVendas;
 
 /**
@@ -73,7 +63,7 @@ public class VendaController extends GenericController{
      * @return DefaultTableModel
      */
     public DefaultTableModel getHeaderTableModel() {
-        DefaultTableModel model = new DefaultTableModel();
+       DefaultTableModel model = new DefaultTableModel();
                      
        model.addColumn("Código");
        model.addColumn("Nome");
@@ -199,5 +189,16 @@ public class VendaController extends GenericController{
         }
         
         return true;
+    }
+    
+     /**
+     * Permite fazer a busca do objeto a partir do código ou nome informado
+     * 
+     * @return ModelInterface
+     */
+    public ModelInterface search() {
+       ModelInterface order = super.search() ;
+       super.setModel(order);
+       return order;
     }
 }

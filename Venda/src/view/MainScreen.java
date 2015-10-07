@@ -61,7 +61,10 @@ public final class MainScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AIEC - Atividade Unidade III");
+        setAutoRequestFocus(false);
+        setBackground(new java.awt.Color(169, 177, 219));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setForeground(new java.awt.Color(59, 45, 45));
         setPreferredSize(new java.awt.Dimension(800, 554));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
@@ -95,9 +98,11 @@ public final class MainScreen extends javax.swing.JFrame {
         jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/logo-aiec.png"))); // NOI18N
         jPanelScreen.add(jLabelLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, 66));
 
+        jMenuBarMain.setBackground(new java.awt.Color(149, 190, 253));
+        jMenuBarMain.setBorder(null);
         jMenuBarMain.setMargin(new java.awt.Insets(10, 20, 0, 0));
 
-        jMenuVendas.setForeground(new java.awt.Color(129, 186, 248));
+        jMenuVendas.setForeground(new java.awt.Color(254, 254, 254));
         jMenuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-venda.png"))); // NOI18N
         jMenuVendas.setMnemonic('v');
         jMenuVendas.setText("Vendas");
@@ -118,7 +123,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuVendas);
 
-        jMenuProdutos.setForeground(new java.awt.Color(129, 186, 248));
+        jMenuProdutos.setForeground(new java.awt.Color(254, 254, 254));
         jMenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-produto.png"))); // NOI18N
         jMenuProdutos.setMnemonic('p');
         jMenuProdutos.setText("Produtos");
@@ -148,7 +153,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuProdutos);
 
-        jMenuClientes.setForeground(new java.awt.Color(129, 186, 248));
+        jMenuClientes.setForeground(new java.awt.Color(254, 254, 254));
         jMenuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-cliente.png"))); // NOI18N
         jMenuClientes.setMnemonic('c');
         jMenuClientes.setText("Clientes");
@@ -168,7 +173,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuClientes);
 
-        jMenuConfig.setForeground(new java.awt.Color(129, 186, 248));
+        jMenuConfig.setForeground(new java.awt.Color(254, 254, 254));
         jMenuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-config.png"))); // NOI18N
         jMenuConfig.setMnemonic('o');
         jMenuConfig.setText("Configurações");
@@ -177,7 +182,8 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuConfig.setMargin(new java.awt.Insets(0, 0, 0, 25));
         jMenuBarMain.add(jMenuConfig);
 
-        jMenuSair.setForeground(new java.awt.Color(129, 186, 248));
+        jMenuSair.setBackground(new java.awt.Color(0, 161, 206));
+        jMenuSair.setForeground(new java.awt.Color(254, 254, 254));
         jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-sair.png"))); // NOI18N
         jMenuSair.setMnemonic('s');
         jMenuSair.setToolTipText("Sair do Sistema");
@@ -200,14 +206,14 @@ public final class MainScreen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(175, 175, 175)
                 .addComponent(jPanelScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(193, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
+                .addContainerGap(73, Short.MAX_VALUE)
                 .addComponent(jPanelScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
