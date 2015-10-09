@@ -4,7 +4,6 @@
 package controller;
 
 import dao.ModelInterface;
-import java.io.IOException;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -57,33 +56,41 @@ public class CategoriaController extends GenericController{
     }
     
     /**
-     * Retorna o modelo para renderização da tabela na tela
+     * Retorna o model com o cabeçalho padrão
      * 
-     * @see GenericController
      * @return DefaultTableModel
      */
-    @Override
-    public DefaultTableModel getTableModel(){
+    public DefaultTableModel getHeaderTableModel() {
         DefaultTableModel model = new DefaultTableModel();
                      
         model.addColumn("Código");
         model.addColumn("Nome");
         model.addColumn("Descrição");
         
-        try {
-            List <ModelInterface> categorias = this.getObjModel().fetchAll();
-            for(ModelInterface item : categorias) {
-                Categoria c = (Categoria) item ;
-                Object[] data = {
-                    c.getCodigo(),
-                    c.getNome(),
-                    c.getDescricao()
-                };
-                
-                model.addRow(data);
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+        return model ;
+    }
+    
+    /**
+     * Retorna o modelo para renderização da tabela na tela
+     * 
+     * @param items Lista de items a serem adicionados no TableModel
+     * 
+     * @see GenericController
+     * @return DefaultTableModel
+     */
+    @Override
+    public DefaultTableModel getTableModel(List<ModelInterface> items){
+        DefaultTableModel model = this.getHeaderTableModel();
+        
+        for(ModelInterface item : items) {
+            Categoria c = (Categoria) item ;
+            Object[] data = {
+                c.getCodigo(),
+                c.getNome(),
+                c.getDescricao()
+            };
+            
+            model.addRow(data);
         }
         
         return model;
@@ -107,6 +114,7 @@ public class CategoriaController extends GenericController{
             Util.showMessage("Categoria salvo com sucesso");
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return false;
         }
         

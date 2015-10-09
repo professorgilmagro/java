@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -64,12 +66,44 @@ abstract class GenericController {
     }
     
     /**
+     * Retorna o modelo para renderização da tabela na tela
+     * 
+     * @see GenericController
+     * @return DefaultTableModel
+     */
+    public DefaultTableModel getTableModel(){
+        DefaultTableModel model = this.getHeaderTableModel();
+                     
+        try {
+            List <ModelInterface> items = this.getObjModel().fetchAll();
+            return this.getTableModel(items);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return model;
+    }
+    
+    /**
      * Retorna um modelo de dados para renderização da tabela em objetos swing 
      * 
      * @return TableModel
      */
-    abstract public DefaultTableModel getTableModel();
+    abstract public DefaultTableModel getTableModel(List <ModelInterface> items);
     
+    /**
+     * Retorna um modelo de header para renderização das colunas da tabela
+     * 
+     * @return DefaultTableModel
+     */
+    abstract public DefaultTableModel getHeaderTableModel();
+    
+    /**
+     * Remove um registro a partir de uma tabela swing
+     * 
+     * @param table Tabela cujo item será removido
+     * @return int
+     */
     public int remove( JTable table ) {
        int row = table.getSelectedRow();
                 
@@ -79,13 +113,13 @@ abstract class GenericController {
         }
        
        long ID = (long) table.getModel().getValueAt(row, 0);
-       ModelInterface item = this.getObjModel().findBy(ID);
+       List <ModelInterface> item = this.getObjModel().findBy(ID);
        
        String message = String.format("Tem certeza que deseja excluir o item '%s'?", item.toString());
        
        if(Util.showConfirm(message, "Remover?")) {
             try {
-                item.remove();
+                item.get(0).remove();
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
                 return -1;
@@ -100,11 +134,10 @@ abstract class GenericController {
      * 
      * @return ModelInterface
      */
-    public ModelInterface search() {
+    public List <ModelInterface> search() {
        String search = Util.showInput("Entre com o código ou nome a ser procurado");
        if( search == null ){
-           this.getObjModel().setID(-1);
-           return this.getObjModel();
+           return new ArrayList();
        }
        
        if ( Util.isNumeric(search) ) {

@@ -4,6 +4,8 @@
  */
 package model;
 
+import dao.ModelInterface;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -267,24 +269,31 @@ public class Cliente extends GenericModel{
      * 
      * @param cpf    CPF a ser localizado
      * 
-     * @return ModelInterface
+     * @return List
      */
-    public Cliente findByCPF(long cpf) {
+    public List <ModelInterface> findByCPF(long cpf) {
+        List <ModelInterface> results = new ArrayList();
+        
         try {
-            List objects = this.fetchAll();
+            List<ModelInterface> items = this.fetchAll();
             
-            for (Object object : objects) {
-                Cliente model = (Cliente) object;
+            for (ModelInterface item : items) {
+                Cliente model = (Cliente) item;
                 if(model.getCPF() == cpf) {
-                    return model ;
+                    results.add(model);
+                    break;
                 }
             }
         } catch (Exception ex) {
             Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        this.setID(0);
-        return this ;
+        if(results.isEmpty()){
+            this.setID(0);
+            results.add(this);
+        }
+        
+        return results ;
     }
     
     /**
@@ -292,23 +301,29 @@ public class Cliente extends GenericModel{
      * 
      * @param email    E-mail a ser localizado
      * 
-     * @return ModelInterface
+     * @return List
      */
-    public Cliente findByEmail(String email) {
+    public List <ModelInterface> findByEmail(String email) {
+        List <dao.ModelInterface> results = new ArrayList();
+        
         try {
-            List objects = this.fetchAll();
+           List<ModelInterface> items = this.fetchAll();
             
-            for (Object object : objects) {
-                Cliente model = (Cliente) object;
+            for(ModelInterface item : items) {
+                Cliente model = (Cliente) item;
                 if(model.getEmail().toLowerCase().equals(email.toLowerCase())) {
-                    return model ;
+                    results.add(model);
                 }
             }
         } catch (Exception ex) {
             Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        this.setID(0);
-        return this ;
+        if(results.isEmpty()){
+            this.setID(0);
+            results.add(this);
+        }
+        
+        return results ;    
     }
 }

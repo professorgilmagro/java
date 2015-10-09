@@ -4,7 +4,6 @@
 package view;
 
 import controller.CategoriaController;
-import controller.ClienteController;
 import controller.ProdutoController;
 import model.Produto;
 import model.Util;
@@ -14,7 +13,6 @@ import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import model.Cliente;
 
 /**
  * Classe para controlar as funcionalidades de gerenciamento de proutos

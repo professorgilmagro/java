@@ -66,6 +66,7 @@ public class ProdutoController extends GenericController{
      * 
      * @return DefaultTableModel
      */
+    @Override
     public DefaultTableModel getHeaderTableModel() {
         DefaultTableModel model = new DefaultTableModel();
                      
@@ -77,35 +78,32 @@ public class ProdutoController extends GenericController{
         model.addColumn("Vlr. Unitário");
         
         return model ;
-    }
+    } 
     
     /**
      * Retorna o modelo para renderização da tabela na tela
+     * 
+     * @param items Itens de produtos as serem adicionados
      * 
      * @see GenericController
      * @return DefaultTableModel
      */
     @Override
-    public DefaultTableModel getTableModel(){
+    public DefaultTableModel getTableModel(List <ModelInterface> items){
         DefaultTableModel model = this.getHeaderTableModel();
-                     
-        try {
-            List <ModelInterface> produtos = this.getObjModel().fetchAll();
-            for (ModelInterface item : produtos) {
-                Produto prod = (Produto) item;
-                Object[] data = {
-                    prod.getCodigo(),
-                    prod.getNome(),
-                    prod.getDescricao(),
-                    prod.getCategoria(),
-                    prod.getPeso(),
-                    prod.getFormatPrice()
-                };
-                
-                model.addRow(data);
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+        
+        for(ModelInterface item : items) {
+            Produto prod = (Produto) item;
+            Object[] data = {
+                prod.getCodigo(),
+                prod.getNome(),
+                prod.getDescricao(),
+                prod.getCategoria(),
+                prod.getPeso(),
+                prod.getFormatPrice()
+            };
+
+            model.addRow(data);
         }
         
         return model;

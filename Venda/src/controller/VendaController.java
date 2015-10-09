@@ -5,7 +5,6 @@ package controller;
 
 import dao.ModelInterface;
 import java.awt.GraphicsEnvironment;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JDialog;
@@ -62,6 +61,7 @@ public class VendaController extends GenericController{
      * 
      * @return DefaultTableModel
      */
+    @Override
     public DefaultTableModel getHeaderTableModel() {
        DefaultTableModel model = new DefaultTableModel();
                      
@@ -93,27 +93,22 @@ public class VendaController extends GenericController{
     /**
      * Retorna o modelo para renderização da tabela na tela
      * 
+     * @param items
      * @see GenericController
      * @return DefaultTableModel
      */
     @Override
-    public DefaultTableModel getTableModel(){
+    public DefaultTableModel getTableModel(List <ModelInterface> items){
         DefaultTableModel model = this.getHeaderTableModel();
-                     
-        try {
-           List <ModelInterface> vendas = this.getObjModel().fetchAll();
-            for (ModelInterface item : vendas) {
-                Venda vd = (Venda) item;
-                Object[] data = {
-                    vd.getCodigo(),
-                    vd.getCliente(),
-                    vd.getTotal()
-                };
-                
-                model.addRow(data);
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+        for(ModelInterface item : items) {
+            Venda vd = (Venda) item;
+            Object[] data = {
+                vd.getCodigo(),
+                vd.getCliente(),
+                vd.getTotal()
+            };
+
+            model.addRow(data);
         }
         
         return model;
@@ -189,16 +184,5 @@ public class VendaController extends GenericController{
         }
         
         return true;
-    }
-    
-     /**
-     * Permite fazer a busca do objeto a partir do código ou nome informado
-     * 
-     * @return ModelInterface
-     */
-    public ModelInterface search() {
-       ModelInterface order = super.search() ;
-       super.setModel(order);
-       return order;
     }
 }

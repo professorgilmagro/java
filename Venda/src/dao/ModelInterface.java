@@ -21,7 +21,7 @@ public interface ModelInterface {
      * @return List
      * @throws java.io.FileNotFoundException
      */
-     public List fetchAll() throws FileNotFoundException, IOException;
+     public List<ModelInterface> fetchAll() throws FileNotFoundException, IOException;
     
      /**
      * Salva os dados do objeto
@@ -80,14 +80,14 @@ public interface ModelInterface {
      * 
      * @return ModelInterface
      */
-    public ModelInterface findBy(long ID);
+    public List <ModelInterface> findBy(long ID);
     
     /**
      * Permite localizar um objeto a partir de um literal
      * 
      * @param name    Literal que representa o objeto a ser localizado
      * 
-     * @return ModelInterface
+     * @return List
      */
-    public ModelInterface findBy(String name) ;
+    public List <ModelInterface> findBy(String name) ;
 }

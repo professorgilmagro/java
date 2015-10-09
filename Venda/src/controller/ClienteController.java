@@ -4,8 +4,8 @@
 package controller;
 
 import dao.ModelInterface;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JDialog;
@@ -63,6 +63,7 @@ public class ClienteController extends GenericController{
      * 
      * @return DefaultTableModel
      */
+    @Override
     public DefaultTableModel getHeaderTableModel() {
         DefaultTableModel model = new DefaultTableModel();
                      
@@ -78,30 +79,25 @@ public class ClienteController extends GenericController{
     /**
      * Retorna o modelo para renderização da tabela na tela
      * 
+     * @param items
      * @see GenericController
      * @return DefaultTableModel
      */
     @Override
-    public DefaultTableModel getTableModel(){
+    public DefaultTableModel getTableModel(List<ModelInterface> items){
         DefaultTableModel model = this.getHeaderTableModel();
         SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            List <ModelInterface> clientes = this.getObjModel().fetchAll() ;
-            System.out.println(clientes.size());
-            for (ModelInterface cliente : clientes) {
-                Cliente cli = (Cliente) cliente ;
-                Object[] data = {
-                    cli.getCodigo(),
-                    cli.getFullName(),
-                    dt.format(cli.getDataNascimento()),
-                    cli.getTelefone(),
-                    cli.getEmail(),
-                };
-                
-                model.addRow(data);
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+        for (ModelInterface item : items) {
+            Cliente cli = (Cliente) item ;
+            Object[] data = {
+                cli.getCodigo(),
+                cli.getFullName(),
+                dt.format(cli.getDataNascimento()),
+                cli.getTelefone(),
+                cli.getEmail(),
+            };
+            
+            model.addRow(data);
         }
         
         return model;
@@ -177,33 +173,37 @@ public class ClienteController extends GenericController{
      * @return ModelInterface
      */
     @Override
-    public ModelInterface search() {
+    public List<ModelInterface> search() {
+        List items = new ArrayList();
         ModelInterface objCli = this.getObjModel();
-        objCli.setID(-1);
         
         String[] options = {"Código", "Nome", "CPF", "E-mail"};
         Object option = Util.showOptions("Selecione o tipo de pesquisa.", options, "Selecione o tipo de pesquisa");
-        if( option == null ) return objCli;
+        if( option == null ) return items;
         
         String search = Util.showInput(String.format("Entre com o %s a ser procurado", option.toString()));
-        if( search == null ) return objCli;
-
+        if( option == null ) return items;
+        
+        Cliente cli = (Cliente) this.getObjModel();
         if(option.equals("CPF")){
-            Cliente cli = (Cliente) this.getObjModel();
             search = search.replace(".", "").replace("-", "");
-            return (ModelInterface) cli.findByCPF(Long.parseLong(search));
+            items.add(cli.findByCPF(Long.parseLong(search)));
         }
         
         if(option.equals("E-mail")){
-            Cliente cli = (Cliente) this.getObjModel();
-            return (ModelInterface) cli.findByEmail(search);
+            items.add(cli.findByEmail(search));
         }
         
         if ( Util.isNumeric(search) ) {
-            return this.getObjModel().findBy(Long.parseLong(search));
+            items.add(this.getObjModel().findBy(Long.parseLong(search)));
+        }
+        
+        if(items.isEmpty()){
+            objCli.setID(0);
+            items.add(objCli);
         }
        
-       return this.getObjModel().findBy(search);
+       return items;
     }
     
 }

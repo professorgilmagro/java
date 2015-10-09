@@ -4,10 +4,11 @@
 package view;
 
 import controller.ClienteController;
+import dao.ModelInterface;
 import model.Cliente;
 import model.Util;
 import java.awt.event.KeyEvent;
-import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -353,7 +354,7 @@ public final class jPanelClientes extends javax.swing.JPanel {
     private void tableClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableClientesMouseReleased
         int row = this.tableClientes.getSelectedRow();
         long ID = (long) this.tableClientes.getModel().getValueAt(row, 0);
-        Cliente cli = (Cliente) this.controller.getObjModel().findBy(ID);
+        Cliente cli = (Cliente) this.controller.getObjModel().findBy(ID).get(0);
         this.jLabelCPF.setText("CPF: " + cli.getFormatCPF());
         this.jLabelNome.setText(cli.getFullName());
         this.jLabelEmail.setText("E-mail: " + cli.getEmail());
@@ -387,32 +388,25 @@ public final class jPanelClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnReloadActionPerformed
 
     private void btnBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaActionPerformed
-        Cliente cli = (Cliente) this.controller.search();
+        List <ModelInterface> clientes = this.controller.search();
         
         // significa que o cliente cancelou a pesquisa
-        if ( cli.hashCode() == -1 ) return ;
+        if ( clientes.isEmpty() ) return ;
         
         this.btnReload.setEnabled(false);
-        if ( cli.hashCode() == 0 ) {
-            Util.showMessage("Cliente não encontrado.", "Buscador", JOptionPane.WARNING_MESSAGE );
-            return ;
-        }
+//        if ( clientes.size() == 1 ) {
+//            ModelInterface cli = (ModelInterface) clientes.get(0);
+//            if (cli.hashCode() == 0) {
+//                Util.showMessage("Cliente não encontrado.", "Buscador", JOptionPane.WARNING_MESSAGE );
+//                return ;
+//            }
+//        }
         
-        this.btnReload.setEnabled(true);
-        DefaultTableModel model = ClienteController.make().getHeaderTableModel() ;
-        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
-        Object[] data = {
-            cli.getCodigo(),
-            cli.getFullName(),
-            dt.format(cli.getDataNascimento()),
-            cli.getTelefone(),
-            cli.getEmail(),
-        };
-                
-        model.addRow(data);
+        DefaultTableModel model = ClienteController.make().getTableModel(clientes);
         this.tableClientes.setModel(model);
-        this.tableClientes.selectAll();
         this.btnReload.setEnabled(true);
+        this.btnReload.setEnabled(true);
+        this.tableClientes.setRowSelectionInterval(0, 0);
         this.tableClientesMouseReleased(null);
     }//GEN-LAST:event_btnBuscaActionPerformed
 

@@ -30,7 +30,7 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
      * @throws IOException 
      */
     @Override
-    public List fetchAll() throws FileNotFoundException, IOException {
+    public List<ModelInterface> fetchAll() throws FileNotFoundException, IOException {
         List<ModelInterface> items = new ArrayList<>();
         File file = new File(this.getFileName());
        
@@ -173,48 +173,59 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
      * 
      * @return ModelInterface
      */
-    public ModelInterface findBy(long ID) {
+    @Override
+    public List <ModelInterface> findBy(long ID) {
+        List results = new ArrayList();
         try {
-            List objects = this.fetchAll();
-            
-            for (Object object : objects) {
-                ModelInterface model = (ModelInterface) object;
-                if( (long) model.hashCode() == ID ) {
-                    return model ;
+            List <ModelInterface> objects = this.fetchAll();
+            for (ModelInterface object : objects) {
+                if( (long) object.hashCode() == ID ) {
+                    results.add(object);
+                    break;
                 }
             }
         } catch (Exception ex) {
             Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        this.setID(0);
-        return this ;
+        if(results.isEmpty()){
+            this.setID(0);
+            results.add(this);
+        }
+        
+        return results ;
     }
     
     /**
-     * Permite localizar um objeto a partir do ID
+     * Permite localizar um ou mais objetos a partir do nome
      * 
      * @param name    Nome, literal de busca
      * 
-     * @return ModelInterface
+     * @return List
      */
     @Override
-    public ModelInterface findBy(String name) {
+    public List <ModelInterface> findBy(String name) {
+        List results = new ArrayList();
+        
         try {
             List objects = this.fetchAll();
             
-            for (Object object : objects) {
+            for(Object object : objects){
                 ModelInterface model = (ModelInterface) object;
                 if( model.toString().toLowerCase().startsWith(name.toLowerCase()) ) {
-                    return model ;
+                    results.add(object);
                 }
             }
         } catch (Exception ex) {
             Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        this.setID(0);
-        return this ;
+        if(results.isEmpty()){
+            this.setID(0);
+            results.add(this);
+        }
+        
+        return results; 
     }
     
      /**

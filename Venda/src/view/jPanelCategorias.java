@@ -6,6 +6,8 @@
 package view;
 
 import controller.CategoriaController;
+import dao.ModelInterface;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -290,13 +292,13 @@ public final class jPanelCategorias extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddCategoriaActionPerformed
 
     private void btnBuscaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaCategoriaActionPerformed
-        Categoria cat = (Categoria) this.controller.search();
+        List <ModelInterface> items = this.controller.search();
         
         // significa que o usuário cancelou a pesquisa
-        if ( cat.hashCode() == -1 ) return ;
+        if ( items.isEmpty() ) return ;
         
         this.btnReload.setEnabled(false);
-        if ( cat.hashCode() == 0 ) {
+        if ( items.size() == 1 && items.get(0).hashCode() == 0 ) {
             Util.showMessage("Categoria não encontrada.", "Buscador", JOptionPane.WARNING_MESSAGE );
             return ;
         }
@@ -307,15 +309,20 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         model.addColumn("Código");
         model.addColumn("Nome");
         model.addColumn("Descrição");
-        Object[] data = {
-             cat.getCodigo(),
-             cat.getNome(),
-             cat.getDescricao()
-         };
+        
+       for(ModelInterface item : items) {
+           Categoria cat = (Categoria) item;
+            Object[] data = {
+                cat.getCodigo(),
+                cat.getNome(),
+                cat.getDescricao()
+            };
+            
+            model.addRow(data);
+        }
 
-        model.addRow(data);
         this.tableCategoria.setModel(model);
-        this.tableCategoria.selectAll();
+        this.tableCategoria.setRowSelectionInterval(0, 0);
     }//GEN-LAST:event_btnBuscaCategoriaActionPerformed
 
     private void btnReloadMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReloadMouseReleased
