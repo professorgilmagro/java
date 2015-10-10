@@ -18,6 +18,10 @@ import javax.swing.table.TableModel;
  * @author gilmar
  */
 public final class jPanelClientes extends javax.swing.JPanel {
+     /**
+     * Determina o odernamento da lista (true para ASC | false para DESC)
+     */
+    private boolean orderAsc = true ;
     
      /**
      * Recebe o controlador desta view
@@ -157,6 +161,11 @@ public final class jPanelClientes extends javax.swing.JPanel {
         btnOdernar.setMnemonic('o');
         btnOdernar.setToolTipText("");
         btnOdernar.setLabel("Odernar");
+        btnOdernar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOdernarActionPerformed(evt);
+            }
+        });
 
         jPanelDetalhes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -393,14 +402,11 @@ public final class jPanelClientes extends javax.swing.JPanel {
         // significa que o cliente cancelou a pesquisa
         if ( clientes.isEmpty() ) return ;
         
-        this.btnReload.setEnabled(false);
-//        if ( clientes.size() == 1 ) {
-//            ModelInterface cli = (ModelInterface) clientes.get(0);
-//            if (cli.hashCode() == 0) {
-//                Util.showMessage("Cliente não encontrado.", "Buscador", JOptionPane.WARNING_MESSAGE );
-//                return ;
-//            }
-//        }
+        // se há apenas um objeto e ele está vazio, logo a pesquisa não encontrou resultado
+        if ( clientes.size() == 1 && clientes.get(0).hashCode() == 0 ) {
+            Util.showMessage("Cliente não encontrado.", "Buscador", JOptionPane.WARNING_MESSAGE );
+            return ;
+        }
         
         DefaultTableModel model = ClienteController.make().getTableModel(clientes);
         this.tableClientes.setModel(model);
@@ -409,6 +415,20 @@ public final class jPanelClientes extends javax.swing.JPanel {
         this.tableClientes.setRowSelectionInterval(0, 0);
         this.tableClientesMouseReleased(null);
     }//GEN-LAST:event_btnBuscaActionPerformed
+
+    private void btnOdernarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdernarActionPerformed
+        if(this.orderAsc) this.btnOdernar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/sort_decrease.png")));
+        if(!this.orderAsc) this.btnOdernar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/sort_incr.png")));
+        
+        List<Cliente> clientes = this.controller.fetchSortedItems(this.orderAsc);
+        DefaultTableModel model = ClienteController.make().getTableModel(clientes);
+        this.tableClientes.setModel(model);
+        this.btnReload.setEnabled(true);
+        this.btnReload.setEnabled(true);
+        this.tableClientes.setRowSelectionInterval(0, 0);
+        this.tableClientesMouseReleased(null);
+        this.orderAsc = ! this.orderAsc;
+    }//GEN-LAST:event_btnOdernarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

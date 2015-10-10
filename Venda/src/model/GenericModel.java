@@ -237,17 +237,7 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
      */
     @Override
     public int compareTo(Object o) {
-        GenericModel obj = (GenericModel) o ;
-        if (this.hashCode()< obj.hashCode()) {
-            return -1;
-        }
-        
-        if (this.hashCode() == obj.hashCode()) {
-            return 0;
-        }
-        
-        assert this.hashCode() > obj.hashCode();
-        return 1;
+        return this.toString().compareToIgnoreCase(o.toString());
     }
     
     /**

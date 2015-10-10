@@ -5,6 +5,7 @@
 package model;
 
 import dao.ModelInterface;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -234,6 +235,15 @@ public class Cliente extends GenericModel{
         return cpf;       
     }
     
+    public String getFormatDataNascimento(){
+        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
+        if (this.getDataNascimento() != null){
+            return dt.format(this.getDataNascimento());
+        }
+        
+        return "";
+    }
+    
      /**
      * Retorna o Sexo formatado
      * 
@@ -304,14 +314,14 @@ public class Cliente extends GenericModel{
      * @return List
      */
     public List <ModelInterface> findByEmail(String email) {
-        List <dao.ModelInterface> results = new ArrayList();
+        List <ModelInterface> results = new ArrayList();
         
         try {
            List<ModelInterface> items = this.fetchAll();
             
             for(ModelInterface item : items) {
                 Cliente model = (Cliente) item;
-                if(model.getEmail().toLowerCase().equals(email.toLowerCase())) {
+                if(model.getEmail().toLowerCase().startsWith(email.toLowerCase())) {
                     results.add(model);
                 }
             }

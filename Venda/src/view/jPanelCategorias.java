@@ -295,10 +295,10 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         List <ModelInterface> items = this.controller.search();
         
         // significa que o usuário cancelou a pesquisa
-        if ( items.isEmpty() ) return ;
+        if (items.isEmpty()) return;
         
-        this.btnReload.setEnabled(false);
-        if ( items.size() == 1 && items.get(0).hashCode() == 0 ) {
+        // Regra específica: Se há um objeto e o hascode é zero, logo a busca não encontrou resultados
+        if (items.size() == 1 && items.get(0).hashCode() == 0) {
             Util.showMessage("Categoria não encontrada.", "Buscador", JOptionPane.WARNING_MESSAGE );
             return ;
         }

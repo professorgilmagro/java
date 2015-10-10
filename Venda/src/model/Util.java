@@ -222,5 +222,15 @@ public class Util {
     public static boolean isNumeric(String value) {
         return value.matches("\\d+");
     }
+    
+    /**
+     * Dada uma string, retorna somente os números
+     * 
+     * @param value
+     * @return 
+     */
+    public static String onlyNumber(String value){
+        return value.replaceAll("\\D+","");
+    }
 
 }

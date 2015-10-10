@@ -4,10 +4,14 @@
 package controller;
 
 import dao.ModelInterface;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -84,15 +88,14 @@ public class ClienteController extends GenericController{
      * @return DefaultTableModel
      */
     @Override
-    public DefaultTableModel getTableModel(List<ModelInterface> items){
+    public DefaultTableModel getTableModel(List items){
         DefaultTableModel model = this.getHeaderTableModel();
-        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
-        for (ModelInterface item : items) {
+        for(Object item : items) {
             Cliente cli = (Cliente) item ;
             Object[] data = {
                 cli.getCodigo(),
                 cli.getFullName(),
-                dt.format(cli.getDataNascimento()),
+                cli.getFormatDataNascimento(),
                 cli.getTelefone(),
                 cli.getEmail(),
             };
@@ -102,7 +105,7 @@ public class ClienteController extends GenericController{
         
         return model;
     }
-    
+       
     /**
      * Ação para adicionar novo cliente
      * 
@@ -117,18 +120,18 @@ public class ClienteController extends GenericController{
             if( nome.isEmpty() ) return false;
             
             String sobrenome = Util.showInput("Digite o sobrenome.");
-            if( nome.isEmpty() ) return false;
+            if( sobrenome.isEmpty() ) return false;
              
-            Long cpf = Long.parseLong(Util.showInput("Digite o CPF."));
-            if( nome.isEmpty() ) return false;
+            String cpf = Util.onlyNumber(Util.showInput("Digite o CPF."));
+            if( cpf.isEmpty() ) return false;
              
-            String cep = Util.showInput("Digite o Código Postal.");
-            if( nome.isEmpty() ) return false;
+            String cep = Util.onlyNumber(Util.showInput("Digite o Código Postal."));
+            if( cep.isEmpty() ) return false;
              
             Integer numero = Integer.parseInt(Util.showInput("Digite o número da residência."));
             CepService cws = new CepService(cep);
             cli.fillFromService(cws);
-            cli.setCEP(Long.parseLong(cep));
+            cli.setCEP(Long.parseLong(cep.replace(".","")));
             cli.setNumero(numero);
 
             String message = String.format( "O endereço abaixo está correto?\n%s", cli.getEndereco());
@@ -154,7 +157,7 @@ public class ClienteController extends GenericController{
             cli.setEmail(email);
             cli.setNome(nome);
             cli.setSobrenome(sobrenome);
-            cli.setCPF(cpf);
+            cli.setCPF(Long.parseLong(cpf));
             cli.setTelefone(telefone);
 
             cli.save();
@@ -174,8 +177,7 @@ public class ClienteController extends GenericController{
      */
     @Override
     public List<ModelInterface> search() {
-        List items = new ArrayList();
-        ModelInterface objCli = this.getObjModel();
+        List <ModelInterface> items = new ArrayList();
         
         String[] options = {"Código", "Nome", "CPF", "E-mail"};
         Object option = Util.showOptions("Selecione o tipo de pesquisa.", options, "Selecione o tipo de pesquisa");
@@ -186,24 +188,48 @@ public class ClienteController extends GenericController{
         
         Cliente cli = (Cliente) this.getObjModel();
         if(option.equals("CPF")){
-            search = search.replace(".", "").replace("-", "");
-            items.add(cli.findByCPF(Long.parseLong(search)));
+            search = Util.onlyNumber(search);
+            return cli.findByCPF(Long.parseLong(search));
         }
         
         if(option.equals("E-mail")){
-            items.add(cli.findByEmail(search));
+            return cli.findByEmail(search);
+        }
+        
+        if(option.equals("Nome")){
+            return cli.findBy(search);
         }
         
         if ( Util.isNumeric(search) ) {
-            items.add(this.getObjModel().findBy(Long.parseLong(search)));
+           return cli.findBy(Long.parseLong(search));
         }
         
-        if(items.isEmpty()){
-            objCli.setID(0);
-            items.add(objCli);
-        }
+        this.getObjModel().setID(0);
+        items.add(this.getObjModel());
        
        return items;
     }
     
+    /**
+     * Rertona a coleção de clientes ordernados
+     * 
+     * @param asc
+     * @return List
+     */
+    public List<Cliente> fetchSortedItems(boolean asc){
+        List<Cliente> clientes = new ArrayList<>();
+        try {
+           List<ModelInterface> items = this.getObjModel().fetchAll();
+            for(ModelInterface item : items) {
+                clientes.add((Cliente)item);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(asc) Collections.sort(clientes);
+        if(!asc) Collections.sort(clientes, Collections.reverseOrder());
+        
+        return clientes;
+    }
 }
