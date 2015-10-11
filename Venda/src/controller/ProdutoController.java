@@ -199,7 +199,7 @@ public class ProdutoController extends GenericController{
      */
     public boolean supplyStock(Long produtoID, int value, JLabel lblNivel ){
         try {
-            Produto p = (Produto) this.getObjModel().findBy(produtoID);
+            Produto p = (Produto) this.getObjModel().findBy(produtoID).get(0);
             p.addEstque(value);
             
             DecimalFormat df = new DecimalFormat("#,###") ;

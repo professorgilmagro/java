@@ -145,7 +145,7 @@
     <Component class="javax.swing.JButton" name="btnAdd">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/add2.png"/>
+          <Image iconType="3" name="/view/assets/16x16/add2.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="97"/>
         <Property name="text" type="java.lang.String" value="Adicionar"/>
@@ -157,7 +157,7 @@
     <Component class="javax.swing.JButton" name="btnDelete">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/delete.png"/>
+          <Image iconType="3" name="/view/assets/16x16/delete.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="120"/>
         <Property name="text" type="java.lang.String" value="Excluir"/>
@@ -169,7 +169,7 @@
     <Component class="javax.swing.JButton" name="btnBusca">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/search-client.png"/>
+          <Image iconType="3" name="/view/assets/16x16/search-client.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="108"/>
         <Property name="text" type="java.lang.String" value="Localizar"/>
@@ -191,7 +191,7 @@
     <Component class="javax.swing.JButton" name="btnOdernar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/sort_incr.png"/>
+          <Image iconType="3" name="/view/assets/16x16/sort_incr.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="111"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -280,7 +280,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/view/assets/address-icon.png"/>
+              <Image iconType="3" name="/view/assets/16x16/address-icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Endere&#xe7;o:"/>
             <Property name="verticalAlignment" type="int" value="1"/>
@@ -303,7 +303,7 @@
         <Component class="javax.swing.JLabel" name="jLabelCPF">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/view/assets/card-identifier.png"/>
+              <Image iconType="3" name="/view/assets/16x16/card-identifier.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="CPF"/>
           </Properties>
@@ -311,7 +311,7 @@
         <Component class="javax.swing.JLabel" name="jLabelEmail">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/view/assets/email.png"/>
+              <Image iconType="3" name="/view/assets/16x16/email.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="E-mail"/>
           </Properties>
@@ -319,7 +319,7 @@
         <Component class="javax.swing.JLabel" name="jLabelIcon">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/view/assets/icon-cliente.png"/>
+              <Image iconType="3" name="/view/assets/64x64/icon-cliente.png"/>
             </Property>
           </Properties>
         </Component>
@@ -330,7 +330,7 @@
             </Property>
             <Property name="horizontalAlignment" type="int" value="4"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/view/assets/sexo.png"/>
+              <Image iconType="3" name="/view/assets/16x16/sexo.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Sexo:"/>
             <Property name="verticalAlignment" type="int" value="1"/>
@@ -344,7 +344,7 @@
           <Color blue="c1" green="f8" red="f8" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/information-icon.png"/>
+          <Image iconType="3" name="/view/assets/16x16/information-icon.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Dados oriundos do arquivo:"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -361,7 +361,7 @@
     <Component class="javax.swing.JButton" name="btnLoadFromFile">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/load-from-file.png"/>
+          <Image iconType="3" name="/view/assets/16x16/load-from-file.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="99"/>
         <Property name="text" type="java.lang.String" value="Carregar do arquivo..."/>
@@ -374,7 +374,7 @@
     <Component class="javax.swing.JButton" name="btnSaveToFile">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/save-on-file.png"/>
+          <Image iconType="3" name="/view/assets/16x16/save-on-file.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="115"/>
         <Property name="text" type="java.lang.String" value="Salvar em arquivo..."/>
@@ -387,7 +387,7 @@
     <Component class="javax.swing.JButton" name="btnReload">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/refresh-icon.gif"/>
+          <Image iconType="3" name="/view/assets/16x16/refresh-icon.gif"/>
         </Property>
         <Property name="mnemonic" type="int" value="114"/>
         <Property name="text" type="java.lang.String" value="Recarregar"/>

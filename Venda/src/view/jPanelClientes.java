@@ -125,7 +125,7 @@ public final class jPanelClientes extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tableClientes);
 
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/add2.png"))); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/add2.png"))); // NOI18N
         btnAdd.setMnemonic('a');
         btnAdd.setText("Adicionar");
         btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -134,7 +134,7 @@ public final class jPanelClientes extends javax.swing.JPanel {
             }
         });
 
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/delete.png"))); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/delete.png"))); // NOI18N
         btnDelete.setMnemonic('x');
         btnDelete.setText("Excluir");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +143,7 @@ public final class jPanelClientes extends javax.swing.JPanel {
             }
         });
 
-        btnBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/search-client.png"))); // NOI18N
+        btnBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/search-client.png"))); // NOI18N
         btnBusca.setMnemonic('l');
         btnBusca.setText("Localizar");
         btnBusca.setToolTipText("");
@@ -157,7 +157,7 @@ public final class jPanelClientes extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Clientes");
 
-        btnOdernar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/sort_incr.png"))); // NOI18N
+        btnOdernar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/sort_incr.png"))); // NOI18N
         btnOdernar.setMnemonic('o');
         btnOdernar.setToolTipText("");
         btnOdernar.setLabel("Odernar");
@@ -171,7 +171,7 @@ public final class jPanelClientes extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/address-icon.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/address-icon.png"))); // NOI18N
         jLabel2.setText("Endereço:");
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
@@ -181,17 +181,17 @@ public final class jPanelClientes extends javax.swing.JPanel {
         jLabelNome.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabelNome.setText("Nome do cliente");
 
-        jLabelCPF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/card-identifier.png"))); // NOI18N
+        jLabelCPF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/card-identifier.png"))); // NOI18N
         jLabelCPF.setText("CPF");
 
-        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/email.png"))); // NOI18N
+        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/email.png"))); // NOI18N
         jLabelEmail.setText("E-mail");
 
-        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-cliente.png"))); // NOI18N
+        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-cliente.png"))); // NOI18N
 
         jLabelSexo.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabelSexo.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelSexo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/sexo.png"))); // NOI18N
+        jLabelSexo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/sexo.png"))); // NOI18N
         jLabelSexo.setText("Sexo:");
         jLabelSexo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
@@ -244,13 +244,13 @@ public final class jPanelClientes extends javax.swing.JPanel {
         );
 
         lblSource.setBackground(new java.awt.Color(248, 248, 193));
-        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/information-icon.png"))); // NOI18N
+        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/information-icon.png"))); // NOI18N
         lblSource.setText("Dados oriundos do arquivo:");
         lblSource.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 203, 111), 1, true));
         lblSource.setIconTextGap(5);
         lblSource.setOpaque(true);
 
-        btnLoadFromFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/load-from-file.png"))); // NOI18N
+        btnLoadFromFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/load-from-file.png"))); // NOI18N
         btnLoadFromFile.setMnemonic('c');
         btnLoadFromFile.setText("Carregar do arquivo...");
         btnLoadFromFile.setToolTipText("");
@@ -260,7 +260,7 @@ public final class jPanelClientes extends javax.swing.JPanel {
             }
         });
 
-        btnSaveToFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/save-on-file.png"))); // NOI18N
+        btnSaveToFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/save-on-file.png"))); // NOI18N
         btnSaveToFile.setMnemonic('s');
         btnSaveToFile.setText("Salvar em arquivo...");
         btnSaveToFile.setToolTipText("");
@@ -270,7 +270,7 @@ public final class jPanelClientes extends javax.swing.JPanel {
             }
         });
 
-        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/refresh-icon.gif"))); // NOI18N
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/refresh-icon.gif"))); // NOI18N
         btnReload.setMnemonic('r');
         btnReload.setText("Recarregar");
         btnReload.setToolTipText("");
@@ -417,8 +417,8 @@ public final class jPanelClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscaActionPerformed
 
     private void btnOdernarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdernarActionPerformed
-        if(this.orderAsc) this.btnOdernar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/sort_decrease.png")));
-        if(!this.orderAsc) this.btnOdernar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/sort_incr.png")));
+        if(this.orderAsc) this.btnOdernar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/sort_decrease.png")));
+        if(!this.orderAsc) this.btnOdernar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/sort_incr.png")));
         
         List<Cliente> clientes = this.controller.fetchSortedItems(this.orderAsc);
         DefaultTableModel model = ClienteController.make().getTableModel(clientes);

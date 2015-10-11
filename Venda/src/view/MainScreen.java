@@ -103,14 +103,14 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuBarMain.setMargin(new java.awt.Insets(10, 20, 0, 0));
 
         jMenuVendas.setForeground(new java.awt.Color(254, 254, 254));
-        jMenuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-venda.png"))); // NOI18N
+        jMenuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-venda.png"))); // NOI18N
         jMenuVendas.setMnemonic('v');
         jMenuVendas.setText("Vendas");
         jMenuVendas.setToolTipText("Gerir vendas, pedidos e orçamentos");
         jMenuVendas.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuVendas.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
-        jMenuAddVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/order.png"))); // NOI18N
+        jMenuAddVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/order.png"))); // NOI18N
         jMenuAddVenda.setMnemonic('p');
         jMenuAddVenda.setText("Pedido");
         jMenuAddVenda.setToolTipText("");
@@ -124,14 +124,14 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuBarMain.add(jMenuVendas);
 
         jMenuProdutos.setForeground(new java.awt.Color(254, 254, 254));
-        jMenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-produto.png"))); // NOI18N
+        jMenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-produto.png"))); // NOI18N
         jMenuProdutos.setMnemonic('p');
         jMenuProdutos.setText("Produtos");
         jMenuProdutos.setToolTipText("Gerir produtos");
         jMenuProdutos.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuProdutos.setMargin(new java.awt.Insets(0, 0, 0, 25));
 
-        jMenuProdutoCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/product-icon.png"))); // NOI18N
+        jMenuProdutoCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/product-icon.png"))); // NOI18N
         jMenuProdutoCadastro.setMnemonic('c');
         jMenuProdutoCadastro.setText("Cadastro");
         jMenuProdutoCadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +141,7 @@ public final class MainScreen extends javax.swing.JFrame {
         });
         jMenuProdutos.add(jMenuProdutoCadastro);
 
-        jMenuProdCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/category-item-icon.png"))); // NOI18N
+        jMenuProdCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/category-item-icon.png"))); // NOI18N
         jMenuProdCategoria.setMnemonic('a');
         jMenuProdCategoria.setText("Categoria");
         jMenuProdCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -154,14 +154,14 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuBarMain.add(jMenuProdutos);
 
         jMenuClientes.setForeground(new java.awt.Color(254, 254, 254));
-        jMenuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-cliente.png"))); // NOI18N
+        jMenuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-cliente.png"))); // NOI18N
         jMenuClientes.setMnemonic('c');
         jMenuClientes.setText("Clientes");
         jMenuClientes.setToolTipText("Gerir clientes");
         jMenuClientes.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuClientes.setMargin(new java.awt.Insets(0, 0, 0, 25));
 
-        jMenuClienteCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/client-icon.png"))); // NOI18N
+        jMenuClienteCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/client-icon.png"))); // NOI18N
         jMenuClienteCadastro.setMnemonic('c');
         jMenuClienteCadastro.setText("Cadastrar");
         jMenuClienteCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -174,7 +174,7 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuBarMain.add(jMenuClientes);
 
         jMenuConfig.setForeground(new java.awt.Color(254, 254, 254));
-        jMenuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-config.png"))); // NOI18N
+        jMenuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-config.png"))); // NOI18N
         jMenuConfig.setMnemonic('o');
         jMenuConfig.setText("Configurações");
         jMenuConfig.setToolTipText("Backups");
@@ -184,7 +184,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuSair.setBackground(new java.awt.Color(0, 161, 206));
         jMenuSair.setForeground(new java.awt.Color(254, 254, 254));
-        jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-sair.png"))); // NOI18N
+        jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-sair.png"))); // NOI18N
         jMenuSair.setMnemonic('s');
         jMenuSair.setToolTipText("Sair do Sistema");
         jMenuSair.setContentAreaFilled(false);
@@ -211,9 +211,9 @@ public final class MainScreen extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(73, Short.MAX_VALUE)
+                .addContainerGap(51, Short.MAX_VALUE)
                 .addComponent(jPanelScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();

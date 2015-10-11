@@ -230,6 +230,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         }
 
         btnAdd.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/24x24/Ecommerce-Shopping-Cart-Empty-icon.png"))); // NOI18N
         btnAdd.setMnemonic('n');
         btnAdd.setText("Nova venda");
         btnAdd.setToolTipText("");
@@ -240,6 +241,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         });
 
         btnDelete.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/24x24/Ecommerce-Put-Out-icon.png"))); // NOI18N
         btnDelete.setMnemonic('x');
         btnDelete.setText("Excluir item");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -249,7 +251,8 @@ public class jPanelVendas extends javax.swing.JPanel{
         });
 
         btnLoadOrder.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
-        btnLoadOrder.setText("Carregar venda...");
+        btnLoadOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/24x24/Search-25.png"))); // NOI18N
+        btnLoadOrder.setText("Consultar venda...");
         btnLoadOrder.setToolTipText("");
         btnLoadOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -279,7 +282,7 @@ public class jPanelVendas extends javax.swing.JPanel{
 
         jLabelEmail.setText("E-mail");
 
-        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-venda.png"))); // NOI18N
+        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-venda.png"))); // NOI18N
 
         jLabelCodigoPedido.setFont(new java.awt.Font("Noto Sans", 1, 36)); // NOI18N
         jLabelCodigoPedido.setForeground(new java.awt.Color(74, 86, 142));
@@ -328,7 +331,7 @@ public class jPanelVendas extends javax.swing.JPanel{
             jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDetalhesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelNome)
@@ -336,10 +339,12 @@ public class jPanelVendas extends javax.swing.JPanel{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelCPF)
-                            .addComponent(jLabelData))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelEmail))
-                    .addComponent(jLabelIcon))
+                            .addComponent(jLabelData)))
+                    .addGroup(jPanelDetalhesLayout.createSequentialGroup()
+                        .addComponent(jLabelIcon)
+                        .addGap(3, 3, 3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelEmail)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -352,6 +357,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         jLabelTotal.setText("R$ 0,00");
 
         btnAlterarEndereco.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnAlterarEndereco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/24x24/Cinema-Adventures-icon.png"))); // NOI18N
         btnAlterarEndereco.setMnemonic('e');
         btnAlterarEndereco.setText("Alterar endereço de entrega");
         btnAlterarEndereco.setToolTipText("");
@@ -367,6 +373,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         });
 
         btnAddItem.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnAddItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/24x24/Ecommerce-Put-In-icon.png"))); // NOI18N
         btnAddItem.setMnemonic('a');
         btnAddItem.setText("Adicionar item");
         btnAddItem.addActionListener(new java.awt.event.ActionListener() {
@@ -379,6 +386,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         jScrollPane1.setViewportView(jTextObs);
 
         btnFinalizarPedido.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnFinalizarPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/24x24/Ecommerce-Shopping-Cart-Loaded-icon.png"))); // NOI18N
         btnFinalizarPedido.setMnemonic('F');
         btnFinalizarPedido.setText("Finalizar pedido");
         btnFinalizarPedido.setToolTipText("");

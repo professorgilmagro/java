@@ -111,7 +111,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             tableCategoria.getColumnModel().getColumn(2).setPreferredWidth(120);
         }
 
-        btnAddCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/add.png"))); // NOI18N
+        btnAddCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/add2.png"))); // NOI18N
         btnAddCategoria.setMnemonic('n');
         btnAddCategoria.setText("Novo");
         btnAddCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -125,7 +125,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
-        btnDelCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/delete.png"))); // NOI18N
+        btnDelCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/delete.png"))); // NOI18N
         btnDelCategoria.setMnemonic('x');
         btnDelCategoria.setText("Excluir");
         btnDelCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -134,7 +134,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
-        btnBuscaCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/search.png"))); // NOI18N
+        btnBuscaCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/search.png"))); // NOI18N
         btnBuscaCategoria.setMnemonic('l');
         btnBuscaCategoria.setText("Localizar");
         btnBuscaCategoria.setToolTipText("");
@@ -153,7 +153,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         jLabelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTitulo.setText("Categoria de Produtos");
 
-        btnLoadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/load-from-file.png"))); // NOI18N
+        btnLoadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/load-from-file.png"))); // NOI18N
         btnLoadFile.setMnemonic('c');
         btnLoadFile.setText("Carregar do arquivo...");
         btnLoadFile.setToolTipText("");
@@ -168,7 +168,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
-        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/refresh-icon.gif"))); // NOI18N
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/refresh-icon.gif"))); // NOI18N
         btnReload.setMnemonic('r');
         btnReload.setText("Recarregar");
         btnReload.setToolTipText("");
@@ -185,7 +185,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
             }
         });
 
-        btnSaveToFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/save-on-file.png"))); // NOI18N
+        btnSaveToFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/save-on-file.png"))); // NOI18N
         btnSaveToFile.setMnemonic('s');
         btnSaveToFile.setText("Salvar em arquivo...");
         btnSaveToFile.setToolTipText("");
@@ -201,7 +201,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
         });
 
         lblSource.setBackground(new java.awt.Color(248, 248, 193));
-        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/information-icon.png"))); // NOI18N
+        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/information-icon.png"))); // NOI18N
         lblSource.setText("Dados oriundos do arquivo:");
         lblSource.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 203, 111), 1, true));
         lblSource.setIconTextGap(5);
@@ -233,7 +233,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnLoadFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnSaveToFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(0, 13, Short.MAX_VALUE))))
+                        .addGap(0, 45, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

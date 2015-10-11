@@ -141,7 +141,7 @@ public class Produto extends GenericModel{
      */
     public Categoria getCategoria() {
         Categoria cat = new Categoria();
-        return (Categoria) cat.findBy(this.getCodCategoria());
+        return (Categoria) cat.findBy(this.getCodCategoria()).get(0);
     }
     
     /**

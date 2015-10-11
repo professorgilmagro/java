@@ -134,7 +134,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             tableProdutos.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        btnAddProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/add2.png"))); // NOI18N
+        btnAddProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/add2.png"))); // NOI18N
         btnAddProduto.setMnemonic('a');
         btnAddProduto.setText("Adicionar");
         btnAddProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +143,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             }
         });
 
-        btnDelProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/delete.png"))); // NOI18N
+        btnDelProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/delete.png"))); // NOI18N
         btnDelProduto.setMnemonic('x');
         btnDelProduto.setText("Excluir");
         btnDelProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -152,7 +152,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             }
         });
 
-        btnBuscaProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/search.png"))); // NOI18N
+        btnBuscaProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/search.png"))); // NOI18N
         btnBuscaProduto.setMnemonic('l');
         btnBuscaProduto.setText("Localizar");
         btnBuscaProduto.setToolTipText("");
@@ -171,7 +171,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de produtos");
 
-        btnLoadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/load-from-file.png"))); // NOI18N
+        btnLoadFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/load-from-file.png"))); // NOI18N
         btnLoadFile.setToolTipText("");
         btnLoadFile.setLabel("Carregar arquivo...");
         btnLoadFile.addActionListener(new java.awt.event.ActionListener() {
@@ -180,7 +180,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             }
         });
 
-        btnAddEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/stock-icon.png"))); // NOI18N
+        btnAddEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/stock-icon.png"))); // NOI18N
         btnAddEstoque.setMnemonic('e');
         btnAddEstoque.setText("Abastecer Estoque");
         btnAddEstoque.setToolTipText("");
@@ -197,7 +197,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
 
         jLabelPreco.setText("Valor:");
 
-        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/icon-produto.png"))); // NOI18N
+        jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-produto.png"))); // NOI18N
 
         jLabelCategoria.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabelCategoria.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -253,7 +253,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnAddCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/category-item-icon.png"))); // NOI18N
+        btnAddCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/category-item-icon.png"))); // NOI18N
         btnAddCategoria.setMnemonic('c');
         btnAddCategoria.setText("Categoria...");
         btnAddCategoria.setToolTipText("");
@@ -264,13 +264,13 @@ public final class jPanelProdutos extends javax.swing.JPanel {
         });
 
         lblSource.setBackground(new java.awt.Color(248, 248, 193));
-        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/information-icon.png"))); // NOI18N
+        lblSource.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/information-icon.png"))); // NOI18N
         lblSource.setText("Dados oriundos do arquivo:");
         lblSource.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 203, 111), 1, true));
         lblSource.setIconTextGap(5);
         lblSource.setOpaque(true);
 
-        btnSaveToFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/save-on-file.png"))); // NOI18N
+        btnSaveToFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/save-on-file.png"))); // NOI18N
         btnSaveToFile.setMnemonic('s');
         btnSaveToFile.setText("Salvar em arquivo...");
         btnSaveToFile.setToolTipText("");
@@ -280,7 +280,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             }
         });
 
-        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/refresh-icon.gif"))); // NOI18N
+        btnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/refresh-icon.gif"))); // NOI18N
         btnReload.setMnemonic('r');
         btnReload.setText("Recarregar");
         btnReload.setToolTipText("");
@@ -320,7 +320,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
                         .addComponent(btnReload)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSaveToFile, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,7 +375,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
             int row = this.tableProdutos.getSelectedRow();
             long ID = (long) this.tableProdutos.getModel().getValueAt(row, 0);
 
-            Produto p = (Produto) this.controller.getObjModel().findBy(ID);
+            Produto p = (Produto) this.controller.getObjModel().findBy(ID).get(0);
             Integer estoque = p.getSaldoEstoque();
             DecimalFormat df = new DecimalFormat("#,###");
             this.jLabelDescricao.setText(String.format("%s %s", p.getNome(), p.getDescricao()));

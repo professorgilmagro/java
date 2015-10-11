@@ -48,7 +48,7 @@
                       <Component id="btnSaveToFile" min="-2" pref="171" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="235" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -145,7 +145,7 @@
     <Component class="javax.swing.JButton" name="btnAddProduto">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/add2.png"/>
+          <Image iconType="3" name="/view/assets/16x16/add2.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="97"/>
         <Property name="text" type="java.lang.String" value="Adicionar"/>
@@ -157,7 +157,7 @@
     <Component class="javax.swing.JButton" name="btnDelProduto">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/delete.png"/>
+          <Image iconType="3" name="/view/assets/16x16/delete.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="120"/>
         <Property name="text" type="java.lang.String" value="Excluir"/>
@@ -169,7 +169,7 @@
     <Component class="javax.swing.JButton" name="btnBuscaProduto">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/search.png"/>
+          <Image iconType="3" name="/view/assets/16x16/search.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="108"/>
         <Property name="text" type="java.lang.String" value="Localizar"/>
@@ -192,7 +192,7 @@
     <Component class="javax.swing.JButton" name="btnLoadFile">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/load-from-file.png"/>
+          <Image iconType="3" name="/view/assets/16x16/load-from-file.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="label" type="java.lang.String" value="Carregar arquivo..."/>
@@ -207,7 +207,7 @@
     <Component class="javax.swing.JButton" name="btnAddEstoque">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/stock-icon.png"/>
+          <Image iconType="3" name="/view/assets/16x16/stock-icon.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="101"/>
         <Property name="text" type="java.lang.String" value="Abastecer Estoque"/>
@@ -297,7 +297,7 @@
         <Component class="javax.swing.JLabel" name="jLabelIcon">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/view/assets/icon-produto.png"/>
+              <Image iconType="3" name="/view/assets/64x64/icon-produto.png"/>
             </Property>
           </Properties>
         </Component>
@@ -333,7 +333,7 @@
     <Component class="javax.swing.JButton" name="btnAddCategoria">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/category-item-icon.png"/>
+          <Image iconType="3" name="/view/assets/16x16/category-item-icon.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="99"/>
         <Property name="text" type="java.lang.String" value="Categoria..."/>
@@ -349,7 +349,7 @@
           <Color blue="c1" green="f8" red="f8" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/information-icon.png"/>
+          <Image iconType="3" name="/view/assets/16x16/information-icon.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Dados oriundos do arquivo:"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -366,7 +366,7 @@
     <Component class="javax.swing.JButton" name="btnSaveToFile">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/save-on-file.png"/>
+          <Image iconType="3" name="/view/assets/16x16/save-on-file.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="115"/>
         <Property name="text" type="java.lang.String" value="Salvar em arquivo..."/>
@@ -379,7 +379,7 @@
     <Component class="javax.swing.JButton" name="btnReload">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/view/assets/refresh-icon.gif"/>
+          <Image iconType="3" name="/view/assets/16x16/refresh-icon.gif"/>
         </Property>
         <Property name="mnemonic" type="int" value="114"/>
         <Property name="text" type="java.lang.String" value="Recarregar"/>

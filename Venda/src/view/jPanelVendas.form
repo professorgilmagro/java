@@ -156,6 +156,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Noto Sans" size="14" style="1"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/view/assets/24x24/Ecommerce-Shopping-Cart-Empty-icon.png"/>
+        </Property>
         <Property name="mnemonic" type="int" value="110"/>
         <Property name="text" type="java.lang.String" value="Nova venda"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -169,6 +172,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Noto Sans" size="14" style="1"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/view/assets/24x24/Ecommerce-Put-Out-icon.png"/>
+        </Property>
         <Property name="mnemonic" type="int" value="120"/>
         <Property name="text" type="java.lang.String" value="Excluir item"/>
       </Properties>
@@ -181,7 +187,10 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Noto Sans" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Carregar venda..."/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/view/assets/24x24/Search-25.png"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Consultar venda..."/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <AccessibilityProperties>
@@ -246,8 +255,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabelNome" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelCodigoPedido" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -257,11 +266,14 @@
                               <Component id="jLabelCPF" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabelData" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabelEmail" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jLabelIcon" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabelIcon" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabelEmail" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" pref="17" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -309,7 +321,7 @@
         <Component class="javax.swing.JLabel" name="jLabelIcon">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/view/assets/icon-venda.png"/>
+              <Image iconType="3" name="/view/assets/64x64/icon-venda.png"/>
             </Property>
           </Properties>
         </Component>
@@ -355,6 +367,9 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Noto Sans" size="14" style="1"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/view/assets/24x24/Cinema-Adventures-icon.png"/>
+        </Property>
         <Property name="mnemonic" type="int" value="101"/>
         <Property name="text" type="java.lang.String" value="Alterar endere&#xe7;o de entrega"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -368,6 +383,9 @@
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Noto Sans" size="14" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/view/assets/24x24/Ecommerce-Put-In-icon.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="97"/>
         <Property name="text" type="java.lang.String" value="Adicionar item"/>
@@ -402,6 +420,9 @@
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Noto Sans" size="14" style="1"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/view/assets/24x24/Ecommerce-Shopping-Cart-Loaded-icon.png"/>
         </Property>
         <Property name="mnemonic" type="int" value="70"/>
         <Property name="text" type="java.lang.String" value="Finalizar pedido"/>
