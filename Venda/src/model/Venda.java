@@ -7,6 +7,7 @@ package model;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -112,6 +113,11 @@ public class Venda extends GenericModel{
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
         Date date = new Date(); 
         return dateFormat.format(date);
+    }
+    
+    public String getFormatTotal(){
+        DecimalFormat df = new DecimalFormat("0.00");
+        return String.format("R$ %s", df.format(this.getTotal()));
     }
 
     public List getItens() {

@@ -19,7 +19,7 @@ import javax.swing.table.TableModel;
  * 
  * @author gilmar
  */
-public final class jPanelProdutos extends javax.swing.JPanel {
+public final class JPanelProdutos extends javax.swing.JPanel {
     
      /**
      * Recebe o controlador desta view
@@ -29,7 +29,7 @@ public final class jPanelProdutos extends javax.swing.JPanel {
     /**
      * Inicializa e renderiza os objetos gráficos na tela
      */
-    public jPanelProdutos() {
+    public JPanelProdutos() {
         this.controller = new ProdutoController();
         initComponents();
         this.loadItems();

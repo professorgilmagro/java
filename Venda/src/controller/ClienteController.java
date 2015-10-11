@@ -20,7 +20,7 @@ import model.CepService;
 import model.Cliente;
 import model.Util;
 import view.MainScreen;
-import view.jPanelClientes;
+import view.JPanelClientes;
 
 /**
  * Controller para Manutenção de Categorias de Produtos
@@ -55,7 +55,7 @@ public class ClienteController extends GenericController{
     @Override
     public void displayView() {
        JFrame mainFrame = new MainScreen();
-       JPanel panel = new jPanelClientes();
+       JPanel panel = new JPanelClientes();
        JDialog window = Util.getDefaultWindow(panel, mainFrame, "Clientes");
        window.setSize(800, 600);
        window.setLocation(mainFrame.getX() + 20, mainFrame.getY() + 50);
@@ -224,7 +224,7 @@ public class ClienteController extends GenericController{
                 clientes.add((Cliente)item);
             }
         } catch (IOException ex) {
-            Logger.getLogger(jPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JPanelClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         if(asc) Collections.sort(clientes);

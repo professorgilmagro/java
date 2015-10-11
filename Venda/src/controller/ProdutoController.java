@@ -19,7 +19,7 @@ import model.Categoria;
 import model.Produto;
 import model.Util;
 import view.MainScreen;
-import view.jPanelProdutos;
+import view.JPanelProdutos;
 
 /**
  * Controller para Manutenção de Categorias de Produtos
@@ -54,7 +54,7 @@ public class ProdutoController extends GenericController{
     @Override
     public void displayView() {
         JFrame mainFrame = new MainScreen();
-        JPanel panel = new jPanelProdutos();
+        JPanel panel = new JPanelProdutos();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Produtos");
         window.setSize(930, 550);
         window.setLocation(mainFrame.getX() + 50, mainFrame.getY() + 100);

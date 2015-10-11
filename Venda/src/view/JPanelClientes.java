@@ -17,7 +17,7 @@ import javax.swing.table.TableModel;
  *
  * @author gilmar
  */
-public final class jPanelClientes extends javax.swing.JPanel {
+public final class JPanelClientes extends javax.swing.JPanel {
      /**
      * Determina o odernamento da lista (true para ASC | false para DESC)
      */
@@ -31,7 +31,7 @@ public final class jPanelClientes extends javax.swing.JPanel {
     /**
      * Creates new form jPanelProdutos
      */
-    public jPanelClientes() {
+    public JPanelClientes() {
         this.controller = new ClienteController();
         initComponents();
         this.loadItems();

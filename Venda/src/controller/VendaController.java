@@ -5,6 +5,7 @@ package controller;
 
 import dao.ModelInterface;
 import java.awt.GraphicsEnvironment;
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JDialog;
@@ -15,7 +16,7 @@ import model.Categoria;
 import model.Produto;
 import model.Util;
 import model.Venda;
-import view.jPanelVendas;
+import view.JPanelVendas;
 
 /**
  * Controller para Manutenção de Vendas
@@ -49,7 +50,7 @@ public class VendaController extends GenericController{
      */
     @Override
     public void displayView() {
-        JPanel panel = new jPanelVendas();
+        JPanel panel = new JPanelVendas();
         JDialog window = Util.getDefaultWindow(panel, "Controle de Vendas");
         window.setModal(false);
         window.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
@@ -66,8 +67,9 @@ public class VendaController extends GenericController{
        DefaultTableModel model = new DefaultTableModel();
                      
        model.addColumn("Código");
-       model.addColumn("Nome");
-       model.addColumn("Descrição");
+       model.addColumn("Cliente");
+       model.addColumn("Data venda");
+       model.addColumn("Total");
         
         return model ;
     }
@@ -105,7 +107,8 @@ public class VendaController extends GenericController{
             Object[] data = {
                 vd.getCodigo(),
                 vd.getCliente(),
-                vd.getTotal()
+                vd.getFormatDataVenda(),
+                vd.getFormatTotal()
             };
 
             model.addRow(data);

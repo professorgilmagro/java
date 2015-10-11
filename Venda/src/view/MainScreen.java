@@ -102,7 +102,7 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuBarMain.setBorder(null);
         jMenuBarMain.setMargin(new java.awt.Insets(10, 20, 0, 0));
 
-        jMenuVendas.setForeground(new java.awt.Color(254, 254, 254));
+        jMenuVendas.setForeground(new java.awt.Color(17, 17, 17));
         jMenuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-venda.png"))); // NOI18N
         jMenuVendas.setMnemonic('v');
         jMenuVendas.setText("Vendas");
@@ -123,7 +123,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuVendas);
 
-        jMenuProdutos.setForeground(new java.awt.Color(254, 254, 254));
+        jMenuProdutos.setForeground(new java.awt.Color(17, 17, 17));
         jMenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-produto.png"))); // NOI18N
         jMenuProdutos.setMnemonic('p');
         jMenuProdutos.setText("Produtos");
@@ -153,7 +153,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuProdutos);
 
-        jMenuClientes.setForeground(new java.awt.Color(254, 254, 254));
+        jMenuClientes.setForeground(new java.awt.Color(17, 17, 17));
         jMenuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-cliente.png"))); // NOI18N
         jMenuClientes.setMnemonic('c');
         jMenuClientes.setText("Clientes");
@@ -173,7 +173,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuClientes);
 
-        jMenuConfig.setForeground(new java.awt.Color(254, 254, 254));
+        jMenuConfig.setForeground(new java.awt.Color(17, 17, 17));
         jMenuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-config.png"))); // NOI18N
         jMenuConfig.setMnemonic('o');
         jMenuConfig.setText("Configurações");
@@ -182,8 +182,8 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuConfig.setMargin(new java.awt.Insets(0, 0, 0, 25));
         jMenuBarMain.add(jMenuConfig);
 
-        jMenuSair.setBackground(new java.awt.Color(0, 161, 206));
-        jMenuSair.setForeground(new java.awt.Color(254, 254, 254));
+        jMenuSair.setBackground(new java.awt.Color(214, 214, 214));
+        jMenuSair.setForeground(new java.awt.Color(17, 17, 17));
         jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-sair.png"))); // NOI18N
         jMenuSair.setMnemonic('s');
         jMenuSair.setToolTipText("Sair do Sistema");
@@ -211,9 +211,9 @@ public final class MainScreen extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
+                .addContainerGap(44, Short.MAX_VALUE)
                 .addComponent(jPanelScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();

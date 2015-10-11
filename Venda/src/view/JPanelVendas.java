@@ -17,12 +17,13 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author gilmar
  */
-public class jPanelVendas extends javax.swing.JPanel{
+public class JPanelVendas extends javax.swing.JPanel{
     final JFrame frame = new JFrame();
     
     private Long clienteID ;
@@ -35,7 +36,7 @@ public class jPanelVendas extends javax.swing.JPanel{
     /**
      * Creates new form jPanelProdutos
      */
-    public jPanelVendas() {
+    public JPanelVendas() {
         initComponents();
         this.controller = new VendaController();
         this.btnAlterarEndereco.setEnabled(false);
@@ -474,8 +475,22 @@ public class jPanelVendas extends javax.swing.JPanel{
     private void btnLoadOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadOrderActionPerformed
         try {
             List<ModelInterface> orders = this.controller.search();
-            Venda order = (Venda) orders.get(0);
+            if(orders.isEmpty()) return;
             
+            if( orders.size() > 1 ){
+                int[] withColumns = {80,250,160,120};
+                String choose = Util.showTableOptions(this.controller.getTableModel(orders), "Resultados da pesquisa de pedidos", withColumns);
+                if( ! choose.isEmpty() ){
+                    orders = this.controller.getObjModel().findBy(Long.parseLong(choose));
+                }
+            }
+            
+            if(orders.size() == 1 && orders.get(0).hashCode() == 0){
+                Util.showMessage("Pedido não encontrado!", "Busca", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            Venda order = (Venda) orders.get(0);
             this.controller.setModel(order);
             Cliente cli = order.getCliente();
             
@@ -495,7 +510,6 @@ public class jPanelVendas extends javax.swing.JPanel{
         } catch (Exception ex) {
             Util.showMessage("Pedido não encontrado.", JOptionPane.WARNING_MESSAGE);
         }
-         
     }//GEN-LAST:event_btnLoadOrderActionPerformed
 
     private void btnAlterarEnderecoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarEnderecoMouseReleased

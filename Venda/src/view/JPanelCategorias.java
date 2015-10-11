@@ -18,7 +18,7 @@ import model.Util;
  *
  * @author gilmar
  */
-public final class jPanelCategorias extends javax.swing.JPanel {
+public final class JPanelCategorias extends javax.swing.JPanel {
     
     /**
      * Recebe o controlador desta view
@@ -28,7 +28,7 @@ public final class jPanelCategorias extends javax.swing.JPanel {
     /**
      * Creates new form jPanelProdutos
      */
-    public jPanelCategorias() {
+    public JPanelCategorias() {
         this.controller = new CategoriaController();
         initComponents();
         this.loadItems();

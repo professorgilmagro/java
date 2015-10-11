@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Categoria;
 import model.Util;
 import view.MainScreen;
-import view.jPanelCategorias;
+import view.JPanelCategorias;
 
 /**
  * Controller para Manutenção de Categorias de Produtos
@@ -47,7 +47,7 @@ public class CategoriaController extends GenericController{
     @Override
     public void displayView() {
         JFrame mainFrame = new MainScreen();
-        JPanel panel = new jPanelCategorias();
+        JPanel panel = new JPanelCategorias();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Categorias");
         window.setLocationRelativeTo(null);
         window.setSize(620,480);

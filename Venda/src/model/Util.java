@@ -11,6 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.TableModel;
+import view.JSearchChooseOption;
 
 /**
  *
@@ -231,6 +233,43 @@ public class Util {
      */
     public static String onlyNumber(String value){
         return value.replaceAll("\\D+","");
+    }
+    
+    /**
+     * Exibe uma caixa de diálogo com uma tabela renderizada com dados de busca
+     * 
+     * @param model Modelo da tabela (Linha de cabeçalho e dados)
+     * @return String
+     */
+    public static String showTableOptions(TableModel model){
+        return Util.showTableOptions(model, null, null);
+    }
+    
+    /**
+     * Exibe uma caixa de diálogo com uma tabela renderizada com dados de busca
+     * 
+     * @param model Modelo da tabela (Linha de cabeçalho e dados)
+     * @param title Titulo principal
+     * @return 
+     */
+    public static String showTableOptions(TableModel model, String title){
+        return Util.showTableOptions(model, title, null);
+    }
+    
+    /**
+     * Exibe uma caixa de diálogo com uma tabela renderizada com dados de busca
+     * 
+     * @param model Modelo da tabela (Linha de cabeçalho e dados)
+     * @param title Titulo principal
+     * @param withColumns   Largura das colunas
+     * @return 
+     */
+    public static String showTableOptions(TableModel model, String title, int[] withColumns){
+        JSearchChooseOption dlg = new JSearchChooseOption(JOptionPane.getRootFrame());
+        dlg.setTitle("Resultados de busca");
+        dlg.setInternalTitle(title);
+        dlg.setTableModel(model, withColumns);
+        return dlg.display().getSelectedValue();
     }
 
 }
