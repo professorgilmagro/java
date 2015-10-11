@@ -115,14 +115,16 @@ public class JPanelVendas extends javax.swing.JPanel{
                this.jLabelNome.setText("Nome do cliente");
                this.jLabelCPF.setText("CPF");
                this.jLabelEmail.setText("E-mail");
+               this.jLabelTelefone.setText("Telefone");
                this.jLabelEndereco.setText("");
                return false;
            }
            
            this.clienteID = ID ;
            this.jLabelNome.setText(cli.getFullName());
-           this.jLabelCPF.setText(cli.getFormatCPF());
-           this.jLabelEmail.setText(cli.getEmail());
+           this.jLabelCPF.setText(String.format("CPF: %s", cli.getFormatCPF()));
+           this.jLabelEmail.setText(String.format("E-mail: %s",cli.getEmail()));
+           this.jLabelTelefone.setText(String.format("Telefone: %s",cli.getTelefone()));
            this.jLabelEndereco.setText(cli.getEndereco());
         } catch (Exception ex) {
            Util.showMessage("Cliente não localizado.", JOptionPane.WARNING_MESSAGE);
@@ -192,6 +194,7 @@ public class JPanelVendas extends javax.swing.JPanel{
         jLabelIcon = new javax.swing.JLabel();
         jLabelCodigoPedido = new javax.swing.JLabel();
         jLabelData = new javax.swing.JLabel();
+        jLabelTelefone = new javax.swing.JLabel();
         jLabelTotal = new javax.swing.JLabel();
         btnAlterarEndereco = new javax.swing.JButton();
         btnAddItem = new javax.swing.JButton();
@@ -280,8 +283,10 @@ public class JPanelVendas extends javax.swing.JPanel{
         jLabelNome.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jLabelNome.setText("Nome do cliente");
 
+        jLabelCPF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/card-identifier.png"))); // NOI18N
         jLabelCPF.setText("CPF");
 
+        jLabelEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/email.png"))); // NOI18N
         jLabelEmail.setText("E-mail");
 
         jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-venda.png"))); // NOI18N
@@ -298,12 +303,22 @@ public class JPanelVendas extends javax.swing.JPanel{
         jLabelData.setText("-");
         jLabelData.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jLabelTelefone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/phone.png"))); // NOI18N
+        jLabelTelefone.setText("Telefone:");
+
         javax.swing.GroupLayout jPanelDetalhesLayout = new javax.swing.GroupLayout(jPanelDetalhes);
         jPanelDetalhes.setLayout(jPanelDetalhesLayout);
         jPanelDetalhesLayout.setHorizontalGroup(
             jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                 .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelDetalhesLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
+                                .addComponent(jLabelEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(46, 46, 46))))
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(jLabelIcon)
@@ -314,19 +329,14 @@ public class JPanelVendas extends javax.swing.JPanel{
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabelCodigoPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                                .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                                 .addComponent(jLabelCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelData, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelData, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelDetalhesLayout.createSequentialGroup()
-                                .addComponent(jLabelEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(46, 46, 46)))))
+                                .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanelDetalhesLayout.setVerticalGroup(
@@ -340,16 +350,18 @@ public class JPanelVendas extends javax.swing.JPanel{
                             .addComponent(jLabelCodigoPedido))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelDetalhesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCPF)
-                            .addComponent(jLabelData)))
+                            .addComponent(jLabelData)
+                            .addComponent(jLabelCPF)))
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                         .addComponent(jLabelIcon)
                         .addGap(3, 3, 3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelEmail)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelTelefone)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addComponent(jLabelEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -495,8 +507,9 @@ public class JPanelVendas extends javax.swing.JPanel{
             Cliente cli = order.getCliente();
             
             this.jLabelNome.setText(cli.getFullName());
-            this.jLabelEmail.setText(cli.getEmail());
             this.jLabelCPF.setText(cli.getFormatCPF());
+            this.jLabelEmail.setText(cli.getEmail());
+            this.jLabelTelefone.setText(cli.getTelefone());
             this.jTextObs.setText(order.getObs());
             this.tableItems.setModel(this.controller.getModelItems());
             this.jLabelTotal.setText(Util.convertDoubleToCurrency(order.getTotal()));
@@ -605,6 +618,7 @@ public class JPanelVendas extends javax.swing.JPanel{
     private javax.swing.JLabel jLabelEndereco;
     private javax.swing.JLabel jLabelIcon;
     private javax.swing.JLabel jLabelNome;
+    private javax.swing.JLabel jLabelTelefone;
     private javax.swing.JLabel jLabelTotal;
     private javax.swing.JPanel jPanelDetalhes;
     private javax.swing.JScrollPane jScrollPane1;

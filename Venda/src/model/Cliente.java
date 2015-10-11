@@ -150,56 +150,56 @@ public class Cliente extends GenericModel{
         return telefone;
     }
 
-    public void setTelefone(String Telefone) {
-        this.telefone = Telefone;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getLogadouro() {
         return logadouro;
     }
 
-    public void setLogadouro(String Logadouro) {
-        this.logadouro = Logadouro;
+    public void setLogadouro(String logadouro) {
+        this.logadouro = logadouro;
     }
 
     public String getEstado() {
         return estado;
     }
 
-    public void setEstado(String Estado) {
-        this.estado = Estado;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public String getCidade() {
         return cidade;
     }
 
-    public void setCidade(String Cidade) {
-        this.cidade = Cidade;
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
     public String getBairro() {
         return bairro;
     }
 
-    public void setBairro(String Bairro) {
-        this.bairro = Bairro;
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
     public int getNumero() {
         return numero;
     }
 
-    public void setNumero(int Numero) {
-        this.numero = Numero;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     public String getSobrenome() {
         return Sobrenome;
     }
 
-    public void setSobrenome(String Sobrenome) {
-        this.Sobrenome = Sobrenome;
+    public void setSobrenome(String sobrenome) {
+        this.Sobrenome = sobrenome;
     }
    
     @Override
