@@ -63,7 +63,7 @@ public class Venda extends GenericModel{
      */
     public Cliente getCliente(){
         Cliente cli = new Cliente();
-        return (Cliente) cli.findBy(this.getClienteID());
+        return (Cliente) cli.findBy(this.getClienteID()).get(0);
     }
 
     public void setCodigo(long codigo) {
@@ -186,7 +186,7 @@ public class Venda extends GenericModel{
             int qtde = Integer.parseInt(row[4].toString());
             
             Produto prod = new Produto();
-            Produto p = (Produto) prod.findBy(produtoID);
+            Produto p = (Produto) prod.findBy(produtoID).get(0);
             
             int estoque = p.getSaldoEstoque();
             p.setSaldoEstoque(estoque - qtde);

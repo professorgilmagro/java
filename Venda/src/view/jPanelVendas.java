@@ -4,6 +4,7 @@
 package view;
 
 import controller.VendaController;
+import dao.ModelInterface;
 import model.CepService;
 import model.Cliente;
 import model.Produto;
@@ -107,7 +108,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         try {
            this.clienteID = null;
            
-           Cliente cli = (Cliente) new Cliente().findBy(ID);
+           Cliente cli = (Cliente) new Cliente().findBy(ID).get(0);
            if( cli == null ){
                Util.showMessage("Cliente não cadastrado no sistema.", JOptionPane.WARNING_MESSAGE);
                this.jLabelNome.setText("Nome do cliente");
@@ -141,7 +142,7 @@ public class jPanelVendas extends javax.swing.JPanel{
         if(code == null) return;
         
         Produto produto = new Produto();
-        Produto p = (Produto) produto.findBy(Long.parseLong(code));
+        Produto p = (Produto) produto.findBy(Long.parseLong(code)).get(0);
         String qtde = Util.showInput("Digite a quantidade.", p.getNome());
         if(qtde == null) return;
         if (p.getSaldoEstoque() < Integer.parseInt(qtde)) {
@@ -472,7 +473,10 @@ public class jPanelVendas extends javax.swing.JPanel{
 
     private void btnLoadOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadOrderActionPerformed
         try {
-            Venda order = (Venda) this.controller.search();
+            List<ModelInterface> orders = this.controller.search();
+            Venda order = (Venda) orders.get(0);
+            
+            this.controller.setModel(order);
             Cliente cli = order.getCliente();
             
             this.jLabelNome.setText(cli.getFullName());
@@ -499,7 +503,7 @@ public class jPanelVendas extends javax.swing.JPanel{
     }//GEN-LAST:event_btnAlterarEnderecoMouseReleased
 
     private void btnAlterarEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarEnderecoActionPerformed
-        String cep = Util.showInput("Digite o CEP");
+        String cep = Util.onlyNumber(Util.showInput("Digite o CEP"));
         Integer numero = Integer.parseInt(Util.showInput("Digite o número da residência."));
         Cliente cli = (Cliente) new Cliente();
         CepService cws = new CepService(cep);
