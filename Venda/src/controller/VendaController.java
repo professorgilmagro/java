@@ -6,6 +6,7 @@ package controller;
 import dao.ModelInterface;
 import java.awt.GraphicsEnvironment;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JDialog;
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import model.Categoria;
+import model.Cliente;
 import model.Produto;
 import model.Util;
 import model.Venda;
@@ -132,5 +134,49 @@ public class VendaController extends GenericController{
         }
 
         return model;
+    }
+    
+    /**
+     * Permite fazer a busca do objeto a partir do código do pedido, cliente, CPF e e-mail informado
+     * 
+     * @return ModelInterface
+     */
+    @Override
+    public List<ModelInterface> search() {
+        List <ModelInterface> items = new ArrayList();
+        
+        String[] options = {"Pedido", "Nome", "CPF", "E-mail", "Data de venda"};
+        Object option = Util.showOptions("Selecione o tipo de pesquisa.", options, "Selecione o tipo de pesquisa");
+        if( option == null ) return items;
+        
+        String search = Util.showInput(String.format("Entre com o %s a ser procurado", option.toString()));
+        if( option == null ) return items;
+        
+        Venda order = (Venda) this.getObjModel();
+        if(option.equals("CPF")){
+            search = Util.onlyNumber(search);
+            return order.findByClientCPF(Long.parseLong(search));
+        }
+        
+        if(option.equals("E-mail")){
+            return order.findByClientEmail(search);
+        }
+        
+        if(option.equals("Data de venda")){
+            return order.findBySaleDate(search);
+        }
+        
+        if(option.equals("Nome")){
+            return order.findByClientName(search);
+        }
+        
+        if ( Util.isNumeric(search) ) {
+           return order.findBy(Long.parseLong(search));
+        }
+        
+        this.getObjModel().setID(0);
+        items.add(this.getObjModel());
+       
+       return items;
     }
 }

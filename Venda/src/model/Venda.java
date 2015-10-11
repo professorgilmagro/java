@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Vendas
@@ -19,6 +22,8 @@ import java.util.List;
  * @author gilmar <gilmar.santos@grupofolha.com.br>
  */
 public class Venda extends GenericModel{
+    
+    private static final long serialVersionUID = 4125965356358329466L;
     
     private long codigo;
     private long clienteID = 0;
@@ -198,5 +203,131 @@ public class Venda extends GenericModel{
             p.setSaldoEstoque(estoque - qtde);
             p.save();
         }
+    }
+    
+    /**
+     * Permite localizar objetos de venda a partir do CPF do cliente
+     * 
+     * @param cpf    CPF a ser localizado
+     * 
+     * @return List
+     */
+    public List <dao.ModelInterface> findByClientCPF(long cpf) {
+        List <dao.ModelInterface> results = new ArrayList();
+        
+        try {
+            List<dao.ModelInterface> items = this.fetchAll();
+            
+            for (dao.ModelInterface item : items) {
+                Venda model = (Venda) item;
+                if(model.getCliente().getCPF() == cpf) {
+                    results.add(model);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(results.isEmpty()){
+            this.setID(0);
+            results.add(this);
+        }
+        
+        return results ;
+    }
+    
+    /**
+     * Permite localizar objetos de venda a partir do E-mail do cliente
+     * 
+     * @param email    E-mail a ser localizado
+     * 
+     * @return List
+     */
+    public List <dao.ModelInterface> findByClientEmail(String email) {
+        List <dao.ModelInterface> results = new ArrayList();
+        
+        try {
+           List<dao.ModelInterface> items = this.fetchAll();
+            
+            for(dao.ModelInterface item : items) {
+                Venda model = (Venda) item;
+                if(model.getCliente().getEmail().toLowerCase().equals(email.toLowerCase())) {
+                    results.add(model);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(results.isEmpty()){
+            this.setID(0);
+            results.add(this);
+        }
+        
+        return results ;    
+    }
+    
+    /**
+     * Permite localizar objetos de venda a partir do Nome do cliente
+     * 
+     * @param name    Nome do cliente a ser localizado
+     * 
+     * @return List
+     */
+    public List <dao.ModelInterface> findByClientName(String name) {
+        List <dao.ModelInterface> results = new ArrayList();
+        
+        try {
+           List<dao.ModelInterface> items = this.fetchAll();
+            
+            for(dao.ModelInterface item : items) {
+                Venda model = (Venda) item;
+                if(model.getCliente().getNome().toLowerCase().equals(name.toLowerCase())) {
+                    results.add(model);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(results.isEmpty()){
+            this.setID(0);
+            results.add(this);
+        }
+        
+        return results ;    
+    }
+    
+    /**
+     * Permite localizar objetos de venda a partir da data de venda
+     * 
+     * @param date    Data da venda
+     * 
+     * @return List
+     */
+    public List <dao.ModelInterface> findBySaleDate(String date) {
+        List <dao.ModelInterface> results = new ArrayList();
+        
+        try {
+           List<dao.ModelInterface> items = this.fetchAll();
+            
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy"); 
+            Date orderDate = (Date) df.parse(date);
+            for(dao.ModelInterface item : items) {
+                Venda model = (Venda) item;
+                if(df.format(model.getDataVenda()).equals(df.format(orderDate))) {
+                    results.add(model);
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(GenericModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(results.isEmpty()){
+            this.setID(0);
+            results.add(this);
+        }
+        
+        return results ;    
     }
 } 
