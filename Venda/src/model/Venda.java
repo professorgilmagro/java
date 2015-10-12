@@ -81,11 +81,6 @@ public class Venda extends GenericModel{
     }
 
     @Override
-    public String getFileName() {
-        return String.format("%svendas.dat" , this.getStorageDir()) ;
-    }
-
-    @Override
     public void setID(long ID) {
         this.setCodigo(ID);
     }
