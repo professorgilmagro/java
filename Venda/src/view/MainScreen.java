@@ -7,9 +7,12 @@ import controller.CategoriaController;
 import controller.ClienteController;
 import controller.ProdutoController;
 import controller.VendaController;
-import model.Util;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
-import javax.swing.*;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import javax.swing.JComponent;
 
 /**
  * Tela principal do sistema
@@ -31,7 +34,24 @@ public final class MainScreen extends javax.swing.JFrame {
      */
     protected void resetScreen(){
         // Redimensiona a tela para o tamanho 1024x800
-        this.setSize(1024,680);
+        this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
+        getContentPane().setBackground(Color.decode("#a5a5fd"));
+        this.setLocationRelativeTo(null);
+        
+        // Get the size of the screen
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Determine the new location of the window
+        int w = this.jPanelScreen.getSize().width;
+        int h = this.jPanelScreen.getSize().height;
+        int x = (dim.width-w)/2;
+        int y = (dim.height-h)/2;
+        
+        System.out.println(x);
+        System.out.println(y);
+
+        // Move the window
+        this.jPanelScreen.setAlignmentX(x);
     }
 
     /**
@@ -40,12 +60,13 @@ public final class MainScreen extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanelScreen = new javax.swing.JPanel();
         jLabelDisciplina = new javax.swing.JLabel();
         jLabelUnidade = new javax.swing.JLabel();
-        jLabelOrientador = new javax.swing.JLabel();
         jLabelCriadoPor = new javax.swing.JLabel();
+        jLabelOrientador = new javax.swing.JLabel();
         jLabelDescricao = new javax.swing.JLabel();
         jLabelLogo = new javax.swing.JLabel();
         jMenuBarMain = new javax.swing.JMenuBar();
@@ -62,41 +83,80 @@ public final class MainScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AIEC - Atividade Unidade III");
         setAutoRequestFocus(false);
-        setBackground(new java.awt.Color(169, 177, 219));
+        setBackground(new java.awt.Color(255, 242, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(59, 45, 45));
         setPreferredSize(new java.awt.Dimension(800, 554));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
-        jPanelScreen.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelScreen.setBackground(new java.awt.Color(165, 165, 253));
+        jPanelScreen.setBorder(null);
+        jPanelScreen.setForeground(new java.awt.Color(109, 128, 231));
 
         jLabelDisciplina.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         jLabelDisciplina.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelDisciplina.setText("Programação Orientada a Objetos");
-        jPanelScreen.add(jLabelDisciplina, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, -1, -1));
 
         jLabelUnidade.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabelUnidade.setText("Unidade III");
-        jPanelScreen.add(jLabelUnidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, -1, -1));
-
-        jLabelOrientador.setText("Orientador: Andrei Cardoso Vanderlei");
-        jPanelScreen.add(jLabelOrientador, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, -1, -1));
 
         jLabelCriadoPor.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         jLabelCriadoPor.setText("Criado por: Gilmar Soares");
-        jPanelScreen.add(jLabelCriadoPor, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 340, -1, -1));
+
+        jLabelOrientador.setText("Orientador: Andrei Cardoso Vanderlei");
 
         jLabelDescricao.setBackground(new java.awt.Color(46, 40, 90));
         jLabelDescricao.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabelDescricao.setForeground(new java.awt.Color(80, 75, 178));
         jLabelDescricao.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabelDescricao.setText("Controle de Vendas");
-        jPanelScreen.add(jLabelDescricao, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, -1, -1));
 
         jLabelLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/logo-aiec.png"))); // NOI18N
-        jPanelScreen.add(jLabelLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, 66));
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/logo.png"))); // NOI18N
+        jLabelLogo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanelScreenLayout = new javax.swing.GroupLayout(jPanelScreen);
+        jPanelScreen.setLayout(jPanelScreenLayout);
+        jPanelScreenLayout.setHorizontalGroup(
+            jPanelScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelScreenLayout.createSequentialGroup()
+                .addContainerGap(322, Short.MAX_VALUE)
+                .addGroup(jPanelScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelScreenLayout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jLabelCriadoPor))
+                    .addGroup(jPanelScreenLayout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(jLabelUnidade))
+                    .addComponent(jLabelDisciplina)
+                    .addGroup(jPanelScreenLayout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(jPanelScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelDescricao)
+                            .addComponent(jLabelLogo)))
+                    .addGroup(jPanelScreenLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabelOrientador)))
+                .addContainerGap(281, Short.MAX_VALUE))
+        );
+        jPanelScreenLayout.setVerticalGroup(
+            jPanelScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelScreenLayout.createSequentialGroup()
+                .addContainerGap(116, Short.MAX_VALUE)
+                .addComponent(jLabelLogo)
+                .addGap(4, 4, 4)
+                .addComponent(jLabelDescricao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelDisciplina)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelUnidade)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelCriadoPor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabelOrientador)
+                .addContainerGap(145, Short.MAX_VALUE))
+        );
 
         jMenuBarMain.setBackground(new java.awt.Color(149, 190, 253));
         jMenuBarMain.setBorder(null);
@@ -204,17 +264,19 @@ public final class MainScreen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(175, 175, 175)
-                .addComponent(jPanelScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(154, 154, 154)
+                .addComponent(jPanelScreen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(174, 174, 174))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
-                .addComponent(jPanelScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addComponent(jPanelScreen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(37, 37, 37))
         );
+
+        jPanelScreen.getAccessibleContext().setAccessibleParent(null);
 
         pack();
         setLocationRelativeTo(null);
