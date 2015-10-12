@@ -3,6 +3,7 @@
  */
 package view;
 
+import controller.ClienteController;
 import controller.VendaController;
 import dao.ModelInterface;
 import model.CepService;
@@ -146,7 +147,17 @@ public class JPanelVendas extends javax.swing.JPanel{
         
         Produto produto = new Produto();
         Produto p = (Produto) produto.findBy(Long.parseLong(code)).get(0);
-        String qtde = Util.showInput("Digite a quantidade.", p.getNome());
+        if(p.hashCode() == 0){
+            Util.showMessage("Produto não encontrado.", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String productDescription = String.format(
+                "%s - %s (%s kg)\nPreço unitário: %s\n\nDigite a quantidade.",
+                p.getNome(), p.getDescricao(), p.getPeso(), p.getFormatPrice()
+        );
+        
+        String qtde = Util.showInput(productDescription, p.getNome());
         if(qtde == null) return;
         if (p.getSaldoEstoque() < Integer.parseInt(qtde)) {
             String message = String.format(
@@ -202,6 +213,7 @@ public class JPanelVendas extends javax.swing.JPanel{
         jTextObs = new javax.swing.JTextPane();
         btnFinalizarPedido = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        btnDisplayClientes = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -257,7 +269,8 @@ public class JPanelVendas extends javax.swing.JPanel{
 
         btnLoadOrder.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         btnLoadOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/24x24/Search-25.png"))); // NOI18N
-        btnLoadOrder.setText("Consultar venda...");
+        btnLoadOrder.setMnemonic('v');
+        btnLoadOrder.setText("Consultar vendas ...");
         btnLoadOrder.setToolTipText("");
         btnLoadOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -274,7 +287,7 @@ public class JPanelVendas extends javax.swing.JPanel{
 
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel2.setText("Endereço de entrega:");
+        jLabel2.setText("Endereço para entrega:");
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabelEndereco.setText("-");
@@ -355,13 +368,13 @@ public class JPanelVendas extends javax.swing.JPanel{
                     .addGroup(jPanelDetalhesLayout.createSequentialGroup()
                         .addComponent(jLabelIcon)
                         .addGap(3, 3, 3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(3, 3, 3)
                 .addComponent(jLabelEmail)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabelTelefone)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelTelefone)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
+                .addGap(1, 1, 1)
                 .addComponent(jLabelEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -415,6 +428,22 @@ public class JPanelVendas extends javax.swing.JPanel{
         jLabel3.setText("Controle de Vendas");
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        btnDisplayClientes.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        btnDisplayClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/24x24/Contacts-25.png"))); // NOI18N
+        btnDisplayClientes.setMnemonic('c');
+        btnDisplayClientes.setText("Clientes");
+        btnDisplayClientes.setToolTipText("");
+        btnDisplayClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnDisplayClientesMouseReleased(evt);
+            }
+        });
+        btnDisplayClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDisplayClientesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -438,7 +467,9 @@ public class JPanelVendas extends javax.swing.JPanel{
                         .addComponent(btnLoadOrder)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAlterarEndereco)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDisplayClientes)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                         .addComponent(btnFinalizarPedido))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -466,7 +497,8 @@ public class JPanelVendas extends javax.swing.JPanel{
                         .addComponent(btnLoadOrder)
                         .addComponent(btnAlterarEndereco)
                         .addComponent(btnAddItem)
-                        .addComponent(btnFinalizarPedido)))
+                        .addComponent(btnFinalizarPedido)
+                        .addComponent(btnDisplayClientes)))
                 .addContainerGap())
         );
 
@@ -602,11 +634,20 @@ public class JPanelVendas extends javax.swing.JPanel{
         this.btnAlterarEndereco.setEnabled(false);
     }//GEN-LAST:event_btnFinalizarPedidoActionPerformed
 
+    private void btnDisplayClientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisplayClientesMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDisplayClientesMouseReleased
+
+    private void btnDisplayClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayClientesActionPerformed
+        ClienteController.make().displayView();
+    }//GEN-LAST:event_btnDisplayClientesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddItem;
     private javax.swing.JButton btnAlterarEndereco;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDisplayClientes;
     private javax.swing.JButton btnFinalizarPedido;
     private javax.swing.JButton btnLoadOrder;
     private javax.swing.JLabel jLabel2;

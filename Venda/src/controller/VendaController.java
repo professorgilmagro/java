@@ -5,17 +5,15 @@ package controller;
 
 import dao.ModelInterface;
 import java.awt.GraphicsEnvironment;
-import java.text.DecimalFormat;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import model.Categoria;
-import model.Cliente;
-import model.Produto;
 import model.Util;
 import model.Venda;
 import view.JPanelVendas;
@@ -137,7 +135,8 @@ public class VendaController extends GenericController{
     }
     
     /**
-     * Permite fazer a busca do objeto a partir do código do pedido, cliente, CPF e e-mail informado
+     * Permite fazer a busca do objeto a partir do código do pedido, cliente, 
+     * CPF, Data de venda, Vendas do dia e e-mail informado
      * 
      * @return ModelInterface
      */
@@ -145,14 +144,20 @@ public class VendaController extends GenericController{
     public List<ModelInterface> search() {
         List <ModelInterface> items = new ArrayList();
         
-        String[] options = {"Pedido", "Nome", "CPF", "E-mail", "Data de venda"};
+        String[] options = {"Pedido", "Nome", "CPF", "E-mail", "Data de venda", "Vendas do dia"};
         Object option = Util.showOptions("Selecione o tipo de pesquisa.", options, "Selecione o tipo de pesquisa");
         if( option == null ) return items;
+        
+        Venda order = (Venda) this.getObjModel();
+        if(option.equals("Vendas do dia")){
+           DateFormat df = new SimpleDateFormat("dd/MM/yyyy"); 
+           String search = df.format(new Date());
+           return order.findBySaleDate(search);
+        }
         
         String search = Util.showInput(String.format("Entre com o %s a ser procurado", option.toString()));
         if( option == null ) return items;
         
-        Venda order = (Venda) this.getObjModel();
         if(option.equals("CPF")){
             search = Util.onlyNumber(search);
             return order.findByClientCPF(Long.parseLong(search));
