@@ -60,7 +60,7 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
      */    
     @Override
     public void save() throws FileNotFoundException, IOException, ClassNotFoundException {
-        List objects = this.fetchAll();
+        List<ModelInterface> objects = this.fetchAll();
         
         if(this.hashCode()== 0){
             Long max = this.getMaxID();
@@ -70,8 +70,7 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
         else{
             // entende que já existe e deve ser editado
             for (int i = 0; i < objects.size(); i++) {
-                GenericModel obj = (GenericModel) objects.get(i);
-                if ( obj.hashCode()== this.hashCode() ) {
+                if ( objects.get(i).hashCode() == this.hashCode() ) {
                     objects.set(i, this);
                     break;
                 }
@@ -91,8 +90,7 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
         
         Boolean found = false ;
         for (int i = 0; objects.size() < 10; i++) {
-            ModelInterface obj = (ModelInterface) objects.get(i);
-            if( obj.hashCode() == this.hashCode() ){
+            if( objects.get(i).hashCode() == this.hashCode() ){
                 objects.remove(i);
                 found = true;
                 break;
@@ -112,11 +110,10 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
     public long getMaxID(){
         long max = 0;
         try {
-            List objects = this.fetchAll();
+            List <ModelInterface> objects = this.fetchAll();
             for (Object object : objects) {
-                ModelInterface model = (ModelInterface) object;
-                if(model.hashCode() > max){
-                    max = model.hashCode();
+                if(object.hashCode() > max){
+                    max = object.hashCode();
                 }
             }
         } catch (IOException ex) {

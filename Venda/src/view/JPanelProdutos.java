@@ -5,11 +5,13 @@ package view;
 
 import controller.CategoriaController;
 import controller.ProdutoController;
+import dao.ModelInterface;
 import model.Produto;
 import model.Util;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -439,34 +441,22 @@ public final class JPanelProdutos extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLoadFileActionPerformed
 
     private void btnBuscaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaProdutoActionPerformed
-         Produto prod = (Produto) this.controller.search();
+         List <ModelInterface> produtos = this.controller.search();
          
         // significa que o usuário cancelou a pesquisa
-        if ( prod.hashCode() == -1 ) return ;
+        if ( produtos.isEmpty() ) return ;
         
-        this.btnReload.setEnabled(false);
-        if ( prod.hashCode() == 0 ) {
+        if ( produtos.size() == 1 && produtos.get(0).hashCode() == 0 ) {
             Util.showMessage("Produto não encontrado.", "Buscador", JOptionPane.WARNING_MESSAGE );
             return ;
         }
         
         this.btnReload.setEnabled(true);
-        DefaultTableModel model = ProdutoController.make().getHeaderTableModel() ;
-        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
-        Object[] data = {
-            prod.getCodigo(),
-            prod.getNome(),
-            prod.getDescricao(),
-            prod.getCategoria(),
-            prod.getPeso(),
-            prod.getFormatPrice()
-        };
-                
-        model.addRow(data);
+        DefaultTableModel model = ProdutoController.make().getTableModel(produtos);
         this.tableProdutos.setModel(model);
-        this.tableProdutos.selectAll();
         this.tableProdutosMouseReleased(null);
         this.btnReload.setEnabled(true);
+        this.tableProdutos.setRowSelectionInterval(0, 0);
     }//GEN-LAST:event_btnBuscaProdutoActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
