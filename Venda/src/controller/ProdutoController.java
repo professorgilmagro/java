@@ -56,7 +56,7 @@ public class ProdutoController extends GenericController{
         JPanel panel = new JPanelProdutos();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Produtos");
         window.setSize(930, 550);
-        window.setLocation(mainFrame.getX() + 50, mainFrame.getY() + 100);
+        window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
     

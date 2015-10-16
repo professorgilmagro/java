@@ -58,7 +58,7 @@ public class ClienteController extends GenericController{
        JPanel panel = new JPanelClientes();
        JDialog window = Util.getDefaultWindow(panel, mainFrame, "Clientes");
        window.setSize(930, 550);
-       window.setLocation(mainFrame.getX() + 50, mainFrame.getY() + 100);
+       window.setLocationRelativeTo(null);
        window.setVisible(true);
     }
     
