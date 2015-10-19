@@ -410,7 +410,7 @@ public final class JPanelProdutos extends javax.swing.JPanel {
      * @param evt 
      */
     private void btnAddCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCategoriaActionPerformed
-        CategoriaController.make().displayView();
+        CategoriaController.make().showView();
     }//GEN-LAST:event_btnAddCategoriaActionPerformed
     
     /**

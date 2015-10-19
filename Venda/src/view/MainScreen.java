@@ -10,9 +10,7 @@ import controller.VendaController;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
-import javax.swing.JComponent;
 
 /**
  * Tela principal do sistema
@@ -35,7 +33,7 @@ public final class MainScreen extends javax.swing.JFrame {
     protected void resetScreen(){
         // Redimensiona a tela para o tamanho 1024x800
         this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
-        getContentPane().setBackground(Color.decode("#a5a5fd"));
+        getContentPane().setBackground(Color.decode("#fdb242"));
         this.setLocationRelativeTo(null);
         
         // Get the size of the screen
@@ -60,7 +58,6 @@ public final class MainScreen extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanelScreen = new javax.swing.JPanel();
         jLabelDisciplina = new javax.swing.JLabel();
@@ -90,7 +87,7 @@ public final class MainScreen extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
 
-        jPanelScreen.setBackground(new java.awt.Color(165, 165, 253));
+        jPanelScreen.setBackground(new java.awt.Color(253, 178, 66));
         jPanelScreen.setBorder(null);
         jPanelScreen.setForeground(new java.awt.Color(109, 128, 231));
 
@@ -99,7 +96,7 @@ public final class MainScreen extends javax.swing.JFrame {
         jLabelDisciplina.setText("Programação Orientada a Objetos");
 
         jLabelUnidade.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jLabelUnidade.setText("Unidade III");
+        jLabelUnidade.setText("Unidade IV");
 
         jLabelCriadoPor.setFont(new java.awt.Font("Noto Sans", 0, 10)); // NOI18N
         jLabelCriadoPor.setText("Criado por: Gilmar Soares");
@@ -276,8 +273,6 @@ public final class MainScreen extends javax.swing.JFrame {
                 .addGap(37, 37, 37))
         );
 
-        jPanelScreen.getAccessibleContext().setAccessibleParent(null);
-
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -288,7 +283,7 @@ public final class MainScreen extends javax.swing.JFrame {
      * @param evt 
      */
     private void jMenuProdutoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdutoCadastroActionPerformed
-        ProdutoController.make().displayView();
+        ProdutoController.make().showView();
     }//GEN-LAST:event_jMenuProdutoCadastroActionPerformed
     
      /**
@@ -297,15 +292,15 @@ public final class MainScreen extends javax.swing.JFrame {
      * @param evt 
      */
     private void jMenuClienteCadastroMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuClienteCadastroMouseReleased
-       ClienteController.make().displayView();
+       ClienteController.make().showView();
     }//GEN-LAST:event_jMenuClienteCadastroMouseReleased
 
     private void jMenuProdCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdCategoriaActionPerformed
-       CategoriaController.make().displayView();
+       CategoriaController.make().showView();
     }//GEN-LAST:event_jMenuProdCategoriaActionPerformed
 
     private void jMenuAddVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAddVendaActionPerformed
-        VendaController.make().displayView();
+        VendaController.make().showView();
     }//GEN-LAST:event_jMenuAddVendaActionPerformed
 
     private void jMenuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSairMouseClicked

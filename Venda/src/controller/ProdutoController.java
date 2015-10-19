@@ -51,7 +51,7 @@ public class ProdutoController extends GenericController{
      * @see GenericController
      */
     @Override
-    public void displayView() {
+    public void showView() {
         JFrame mainFrame = new MainScreen();
         JPanel panel = new JPanelProdutos();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Produtos");

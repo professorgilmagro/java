@@ -468,7 +468,7 @@ public class JPanelVendas extends javax.swing.JPanel{
                         .addComponent(btnAlterarEndereco)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDisplayClientes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFinalizarPedido))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -638,7 +638,7 @@ public class JPanelVendas extends javax.swing.JPanel{
     }//GEN-LAST:event_btnDisplayClientesMouseReleased
 
     private void btnDisplayClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisplayClientesActionPerformed
-        ClienteController.make().displayView();
+        ClienteController.make().showView();
     }//GEN-LAST:event_btnDisplayClientesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

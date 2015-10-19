@@ -45,7 +45,7 @@ abstract class GenericController {
     /**
      * Renderiza a tela para visualização gráfica
      */
-    abstract public void displayView();
+    abstract public void showView();
     
     /**
      * Permite definir o módel de relação com este controlador

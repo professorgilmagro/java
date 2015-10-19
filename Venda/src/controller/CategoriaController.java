@@ -45,12 +45,12 @@ public class CategoriaController extends GenericController{
      * @see GenericController
      */
     @Override
-    public void displayView() {
+    public void showView() {
         JFrame mainFrame = new MainScreen();
         JPanel panel = new JPanelCategorias();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Categorias");
         window.setLocationRelativeTo(null);
-        window.setSize(620,480);
+        window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }

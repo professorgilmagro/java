@@ -49,7 +49,7 @@ public class VendaController extends GenericController{
      * @see GenericController
      */
     @Override
-    public void displayView() {
+    public void showView() {
         JPanel panel = new JPanelVendas();
         JDialog window = Util.getDefaultWindow(panel, "Controle de Vendas");
         window.setModal(false);

@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -53,11 +55,11 @@ public class ClienteController extends GenericController{
      * @see GenericController
      */
     @Override
-    public void displayView() {
+    public void showView() {
        JFrame mainFrame = new MainScreen();
        JPanel panel = new JPanelClientes();
        JDialog window = Util.getDefaultWindow(panel, mainFrame, "Clientes");
-       window.setSize(930, 550);
+       window.pack();
        window.setLocationRelativeTo(null);
        window.setVisible(true);
     }
@@ -73,7 +75,6 @@ public class ClienteController extends GenericController{
                      
         model.addColumn("Código");
         model.addColumn("Nome");
-        model.addColumn("Nascimento");
         model.addColumn("Telefone");
         model.addColumn("Email");
         
@@ -97,7 +98,6 @@ public class ClienteController extends GenericController{
                 cli.getFullName(),
                 cli.getFormatDataNascimento(),
                 cli.getTelefone(),
-                cli.getEmail(),
             };
             
             model.addRow(data);
