@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
  * @author gilmar <gilmar.santos@grupofolha.com.br>
  */
 public class Cliente extends GenericModel{
+    private static final long serialVersionUID = 1L;
     
     private long codigo;
     private String nome, Sobrenome ;
@@ -35,6 +36,8 @@ public class Cliente extends GenericModel{
     private String cidade;
     private String bairro;
     private String email;  
+    private String complemento;
+    private String referencia;
     private int numero ;
     
     private final String SEXO_M = "M";
@@ -205,6 +208,22 @@ public class Cliente extends GenericModel{
     @Override
     public void setID(long ID) {
         this.setCodigo(ID);
+    }
+    
+    public String getComplemento() {
+        return this.complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public String getReferencia() {
+        return this.referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
     }
       
     /**

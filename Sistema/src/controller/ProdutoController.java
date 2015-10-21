@@ -55,7 +55,7 @@ public class ProdutoController extends GenericController{
         JFrame mainFrame = new MainScreen();
         JPanel panel = new JPanelProdutos();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Produtos");
-        window.setSize(930, 550);
+        window.setSize(800, 450);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
@@ -70,10 +70,8 @@ public class ProdutoController extends GenericController{
         DefaultTableModel model = new DefaultTableModel();
                      
         model.addColumn("Código");
-        model.addColumn("Nome");
-        model.addColumn("Descrição");
+        model.addColumn("Produto");
         model.addColumn("Categoria");
-        model.addColumn("Peso");
         model.addColumn("Vlr. Unitário");
         
         return model ;
@@ -95,10 +93,8 @@ public class ProdutoController extends GenericController{
             Produto prod = (Produto) item;
             Object[] data = {
                 prod.getCodigo(),
-                prod.getNome(),
-                prod.getDescricao(),
+                String.format("%s %s", prod.getNome(), prod.getDescricao()),
                 prod.getCategoria(),
-                prod.getPeso(),
                 prod.getFormatPrice()
             };
 

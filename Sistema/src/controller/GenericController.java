@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Util;
 
@@ -104,29 +103,27 @@ abstract class GenericController {
      * @param table Tabela cujo item será removido
      * @return int
      */
-    public int remove( JTable table ) {
-       int row = table.getSelectedRow();
-                
-        if(row == -1){
-            Util.showMessage("Selecione um item para excluir.");
+    public int remove( Long ID ) {
+        if(ID == 0){
+            Util.showMessage("Selecione um registro para excluir.");
             return 0;
         }
        
-       long ID = (long) table.getModel().getValueAt(row, 0);
-       List <ModelInterface> item = this.getObjModel().findBy(ID);
+        List <ModelInterface> item = this.getObjModel().findBy(ID);
+        String message = String.format("Tem certeza que deseja excluir o item %s?", item.toString());
        
-       String message = String.format("Tem certeza que deseja excluir o item '%s'?", item.toString());
-       
-       if(Util.showConfirm(message, "Remover?")) {
-            try {
-                item.get(0).remove();
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                return -1;
-            }
-       }
-       
-       return 1 ;
+        if(!Util.showConfirm(message, "Remover?")) {
+            return 0;
+        }
+        
+        try {
+            item.get(0).remove();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return -1;
+        }
+        
+        return 1 ;
     }
     
     /**

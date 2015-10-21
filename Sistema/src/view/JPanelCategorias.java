@@ -38,10 +38,10 @@ public final class JPanelCategorias extends javax.swing.JPanel {
         TableModel model = this.controller.getTableModel() ;
         this.tableCategoria.setModel(model);
         
-         if (tableCategoria.getColumnModel().getColumnCount() > 0) {
-            tableCategoria.getColumnModel().getColumn(0).setMaxWidth(100);
-            tableCategoria.getColumnModel().getColumn(1).setMinWidth(200);
-            tableCategoria.getColumnModel().getColumn(1).setMaxWidth(400);
+        if (tableCategoria.getColumnModel().getColumnCount() > 0) {
+           tableCategoria.getColumnModel().getColumn(0).setMaxWidth(100);
+           tableCategoria.getColumnModel().getColumn(1).setMinWidth(200);
+           tableCategoria.getColumnModel().getColumn(1).setMaxWidth(400);
         }
         
         this.tableCategoria.setAutoCreateRowSorter(true);
@@ -283,7 +283,15 @@ public final class JPanelCategorias extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLoadFileMouseReleased
 
     private void btnDelCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelCategoriaActionPerformed
-       this.controller.remove(this.tableCategoria) ;
+        int row = this.tableCategoria.getSelectedRow();
+                
+        if(row == -1){
+            Util.showMessage("Selecione um item para excluir.");
+            return ;
+        }
+       
+       long ID = (long) this.tableCategoria.getModel().getValueAt(row, 0);
+       this.controller.remove(ID) ;
        this.loadItems();
     }//GEN-LAST:event_btnDelCategoriaActionPerformed
 

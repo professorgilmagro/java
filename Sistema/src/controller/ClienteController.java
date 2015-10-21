@@ -5,20 +5,15 @@ package controller;
 
 import dao.ModelInterface;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import model.CepService;
 import model.Cliente;
 import model.Util;
 import view.MainScreen;
@@ -59,7 +54,7 @@ public class ClienteController extends GenericController{
        JFrame mainFrame = new MainScreen();
        JPanel panel = new JPanelClientes();
        JDialog window = Util.getDefaultWindow(panel, mainFrame, "Clientes");
-       window.pack();
+       window.setSize(790, 600);
        window.setLocationRelativeTo(null);
        window.setVisible(true);
     }
@@ -76,7 +71,7 @@ public class ClienteController extends GenericController{
         model.addColumn("Código");
         model.addColumn("Nome");
         model.addColumn("Telefone");
-        model.addColumn("Email");
+        model.addColumn("CPF");
         
         return model ;
     }
@@ -96,8 +91,8 @@ public class ClienteController extends GenericController{
             Object[] data = {
                 cli.getCodigo(),
                 cli.getFullName(),
-                cli.getFormatDataNascimento(),
                 cli.getTelefone(),
+                cli.getFormatCPF(),
             };
             
             model.addRow(data);
@@ -106,70 +101,6 @@ public class ClienteController extends GenericController{
         return model;
     }
        
-    /**
-     * Ação para adicionar novo cliente
-     * 
-     * @return boolean
-     */
-    public boolean create() {
-        try {
-            Cliente cli = new Cliente();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-            String nome = Util.showInput("Digite o nome."); 
-            if( nome.isEmpty() ) return false;
-            
-            String sobrenome = Util.showInput("Digite o sobrenome.");
-            if( sobrenome.isEmpty() ) return false;
-             
-            String cpf = Util.onlyNumber(Util.showInput("Digite o CPF."));
-            if( cpf.isEmpty() ) return false;
-             
-            String cep = Util.onlyNumber(Util.showInput("Digite o Código Postal."));
-            if( cep.isEmpty() ) return false;
-             
-            Integer numero = Integer.parseInt(Util.showInput("Digite o número da residência."));
-            CepService cws = new CepService(cep);
-            cli.fillFromService(cws);
-            cli.setCEP(Long.parseLong(cep.replace(".","")));
-            cli.setNumero(numero);
-
-            String message = String.format( "O endereço abaixo está correto?\n%s", cli.getEndereco());
-            if(Util.showConfirm(message, "Confirmação de endereço") == false){
-                String logradouro = Util.showInput("Digite o logradouro.");
-                String bairro = Util.showInput("Digite o bairro.");
-                String cidade = Util.showInput("Digite a cidade.");
-                String estado = Util.showInput("Digite o estado.");
-                cli.setLogadouro(logradouro);
-                cli.setBairro(bairro);
-                cli.setCidade(cidade);
-                cli.setEstado(estado);
-            }
-            
-            String sexo = Util.showOptions("Selecione o sexo.", cli.getMapSexo(), "Sexo").toString();
-            Date nascimento = formatter.parse(Util.showInput("Digite a data de Nascimento."));
-            String email = Util.showInput("Digite o email.");
-            
-            String telefone = Util.showInput("Digite o telefone.");
-
-            cli.setSexo(sexo);
-            cli.setDataNascimento(nascimento);
-            cli.setEmail(email);
-            cli.setNome(nome);
-            cli.setSobrenome(sobrenome);
-            cli.setCPF(Long.parseLong(cpf));
-            cli.setTelefone(telefone);
-
-            cli.save();
-            Util.showMessage("Cliente salvo com sucesso");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }        
-
-        return true;
-    }
-    
     /**
      * Permite fazer a busca do objeto a partir do código ou nome informado
      * 
