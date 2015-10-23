@@ -58,6 +58,7 @@ public final class MainScreen extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanelScreen = new javax.swing.JPanel();
         jLabelDisciplina = new javax.swing.JLabel();
@@ -80,9 +81,10 @@ public final class MainScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AIEC - Atividade Unidade IV");
         setAutoRequestFocus(false);
-        setBackground(new java.awt.Color(255, 242, 0));
+        setBackground(new java.awt.Color(253, 178, 66));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(59, 45, 45));
+        setIconImages(null);
         setPreferredSize(new java.awt.Dimension(800, 554));
         setResizable(false);
         setSize(new java.awt.Dimension(800, 600));
@@ -155,10 +157,13 @@ public final class MainScreen extends javax.swing.JFrame {
                 .addContainerGap(145, Short.MAX_VALUE))
         );
 
-        jMenuBarMain.setBackground(new java.awt.Color(149, 190, 253));
-        jMenuBarMain.setBorder(null);
+        jMenuBarMain.setBorderPainted(false);
         jMenuBarMain.setMargin(new java.awt.Insets(10, 20, 0, 0));
 
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jPanelScreen, org.jdesktop.beansbinding.ELProperty.create("${background}"), jMenuBarMain, org.jdesktop.beansbinding.BeanProperty.create("background"));
+        bindingGroup.addBinding(binding);
+
+        jMenuVendas.setBackground(new java.awt.Color(253, 178, 66));
         jMenuVendas.setForeground(new java.awt.Color(17, 17, 17));
         jMenuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-venda.png"))); // NOI18N
         jMenuVendas.setMnemonic('v');
@@ -167,6 +172,7 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuVendas.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         jMenuVendas.setMargin(new java.awt.Insets(0, 0, 0, 10));
 
+        jMenuAddVenda.setBackground(new java.awt.Color(253, 178, 66));
         jMenuAddVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/order.png"))); // NOI18N
         jMenuAddVenda.setMnemonic('p');
         jMenuAddVenda.setText("Pedido");
@@ -180,6 +186,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuVendas);
 
+        jMenuProdutos.setBackground(new java.awt.Color(253, 178, 66));
         jMenuProdutos.setForeground(new java.awt.Color(17, 17, 17));
         jMenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-produto.png"))); // NOI18N
         jMenuProdutos.setMnemonic('p');
@@ -210,6 +217,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuProdutos);
 
+        jMenuClientes.setBackground(new java.awt.Color(253, 178, 66));
         jMenuClientes.setForeground(new java.awt.Color(17, 17, 17));
         jMenuClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-cliente.png"))); // NOI18N
         jMenuClientes.setMnemonic('c');
@@ -230,6 +238,7 @@ public final class MainScreen extends javax.swing.JFrame {
 
         jMenuBarMain.add(jMenuClientes);
 
+        jMenuConfig.setBackground(new java.awt.Color(253, 178, 66));
         jMenuConfig.setForeground(new java.awt.Color(17, 17, 17));
         jMenuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-config.png"))); // NOI18N
         jMenuConfig.setMnemonic('o');
@@ -239,7 +248,7 @@ public final class MainScreen extends javax.swing.JFrame {
         jMenuConfig.setMargin(new java.awt.Insets(0, 0, 0, 25));
         jMenuBarMain.add(jMenuConfig);
 
-        jMenuSair.setBackground(new java.awt.Color(214, 214, 214));
+        jMenuSair.setBackground(new java.awt.Color(253, 178, 66));
         jMenuSair.setForeground(new java.awt.Color(17, 17, 17));
         jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/64x64/icon-sair.png"))); // NOI18N
         jMenuSair.setMnemonic('s');
@@ -261,7 +270,7 @@ public final class MainScreen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(154, 154, 154)
+                .addGap(126, 126, 126)
                 .addComponent(jPanelScreen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(174, 174, 174))
         );
@@ -272,6 +281,8 @@ public final class MainScreen extends javax.swing.JFrame {
                 .addComponent(jPanelScreen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(37, 37, 37))
         );
+
+        bindingGroup.bind();
 
         pack();
         setLocationRelativeTo(null);
@@ -352,5 +363,6 @@ public final class MainScreen extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuSair;
     private javax.swing.JMenu jMenuVendas;
     private javax.swing.JPanel jPanelScreen;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
