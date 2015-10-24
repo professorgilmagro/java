@@ -46,6 +46,20 @@ public interface ModelInterface {
     public void setID(long ID);
     
     /**
+     * Define a data de criação do objeto
+     * 
+     * @param date 
+     */
+    public void setCreationDate(Date date);
+    
+    /**
+     * Define a data de modificação do objeto
+     * 
+     * @param date 
+     */
+    public void setModificationDate(Date date);
+    
+    /**
      * Retorna o maior código identificador utilizado na coleção de dados
      * 
      * @return long

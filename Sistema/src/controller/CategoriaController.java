@@ -57,7 +57,7 @@ public class CategoriaController extends GenericController{
         JPanel panel = new JPanelCategorias();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Categorias");
         window.setLocationRelativeTo(null);
-        window.setSize(625, 420);
+        window.setSize(655, 450);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }

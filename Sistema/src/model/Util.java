@@ -5,7 +5,10 @@
  */
 package model;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -270,6 +273,38 @@ public class Util {
         dlg.setInternalTitle(title);
         dlg.setTableModel(model, withColumns);
         return dlg.display().getSelectedValue();
+    }
+    
+    /**
+     * Retorna a data e hora formatada
+     * 
+     * @param date
+     * 
+     * @return String
+     */
+    public static String asDateTime( Date date ) {
+        if ( date == null ) {
+            return "" ;
+        }
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+        return dateFormat.format(date);
+    }
+    
+    /**
+     * Retorna a data formatada
+     * 
+     * @param date
+     * 
+     * @return String
+     */
+    public static String asDate( Date date ) {
+        if ( date == null ) {
+            return "" ;
+        }
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); 
+        return dateFormat.format(date);
     }
 
 }

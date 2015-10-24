@@ -22,6 +22,9 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
     
     private String filename = null ;
     
+    private Date modificationDate ;
+    private Date creationDate ;
+    
     /**
      * Retorna todos os objetos de um determinado model a partir do arquivo
      * 
@@ -62,9 +65,13 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
     public void save() throws FileNotFoundException, IOException, ClassNotFoundException {
         List<ModelInterface> objects = this.fetchAll();
         
+        Date now = new Date();
+        this.setModificationDate(now);
+        
         if(this.hashCode()== 0){
             Long max = this.getMaxID();
             this.setID( ++max );
+            this.setCreationDate(now);
             objects.add(this);
         }
         else{
@@ -245,5 +252,23 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
     @Override
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public Date getModificationDate() {
+        return modificationDate;
+    }
+
+    @Override
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    @Override
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

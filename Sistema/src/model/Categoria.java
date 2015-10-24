@@ -10,6 +10,7 @@ package model;
  * @author gilmar <gilmar.santos@grupofolha.com.br>
  */
 public class Categoria extends GenericModel{
+    private static final long serialVersionUID = 1L;
     
     private long codigo;
     private String nome;

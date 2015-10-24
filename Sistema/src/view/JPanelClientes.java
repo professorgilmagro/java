@@ -119,6 +119,11 @@ public final class JPanelClientes extends javax.swing.JPanel {
         jLabel18 = new javax.swing.JLabel();
         txtSobrenome = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblDataCriado = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblDataModificado = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -488,6 +493,45 @@ public final class JPanelClientes extends javax.swing.JPanel {
             }
         });
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/clock.png"))); // NOI18N
+        jLabel1.setText("Criado em:");
+
+        lblDataCriado.setText("00/00/00");
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/assets/16x16/clock.png"))); // NOI18N
+        jLabel2.setText("Modificado em:");
+
+        lblDataModificado.setText("00/00/00");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDataCriado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(227, 227, 227)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDataModificado, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDataCriado)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(lblDataModificado))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -496,28 +540,27 @@ public final class JPanelClientes extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAdd)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSave)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSaveToFile)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDelete)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBusca)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnOdernar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnReload))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLoadFromFile)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(btnAdd)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSave)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSaveToFile)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBusca)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnOdernar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnReload)
+                        .addGap(0, 155, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblSource, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLoadFromFile))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanelDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, 770, Short.MAX_VALUE))
@@ -541,7 +584,9 @@ public final class JPanelClientes extends javax.swing.JPanel {
                     .addComponent(btnAdd)
                     .addComponent(btnDelete)
                     .addComponent(btnSave))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSource, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLoadFromFile))
@@ -595,6 +640,8 @@ public final class JPanelClientes extends javax.swing.JPanel {
         this.cmbSexo.setSelectedItem(cli.getSexo().toUpperCase());
         this.txtComplemento.setText(cli.getComplemento());
         this.txtReferencia.setText(cli.getReferencia());
+        this.lblDataCriado.setText(Util.asDateTime(cli.getCreationDate()));
+        this.lblDataModificado.setText(Util.asDateTime(cli.getModificationDate()));
     }//GEN-LAST:event_tableClientesMouseReleased
     
     /**
@@ -742,6 +789,8 @@ public final class JPanelClientes extends javax.swing.JPanel {
             cli.save();
             this.controller.setModel(cli);
             this.txtCodigo.setText(Long.toString(cli.getCodigo()));
+            this.lblDataCriado.setText(Util.asDateTime(cli.getCreationDate()));
+            this.lblDataModificado.setText(Util.asDateTime(cli.getModificationDate()));
             Util.showMessage("Cliente salvo com sucesso.");
             loadItems();
         } catch (Exception ex) {
@@ -794,6 +843,7 @@ public final class JPanelClientes extends javax.swing.JPanel {
     private javax.swing.JButton btnSaveToFile;
     private javax.swing.JComboBox cmbEstado;
     private javax.swing.JComboBox cmbSexo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -803,6 +853,7 @@ public final class JPanelClientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -811,8 +862,11 @@ public final class JPanelClientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelDetalhes;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblDataCriado;
+    private javax.swing.JLabel lblDataModificado;
     private javax.swing.JLabel lblSource;
     private javax.swing.JTable tableClientes;
     private javax.swing.JTextField txtBairro;

@@ -3,12 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/gilmar/java/Sistema/src/view/MainScreen.java</file>
-            <file>file:/home/gilmar/java/Sistema/src/view/JPanelProdutos.java</file>
-            <file>file:/home/gilmar/java/Sistema/src/controller/GenericController.java</file>
-            <file>file:/home/gilmar/java/Sistema/src/controller/CategoriaController.java</file>
-            <file>file:/home/gilmar/java/Sistema/src/view/JPanelCategorias.java</file>
-            <file>file:/home/gilmar/java/Sistema/src/controller/ProdutoController.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/controller/CategoriaController.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/model/Produto.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/controller/VendaController.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/controller/ClienteController.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/view/JPanelCategorias.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/model/GenericModel.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/model/Cliente.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/model/Venda.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/dao/ModelInterface.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/model/Categoria.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/model/Util.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/controller/ProdutoController.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/view/JPanelProdutos.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/model/ModelInterface.java</file>
+            <file>file:/home/gilmar/AIEC/java/Sistema/src/view/JPanelClientes.java</file>
         </group>
     </open-files>
 </project-private>

@@ -255,9 +255,8 @@ public class Cliente extends GenericModel{
     }
     
     public String getFormatDataNascimento(){
-        SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
         if (this.getDataNascimento() != null){
-            return dt.format(this.getDataNascimento());
+            return Util.asDate(this.getDataNascimento());
         }
         
         return "";
