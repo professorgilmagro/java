@@ -9,7 +9,7 @@ package model;
  * 
  * @author gilmar <gilmar.santos@grupofolha.com.br>
  */
-public class Categoria extends GenericModel{
+public final class Categoria extends GenericModel{
     private static final long serialVersionUID = 1L;
     
     private long codigo;
@@ -17,6 +17,20 @@ public class Categoria extends GenericModel{
     private String descricao;
     
     public Categoria(){}
+    
+    /**
+     * Permite instanciar um objeto a partir de um código existente
+     * 
+     * @param ID
+     */
+    public Categoria( Long ID ){
+        Categoria cat = new Categoria();
+        cat = (Categoria) cat.findBy(ID).get(0);
+        this.setCodigo(cat.getCodigo());
+        this.setNome(cat.getNome());
+        this.setCreationDate(cat.getCreationDate());
+        this.setModificationDate(cat.getModificationDate());
+    }
     
     /**
      * Facilita a criação da categoria

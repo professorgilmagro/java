@@ -78,6 +78,7 @@ abstract class GenericModel implements Serializable, Comparable, ModelInterface 
             // entende que já existe e deve ser editado
             for (int i = 0; i < objects.size(); i++) {
                 if ( objects.get(i).hashCode() == this.hashCode() ) {
+                    this.setCreationDate(objects.get(i).getCreationDate());
                     objects.set(i, this);
                     break;
                 }

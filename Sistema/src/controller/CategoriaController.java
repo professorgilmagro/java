@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -57,7 +55,7 @@ public class CategoriaController extends GenericController{
         JPanel panel = new JPanelCategorias();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Categorias");
         window.setLocationRelativeTo(null);
-        window.setSize(655, 450);
+        window.setSize(620, 450);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }

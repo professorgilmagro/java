@@ -60,6 +60,20 @@ public interface ModelInterface {
     public void setModificationDate(Date date);
     
     /**
+     * Retorna a data de modificação do objeto
+     * 
+     * @return Date 
+     */
+    public Date getModificationDate();
+    
+    /**
+     * Retorna a data de criação do objeto
+     * 
+     * @return Date 
+     */
+    public Date getCreationDate();
+    
+    /**
      * Retorna o maior código identificador utilizado na coleção de dados
      * 
      * @return long

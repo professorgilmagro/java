@@ -30,6 +30,25 @@ public class Produto extends GenericModel{
     }
     
     /**
+     * Inicializa o objeto a partir de um existente
+     */
+    public Produto(Long ID){
+        if(ID == 0) return;
+        Produto prod = new Produto();
+        prod = (Produto) prod.findBy(ID).get(0);
+        this.setCodigo(prod.getCodigo());
+        this.setCodCategoria(prod.getCodCategoria());
+        this.setDescricao(prod.getDescricao());
+        this.setNivelCritico(prod.getNivelCritico());
+        this.setNome(prod.getNome());
+        this.setPeso(prod.getPeso());
+        this.setSaldoEstoque(prod.getSaldoEstoque());
+        this.setValor(prod.getValor());
+        this.setModificationDate(prod.getModificationDate());
+        this.setCreationDate(prod.getCreationDate());
+    }
+    
+    /**
      * Facilita a criação do produto
      * 
      * @param Nome          Nome do produto

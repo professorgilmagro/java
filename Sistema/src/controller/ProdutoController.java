@@ -12,9 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import model.Categoria;
 import model.Produto;
 import model.Util;
 import view.MainScreen;
@@ -55,7 +53,7 @@ public class ProdutoController extends GenericController{
         JFrame mainFrame = new MainScreen();
         JPanel panel = new JPanelProdutos();
         JDialog window = Util.getDefaultWindow(panel, mainFrame, "Produtos");
-        window.setSize(820, 480);
+        window.setSize(820, 430);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
@@ -105,82 +103,25 @@ public class ProdutoController extends GenericController{
     }
     
     /**
-     * Ação para criação de um novo produto
-     * 
-     * @return boolean
-     */
-    public boolean create() {
-        try {
-            Categoria cat = new Categoria();
-            List objs = cat.fetchAll();
-
-            if( objs.isEmpty() ) {
-                Util.showMessage(
-                    "Não há categoria de produto cadastrado.\n" +
-                    "Cadastre as categorias desejadas antes de continuar.",
-                    JOptionPane.WARNING_MESSAGE
-                );
-                
-                return false ;
-            }
-
-            Categoria categoria = (Categoria) Util.showOptions("Selecione a categoria.", objs.toArray(), "Categoria") ;
-            if( categoria == null ) return false;
-
-            String nome = Util.showInput("Digite o nome.");
-            if( nome == null ) return false ;
-
-            String descricao = Util.showInput("Digite a descrição.");
-            if( descricao == null ) return false ;
-
-            double peso = Util.convertCurrencyToDouble(Util.showInput("Digite o peso (kg).")) ;
-            if( peso == 0.00 ) return false ;
-
-            double valor = Util.convertCurrencyToDouble(Util.showInput("Digite o valor unitário.")) ;
-            if( valor == 0.00 ) return false ;
-
-            int estoque = Integer.parseInt(Util.showInput("Digite a quantidade em estoque.")) ;
-            int nivelCritico = Integer.parseInt(Util.showInput("Digite o nível crítico de estoque para este produto.")) ;
-
-            Produto produto = new Produto(nome, descricao, valor);
-            produto.setCodCategoria(categoria);
-            produto.setPeso(peso);
-            produto.setSaldoEstoque(estoque);
-            produto.setNivelCritico(nivelCritico);
-            produto.save();
-
-            Util.showMessage("Produto salvo com sucesso");
-        } catch (Exception e) {
-            Util.showMessage("Um ou mais valores informados inválidos!", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        return true;
-    }
-    
-    /**
      * Permite abastecer o estoque para um determinado produto a partir de um JTable
      * 
-     * @param table Tabela 
-     * @param lblNivel  Label para exibição do nivel de estoque
+     * @param panel
      * @return boolean
      */
-    public boolean supplyStockFromTable(JTable table, JLabel lblNivel ){
-        int row = table.getSelectedRow();
-                
-        if(row == -1){
+    public boolean supplyStockFrom(JPanelProdutos panel ){
+        String codigo = panel.txtCodigo.getText();
+        codigo = codigo.isEmpty() ? "0" : codigo ;
+        
+        if(panel.txtCodigo.getText().isEmpty()){
             Util.showMessage("Selecione um item para adicionar estoque.");
             return false;
         }
         
-        long ID = (long) table.getModel().getValueAt(row, 0);
-        String item = (String) table.getModel().getValueAt(row, 1);
-        
-        String message = String.format("Digite a quantidade desejada para adicionar ao estoque do produto '%s'", item ) ;
+        String message = String.format("Digite a quantidade desejada para adicionar ao estoque do produto '%s'", panel.txtNome.getText()) ;
         String qtde = Util.showInput(message);
         if( qtde == null) return false ;
         
-        return this.supplyStock(ID, Integer.parseInt(qtde), lblNivel);
+        return this.supplyStock(Long.parseLong(codigo), Integer.parseInt(qtde), panel.jLabelEstoque);
     }
     
     /**

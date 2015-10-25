@@ -53,7 +53,14 @@ public final class JPanelClientes extends javax.swing.JPanel {
         this.tableClientes.setModel(model);
         this.tableClientes.setAutoCreateRowSorter(true);
         this.tableClientes.enableInputMethods(false);
-        
+        this.adjustColumnWidths();
+        this.lblSource.setText( String.format( "Dados extraidos do arquivo: %s" , this.controller.getObjModel().getFileName()));
+    }
+    
+    /**
+     * Ajusta a largura das colunas da tabela de clientes
+     */
+    private void adjustColumnWidths(){
         if(tableClientes.getColumnModel().getColumnCount() > 0) {
            tableClientes.getColumnModel().getColumn(0).setMinWidth(75);
            tableClientes.getColumnModel().getColumn(1).setMinWidth(400);
@@ -61,8 +68,6 @@ public final class JPanelClientes extends javax.swing.JPanel {
            tableClientes.getColumnModel().getColumn(2).setMinWidth(120);
            tableClientes.getColumnModel().getColumn(3).setMinWidth(200);
         }
-        
-        this.lblSource.setText( String.format( "Dados extraidos do arquivo: %s" , this.controller.getObjModel().getFileName()));
     }
 
     /**
@@ -696,6 +701,7 @@ public final class JPanelClientes extends javax.swing.JPanel {
         List<Cliente> clientes = this.controller.fetchSortedItems(this.orderAsc);
         DefaultTableModel model = ClienteController.make().getTableModel(clientes);
         this.tableClientes.setModel(model);
+        this.adjustColumnWidths();
         this.btnReload.setEnabled(true);
         this.btnReload.setEnabled(true);
         this.tableClientes.setRowSelectionInterval(0, 0);

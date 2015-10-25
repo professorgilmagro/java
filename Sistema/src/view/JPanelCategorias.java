@@ -7,11 +7,13 @@ package view;
 
 import controller.CategoriaController;
 import dao.ModelInterface;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import model.Categoria;
+import model.Cliente;
 import model.Util;
 
 /**
@@ -102,6 +104,16 @@ public final class JPanelCategorias extends javax.swing.JPanel {
         });
         tableCategoria.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tableCategoria.setName(""); // NOI18N
+        tableCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tableCategoriaMouseReleased(evt);
+            }
+        });
+        tableCategoria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tableCategoriaKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableCategoria);
         if (tableCategoria.getColumnModel().getColumnCount() > 0) {
             tableCategoria.getColumnModel().getColumn(0).setMinWidth(50);
@@ -230,12 +242,11 @@ public final class JPanelCategorias extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDataCriado, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblDataCriado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDataModificado, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(lblDataModificado, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,7 +287,7 @@ public final class JPanelCategorias extends javax.swing.JPanel {
                                     .addComponent(btnLoadFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnSaveToFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 19, Short.MAX_VALUE))))
+                        .addGap(0, 9, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,7 +309,7 @@ public final class JPanelCategorias extends javax.swing.JPanel {
                     .addComponent(btnLoadFile))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnLoadFile.getAccessibleContext().setAccessibleName("");
@@ -399,6 +410,20 @@ public final class JPanelCategorias extends javax.swing.JPanel {
     private void btnSaveToFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveToFileActionPerformed
        this.controller.saveToFile();
     }//GEN-LAST:event_btnSaveToFileActionPerformed
+
+    private void tableCategoriaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableCategoriaKeyReleased
+       if(evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_UP) {
+            this.tableCategoriaMouseReleased(null);
+        }
+    }//GEN-LAST:event_tableCategoriaKeyReleased
+
+    private void tableCategoriaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableCategoriaMouseReleased
+        int row = this.tableCategoria.getSelectedRow();
+        long ID = (long) this.tableCategoria.getModel().getValueAt(row, 0);
+        Categoria cat = new Categoria(ID);
+        this.lblDataCriado.setText(Util.asDateTime(cat.getCreationDate()));
+        this.lblDataModificado.setText(Util.asDateTime(cat.getModificationDate()));
+    }//GEN-LAST:event_tableCategoriaMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
